@@ -7,10 +7,23 @@
 
 object* get_first_inactive(object* pool)
 {
+	static object* cache4pool;
+	static int cacheidx;
+
+	if (cache4pool == pool 
+	   && pool[cacheidx].active == false 
+	   && pool[cacheidx-1].active == true){
+		return &(pool[cacheidx++]);
+	}
+
 	size_t idx = 0;
 	while(pool[idx].active == true && pool[idx+1].children != POISON) {
-		if (!pool[idx+1].active)
+		if (!pool[idx+1].active){
+			cache4pool = pool;
+			cacheidx = idx+2;
+
 			return &(pool[idx+1]);
+		}
 		idx++;
 	}
 
