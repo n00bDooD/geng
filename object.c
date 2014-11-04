@@ -64,7 +64,7 @@ object* create_root(size_t poolsize)
 void delete_root(object* root)
 {
 	while(root->nchildren > 0) {
-		delete_object(root->children[c]);
+		delete_object(root->children[root->nchildren - 1]);
 	}
 	free(root->transform);
 	free(root);
