@@ -91,17 +91,17 @@ void delete_object(object* ob)
 	if (ob == NULL)
 		return;
 
-	for(size_t c = 0; c < ob->nchildren; c++){
-		delete_object(ob->children[c]);
+	while(ob->nchildren > 0) {
+		delete_object(ob->children[ob->nchildren - 1]);
 	}
-	if(ob->children != NULL) 
+	if(ob->children != NULL)
 		free(ob->children);
 	ob->children = NULL;
 
 	ob->parent->nchildren--;
 	/* Get idx of the ptr to this obj */
-	int idx = 0;
-	while(ob->parent->children[idx] != ob);
+	int idx = -1;
+	while(ob->parent->children[++idx] != ob);
 	/* Swap with last obj */
 	ob->parent->children[idx] = ob->parent->children[ob->parent->nchildren];
 	/* Reallocate so last obj is 'freed' */
