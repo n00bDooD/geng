@@ -1,17 +1,17 @@
-#include "object.h"
+#include "container.h"
 
 #include <stdio.h>
 #include <assert.h>
 
 int main(int argc, char** argv)
 {
-	object* root = create_root(10000000);
-	assert(root != NULL);
+	container* cont = create_container(10000000);
+	assert(cont != NULL);
 
 	printf("Root and pool allocated\n");
 
 	int ntrees = 1000;
-	object* treepar = root;
+	object* treepar = cont->object_root;
 	for(int to = 0; to < ntrees; to++) {
 		int nobjs = 500;
 		object* pobj = treepar;
@@ -23,11 +23,11 @@ int main(int argc, char** argv)
 
 	printf("Object structure created\n");
 
-	delete_object(root->children[0]);
+	delete_object(cont->object_root->children[0]);
 
 	printf("Object structure deleted\n");
 
-	delete_root(root);
+	delete_container(cont);
 
 	printf("Root and pool freed\n");
 
