@@ -1,50 +1,37 @@
-#ifndef OBJ_H
-#define OBJ_H
+#ifndef OBJECT_H
+#define OBJECT_H
 
 #include <stdlib.h>
-#include <stdbool.h>
-
-typedef struct {
-	float x;
-	float y;
-} vec2;
-
-typedef struct {
-	float x;
-	float y;
-	float z;
-} vec3;
-
-typedef struct {
-	float x;
-	float y;
-	float z;
-	float w;
-} vec4;
-
-typedef struct {
-	vec4 position;
-	vec4 rotation;
-} transform;
+#include <chipmunk/chipmunk.h>
+#include <SDL2/SDL.h>
 
 typedef struct object object;
 
-struct object {
-	bool active;
+typedef struct {
+	cpVect position;
+	cpFloat angle;
+} transform;
+
+union transform_ptr {
+	cpBody* rigidbody;
 	transform* transform;
-
-	object* parent;
-
-	size_t nchildren;
-	object** children;
-
-	object* objpool;
 };
 
-object* create_root(size_t pool_size);
-void delete_root(object* root);
+struct object {
+	char* name;
 
-object* create_object(object* parent);
-void delete_object(object* ob);
+	/* 1, transform points to a rigidbody
+	 * 2, transform points to a transform-stucture
+	 */
+	int transform_type;
+	union transform_ptr transform;
 
-#endif /* OBJ_H */
+	SDL_Texture* sprite;
+};
+
+cpVect get_object_position(object* o);
+cpFloat get_object_angle(object* o);
+
+void draw_objects(size_t objc, object* obj);
+
+#endif /* OBJECT_H */
