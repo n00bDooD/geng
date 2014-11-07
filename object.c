@@ -12,7 +12,7 @@ void draw_objects(size_t objc, object* obj)
 
 cpVect get_object_position(object* o)
 {
-	if(o->transform_type == 1) {
+	if(o->transform_type == 0) {
 		return cpBodyGetPos(o->transform.rigidbody);
 	} else {
 		return o->transform.transform->position;
@@ -20,8 +20,9 @@ cpVect get_object_position(object* o)
 }
 cpFloat get_object_angle(object* o)
 {
-	if(o->transform_type == 1) {
-		return cpBodyGetAngle(o->transform.rigidbody);
+	if(o->transform_type == 0) {
+		cpFloat a = cpBodyGetAngle(o->transform.rigidbody);
+		return a;
 	} else {
 		return o->transform.transform->angle;
 	}

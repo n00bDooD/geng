@@ -13,14 +13,14 @@ void sdl_renderer_draw(void* renderer_data, object* obj)
 	double angle_deg = angle * (180.0/M_PI);
 	SDL_Rect rec;
 	rec.x = round(position.x);
-	rec.y = round(position.y);
+	rec.y = -round(position.y);
 	SDL_QueryTexture(obj->sprite, NULL, NULL, &rec.w, &rec.h);
 
 	SDL_RenderCopyEx(r->r,
 	                 obj->sprite,
 	                 NULL,
 	                 &rec,
-	                 angle_deg,
+	                 -angle_deg,
 	                 NULL,
 	                 SDL_FLIP_NONE);
 }

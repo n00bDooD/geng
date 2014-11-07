@@ -13,6 +13,7 @@ simulation* physics_sim_create(cpSpace* s)
 	nsd->space = s;
 	ns->simulation_data = nsd;
 	ns->simulate_step = &simulate_sim;
+	return ns;
 }
 
 void physics_sim_delete(simulation* s)

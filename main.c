@@ -17,8 +17,8 @@
 #include "tga.h"
 
 #define TICKS_PER_SECOND 25
-#define STATIC_TIMESTEP (TICKS_PER_SECOND / 60)
-#define SKIP_TICKS TICKS_PER_SECOND
+#define STATIC_TIMESTEP (1.0 / (double)TICKS_PER_SECOND)
+#define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
 
 SDL_Texture* load_tga(SDL_Renderer* r, int fd)
@@ -59,14 +59,14 @@ int main(int argc, char** argv)
 	cpSpaceSetGravity(spas, cpv(0, -100));
 	services_register_simulation(physics_sim_create(spas));
 
-	cpShape* g = cpSegmentShapeNew(spas->staticBody, cpv(-20, 5), cpv(20, -5), 0);
+	cpShape* g = cpSegmentShapeNew(spas->staticBody, cpv(-20, -128), cpv(180, -250), 0);
 	cpShapeSetFriction(g, 1);
 	cpSpaceAddShape(spas, g);
 
 	object* o = (object*)calloc(1, sizeof(object));
-	o->transform.rigidbody = cpSpaceAddBody(spas, cpBodyNew(1, cpMomentForCircle(1, 0, 5, cpvzero)));
-	cpBodySetPos(o->transform.rigidbody, cpv(0, 15));
-	cpShape* balls = cpSpaceAddShape(spas, cpCircleShapeNew(o->transform.rigidbody, 5, cpvzero));
+	o->transform.rigidbody = cpSpaceAddBody(spas, cpBodyNew(1, cpMomentForCircle(1, 0, 128, cpvzero)));
+	cpBodySetPos(o->transform.rigidbody, cpv(0, 0));
+	cpShape* balls = cpSpaceAddShape(spas, cpCircleShapeNew(o->transform.rigidbody, 128, cpvzero));
 	cpShapeSetFriction(balls, 0.7);
 
 	
@@ -102,6 +102,15 @@ int main(int argc, char** argv)
 		//interpolation = (float)(SDL_GetTicks() + SKIP_TICKS - next_game_tick) / (float)SKIP_TICKS;
 		
 		SDL_RenderClear(r);
+
+		/*
+		cpVect pos = cpBodyGetPos(o->transform.rigidbody);
+    		cpVect vel = cpBodyGetVel(o->transform.rigidbody);
+    		printf(
+				"Time is %5.2f. ballBody is at (%5.2f, %5.2f). It's velocity is (%5.2f, %5.2f). a %5.2f\n",
+				(double)next_game_tick - SKIP_TICKS, pos.x, pos.y, vel.x, vel.y, cpBodyGetAngle(o->transform.rigidbody)
+				);
+				*/
 
 		// Draw shit
 		draw_objects(1, o);
