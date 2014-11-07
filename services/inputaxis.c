@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 
 #define TOTALLY_UNUSED_NAME "__deleted__"
 
@@ -91,4 +92,56 @@ inputaxis_data* delete_inputaxis(input* i)
 {
 	return (inputaxis_data*)i->input_data;
 	free(i);
+}
+
+axis_config* get_axis_settings(inputaxis_data* d, const char* name) 
+{
+	inputaxis* a = find_axis(d, name);
+	if(a == NULL) return NULL;
+	return a->settings;
+}
+
+int set_axis_settings(inputaxis_data* d, const char* name, axis_config* settings)
+{
+	inputaxis* a = find_axis(d, name);
+	if(a == NULL) return -1;
+	a->settings = settings;
+	return 0;
+}
+
+int update_axis_value(inputaxis_data* d, const char* name, double val)
+{
+	inputaxis* a = find_axis(d, name);
+	if(a == NULL) return -1;
+
+	if(a->settings != NULL) {
+		axis_config* s = a->settings;
+
+		if(!s->enabled) val = 0;
+		if(val != 0) {
+			if(s->invert) val = -val;
+
+			val = fmax(val, -s->negative_maximum);
+			val = fmin(val, s->positive_maximum);
+
+			val = fmin(val, -s->negative_deadzone);
+			val = fmax(val, s->positive_deadzone);
+		}
+	}
+	a->value = val;
+	return 0;
+}
+
+axis_config* def_settings = NULL;
+
+const axis_config* default_settings(){
+	if (def_settings == NULL) {
+		def_settings = (axis_config*)calloc(1, sizeof(axis_config));
+		assert(def_settings != NULL);
+
+		def_settings->enabled = true;
+		def_settings->negative_maximum = 1;
+		def_settings->positive_maximum = 1;
+	}
+	return def_settings;
 }

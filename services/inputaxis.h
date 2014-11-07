@@ -6,6 +6,7 @@
 
 typedef struct {
 	bool invert;
+	bool enabled;
 
 	/* Deadzone */
 	double negative_deadzone;
@@ -28,8 +29,16 @@ typedef struct {
 	inputaxis* axes;
 } inputaxis_data;
 
+const axis_config* default_settings();
+
+double get_input_for_axis(void*, const char*);
+int update_axis_value(inputaxis_data*, const char* name, double val);
+
 int create_axis(inputaxis_data*, const char* name, axis_config*);
 int delete_axis(inputaxis_data*, const char* name, axis_config**);
+
+axis_config* get_axis_settings(inputaxis_data*, const char* name);
+int set_axis_settings(inputaxis_data*, const char* name, axis_config* settings);
 
 input* create_inputaxis();
 inputaxis_data* delete_inputaxis(input*);
