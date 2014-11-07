@@ -28,7 +28,10 @@ typedef struct {
 	inputaxis* axes;
 } inputaxis_data;
 
+int create_axis(inputaxis_data*, const char* name, axis_config*);
+int delete_axis(inputaxis_data*, const char* name, axis_config**);
+
 input* create_inputaxis();
-void delete_inputaxis(input*);
+inputaxis_data* delete_inputaxis(input*);
 
 #endif /* INPUT_AXIS_H */

@@ -13,6 +13,7 @@
 #include "services.h"
 #include "services/sdl_renderer.h"
 #include "services/physics_sim.h"
+#include "services/inputaxis.h"
 
 #include "tga.h"
 
@@ -55,6 +56,10 @@ int main(int argc, char** argv)
 
 	services_register_renderer(sdl_renderer_create(w, r));
 
+
+	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inpdat));
+	services_register_input(create_inputaxis(inpdat));
+
 	cpSpace* spas = cpSpaceNew();
 	cpSpaceSetGravity(spas, cpv(0, -100));
 	services_register_simulation(physics_sim_create(spas));
@@ -68,7 +73,6 @@ int main(int argc, char** argv)
 	cpBodySetPos(o->transform.rigidbody, cpv(0, 0));
 	cpShape* balls = cpSpaceAddShape(spas, cpCircleShapeNew(o->transform.rigidbody, 128, cpvzero));
 	cpShapeSetFriction(balls, 0.7);
-
 	
 	int texfd = open("planet.tga", O_RDONLY);
 	o->sprite = load_tga(r, texfd);
@@ -126,6 +130,13 @@ int main(int argc, char** argv)
 
 	cpSpaceFree(spas);
 	physics_sim_delete(services_register_simulation(NULL));
+
+	inpdat = delete_inputaxis(services_register_input(NULL));
+	if(inpdat->axes != NULL) {
+		free(inpdat->axes);
+		inpdat->axes = NULL;
+	}
+	free(inpdat);
 
 	SDL_DestroyRenderer(r);
 	SDL_DestroyWindow(w);
