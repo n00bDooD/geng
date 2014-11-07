@@ -18,5 +18,12 @@ typedef struct {
 simulation* services_get_simulation();
 simulation* services_register_simulation(simulation*);
 
+typedef struct {
+	void* input_data;
+	double (*get_input)(void*, const char*);
+} input;
+
+input* services_get_input();
+input* services_register_input(input*);
 
 #endif /* SERVICE_H */
