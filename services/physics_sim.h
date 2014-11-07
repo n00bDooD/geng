@@ -1,7 +1,7 @@
 #ifndef PHYS_SIM_H
 #define PHYS_SIM_H
 
-#include "services.h"
+#include "../services.h"
 #include <chipmunk/chipmunk.h>
 
 typedef struct {

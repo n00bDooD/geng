@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-c -std=c11 -Wall -g
 LDFLAGS=-lm -lchipmunk -lSDL2 -lSDL_image
-SOURCES=$(wildcard *.c)
-HEADERS=$(wildcard *.h)
+SOURCES=$(wildcard *.c services/*.c)
+HEADERS=$(wildcard *.h services/*.h)
 OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
 EXECUTABLE=geng
 

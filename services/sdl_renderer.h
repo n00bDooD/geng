@@ -2,8 +2,8 @@
 #define SDL_RENDERER_H
 
 #include <SDL2/SDL.h>
-#include "object.h"
-#include "services.h"
+#include "../object.h"
+#include "../services.h"
 
 typedef struct {
 	SDL_Window* w;

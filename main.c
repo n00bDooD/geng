@@ -11,8 +11,8 @@
 
 #include "object.h"
 #include "services.h"
-#include "sdl_renderer.h"
-#include "physics_sim.h"
+#include "services/sdl_renderer.h"
+#include "services/physics_sim.h"
 
 #include "tga.h"
 
