@@ -65,8 +65,43 @@ simulation* services_register_simulation(simulation* s)
 	simulation* old = cur_sim;
 	if(old != NULL && old->simulation_data == NULL && old->simulate_step == &do_nothing_sim) {
 		free(old);
-		return NULL;
+		old = NULL;
 	}
 	cur_sim = s;
+	return old;
+}
+
+double do_nothing_input(void* null, const char* secretmessage)
+{
+	return 0;
+}
+
+input* get_null_input()
+{
+	input* i = (input*)malloc(sizeof(input));
+	i->input_data = NULL;
+	i->get_input = &do_nothing_input;
+
+	return i;
+}
+
+input* cur_input = NULL;
+
+input* services_get_input()
+{
+	if(cur_input == NULL) {
+		services_register_input(get_null_input());
+	}
+	return cur_input;
+}
+
+input* services_register_input(input* i)
+{
+	input* old = cur_input;
+	if(old != NULL && old->input_data == NULL && old->get_input == &do_nothing_input) {
+		free(old);
+		old = NULL;
+	}
+	cur_input = i;
 	return old;
 }
