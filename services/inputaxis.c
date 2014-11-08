@@ -93,8 +93,9 @@ input* create_inputaxis(inputaxis_data* d)
 
 inputaxis_data* delete_inputaxis(input* i)
 {
-	return (inputaxis_data*)i->input_data;
+	inputaxis_data* d = (inputaxis_data*)i->input_data;
 	free(i);
+	return d;
 }
 
 axis_config* get_axis_settings(inputaxis_data* d, const char* name) 
