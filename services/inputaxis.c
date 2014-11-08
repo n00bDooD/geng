@@ -16,7 +16,7 @@ inputaxis* find_axis(inputaxis_data* da, const char* name)
 	}
 
 	if(idx != da->num_inputaxes) {
-		return &(da->axes[idx -1]);
+		return &(da->axes[idx]);
 	} else {
 		return NULL;
 	}
@@ -109,6 +109,14 @@ int set_axis_settings(inputaxis_data* d, const char* name, axis_config* settings
 	return 0;
 }
 
+void reset_axis_values(inputaxis_data* d)
+{
+	for(size_t i = 0; i < d->num_inputaxes; ++i)
+	{
+		d->axes[i].value = 0;
+	}
+}
+
 int update_axis_value(inputaxis_data* d, const char* name, double val)
 {
 	inputaxis* a = find_axis(d, name);
@@ -124,11 +132,16 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 			val = fmax(val, -s->negative_maximum);
 			val = fmin(val, s->positive_maximum);
 
-			val = fmin(val, -s->negative_deadzone);
-			val = fmax(val, s->positive_deadzone);
+			if(val < 0) val = fmin(val, -s->negative_deadzone);
+			if(val > 0) val = fmax(val, s->positive_deadzone);
 		}
 	}
-	a->value = val;
+
+	if(a->value != 0){
+		a->value = (a->value + val) / 2.0;
+	} else {
+		a->value = val;
+	}
 	return 0;
 }
 
