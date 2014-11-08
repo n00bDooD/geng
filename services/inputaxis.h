@@ -33,6 +33,7 @@ const axis_config* default_settings();
 
 double get_input_for_axis(void*, const char*);
 int update_axis_value(inputaxis_data*, const char* name, double val);
+void reset_axis_values(inputaxis_data* d);
 
 int create_axis(inputaxis_data*, const char* name, axis_config*);
 int delete_axis(inputaxis_data*, const char* name, axis_config**);
