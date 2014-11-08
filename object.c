@@ -27,3 +27,10 @@ cpFloat get_object_angle(object* o)
 		return o->transform.transform->angle;
 	}
 }
+
+void update_objects(size_t objc, object* obj)
+{
+	for(size_t i = 0; i < objc; ++i) {
+		obj->update(&(obj[i]));
+	}
+}

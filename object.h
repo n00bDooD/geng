@@ -27,6 +27,8 @@ struct object {
 	union transform_ptr transform;
 
 	SDL_Texture* sprite;
+
+	void (*update)(object*);
 };
 
 cpVect get_object_position(object* o);

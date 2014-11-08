@@ -23,6 +23,14 @@
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
 
+void update_ball(object* o)
+{
+	input* in = services_get_input();
+	double x = in->get_input(in->input_data, "horizontal");
+	double y = in->get_input(in->input_data, "vertical");
+	cpBodyApplyForce(o->transform.rigidbody, cpv(x, y), cpvzero);
+}
+
 SDL_Texture* load_tga(SDL_Renderer* r, int fd)
 {
 	targa_file* tga = tga_readfile(fd);
@@ -99,6 +107,7 @@ int main(int argc, char** argv)
 	cpFloat mass = 0.1;
 
 	object* o = (object*)calloc(1, sizeof(object));
+	o->update = &update_ball;
 	o->transform.rigidbody = cpSpaceAddBody(spas, cpBodyNew(mass, cpMomentForCircle(mass, 0, radius, cpvzero)));
 	cpBodySetPos(o->transform.rigidbody, cpv(0, 0));
 	cpShape* balls = cpSpaceAddShape(spas, cpCircleShapeNew(o->transform.rigidbody, radius, cpvzero));
@@ -129,10 +138,7 @@ int main(int argc, char** argv)
 			reset_axis_values(inpdat);
 			apply_keyboard_input(inpdat, control_map);
 
-			input* in = services_get_input();
-			double x = in->get_input(in->input_data, "horizontal");
-			double y = in->get_input(in->input_data, "vertical");
-			cpBodyApplyForce(o->transform.rigidbody, cpv(x, y), cpvzero);
+			update_objects(1, o);
 
 			simulation* sim = services_get_simulation();
 			sim->simulate_step(sim->simulation_data, STATIC_TIMESTEP);
@@ -140,18 +146,10 @@ int main(int argc, char** argv)
 			next_game_tick += SKIP_TICKS;
 			loops++;
 		}
-		//interpolation = (float)(SDL_GetTicks() + SKIP_TICKS - next_game_tick) / (float)SKIP_TICKS;
+		interpolation = (float)(SDL_GetTicks() + SKIP_TICKS - next_game_tick)
+				/ (float)SKIP_TICKS;
 		
 		SDL_RenderClear(r);
-
-		/*
-		cpVect pos = cpBodyGetPos(o->transform.rigidbody);
-    		cpVect vel = cpBodyGetVel(o->transform.rigidbody);
-    		printf(
-				"Time is %5.2f. ballBody is at (%5.2f, %5.2f). It's velocity is (%5.2f, %5.2f). a %5.2f\n",
-				(double)next_game_tick - SKIP_TICKS, pos.x, pos.y, vel.x, vel.y, cpBodyGetAngle(o->transform.rigidbody)
-				);
-				*/
 
 		// Draw shit
 		draw_objects(1, o);
