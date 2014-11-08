@@ -1,4 +1,5 @@
 #include "inputaxis.h"
+#include "../global.h"
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -40,6 +41,7 @@ inputaxis* get_unused_axis(inputaxis_data* d)
 	if(r == NULL) {
 		inputaxis* swp = (inputaxis*)realloc(d->axes,
 				sizeof(inputaxis) * (d->num_inputaxes + 1));
+		if(swp == NULL) error("get_unused_axis realloc");
 		assert(swp != NULL);
 		d->axes = swp;
 		r = &(d->axes[d->num_inputaxes++]);
@@ -83,6 +85,7 @@ int delete_axis(inputaxis_data* d, const char* name, axis_config** c)
 input* create_inputaxis(inputaxis_data* d)
 {
 	input* i = (input*)malloc(sizeof(input));
+	if(i == NULL) error("create_inputaxis");
 	i->input_data = d;
 	i->get_input = &get_input_for_axis;
 	return i;
@@ -147,9 +150,10 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 
 axis_config* def_settings = NULL;
 
-const axis_config* default_settings(){
+axis_config* default_settings(){
 	if (def_settings == NULL) {
 		def_settings = (axis_config*)calloc(1, sizeof(axis_config));
+		if(def_settings == NULL) error("default_settings");
 		assert(def_settings != NULL);
 
 		def_settings->enabled = true;

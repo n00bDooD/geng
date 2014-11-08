@@ -26,6 +26,8 @@ struct object {
 	int transform_type;
 	union transform_ptr transform;
 
+	int sprite_offset_x;
+	int sprite_offset_y;
 	SDL_Texture* sprite;
 
 	void (*update)(object*);
@@ -35,5 +37,6 @@ cpVect get_object_position(object* o);
 cpFloat get_object_angle(object* o);
 
 void draw_objects(size_t objc, object* obj);
+void update_objects(size_t objc, object* obj);
 
 #endif /* OBJECT_H */

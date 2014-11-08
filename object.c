@@ -28,9 +28,10 @@ cpFloat get_object_angle(object* o)
 	}
 }
 
-void update_objects(size_t objc, object* obj)
+void update_objects(size_t objc, object* objects)
 {
 	for(size_t i = 0; i < objc; ++i) {
-		obj->update(&(obj[i]));
+		if(objects[i].update == NULL) continue;
+		objects[i].update(&(objects[i]));
 	}
 }

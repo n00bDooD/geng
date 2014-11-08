@@ -1,4 +1,5 @@
 #include "sdl_renderer.h"
+#include "../global.h"
 #include <chipmunk/chipmunk.h>
 
 void sdl_renderer_draw(void* renderer_data, object* obj)
@@ -12,8 +13,8 @@ void sdl_renderer_draw(void* renderer_data, object* obj)
 	/* SDL takes angles in degrees, we do radians. */
 	double angle_deg = angle * (180.0/M_PI);
 	SDL_Rect rec;
-	rec.x = round(position.x);
-	rec.y = -round(position.y);
+	rec.x = round(position.x) + obj->sprite_offset_x;
+	rec.y = -(round(position.y) + obj->sprite_offset_y);
 	SDL_QueryTexture(obj->sprite, NULL, NULL, &rec.w, &rec.h);
 
 	SDL_RenderCopyEx(r->r,
@@ -28,7 +29,9 @@ void sdl_renderer_draw(void* renderer_data, object* obj)
 renderer* sdl_renderer_create(SDL_Window* w, SDL_Renderer* r)
 {
 	sdl_renderer_data* dat = (sdl_renderer_data*)malloc(sizeof(sdl_renderer_data));
+	if(dat == NULL) error("sdl_renderer_create data");
 	renderer* re = (renderer*)malloc(sizeof(renderer));
+	if(dat == NULL) error("sdl_renderer_create");
 
 	dat->w = w;
 	dat->r = r;

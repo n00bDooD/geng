@@ -1,4 +1,5 @@
 #include "services.h"
+#include "global.h"
 
 void do_nothing_drawer(void* null, object* dontcare)
 {
@@ -9,6 +10,7 @@ void do_nothing_drawer(void* null, object* dontcare)
 renderer* get_null_drawer()
 {
 	renderer* re = (renderer*)malloc(sizeof(renderer));
+	if(re == NULL) error("get_null_drawer");
 	re->render_data = NULL;
 	re->draw_object = &do_nothing_drawer;
 	return re;
@@ -44,6 +46,7 @@ void do_nothing_sim(void* null, double ts)
 simulation* get_null_simulation()
 {
 	simulation* sim = (simulation*)malloc(sizeof(simulation));
+	if(sim == NULL) error("get_null_simulation");
 	sim->simulation_data = NULL;
 	sim->simulate_step = &do_nothing_sim;
 
@@ -79,6 +82,7 @@ double do_nothing_input(void* null, const char* secretmessage)
 input* get_null_input()
 {
 	input* i = (input*)malloc(sizeof(input));
+	if(i == NULL) error("get_null_input");
 	i->input_data = NULL;
 	i->get_input = &do_nothing_input;
 

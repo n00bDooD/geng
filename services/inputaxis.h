@@ -29,7 +29,7 @@ typedef struct {
 	inputaxis* axes;
 } inputaxis_data;
 
-const axis_config* default_settings();
+axis_config* default_settings();
 
 double get_input_for_axis(void*, const char*);
 int update_axis_value(inputaxis_data*, const char* name, double val);
