@@ -23,7 +23,7 @@ void sdl_renderer_draw(void* renderer_data, object* obj)
 	                 &rec,
 	                 -angle_deg,
 	                 NULL,
-	                 SDL_FLIP_NONE);
+	                 SDL_FLIP_VERTICAL);
 }
 
 renderer* sdl_renderer_create(SDL_Window* w, SDL_Renderer* r)
