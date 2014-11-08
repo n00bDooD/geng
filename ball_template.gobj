@@ -1,0 +1,15 @@
+# This is a comment
+
+name = "John Mc.Ball, hero of the orient"
+
+sprite.offset.x = 70
+sprite.offset.y = 70
+sprite.source = "kenney/tga/Aliens/alienBlue_round.tga"
+
+physics = true
+physics.mass = 0.1
+physics.shapes = "path/to/shape/description.phys"
+
+sourcefile = "path/to/some/script.scriptlanguage" # /what/ language will ahve to be decided, of course
+						  # I'm just testing commenting and whitespace stuff now
+

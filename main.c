@@ -17,6 +17,8 @@
 #include "services/inputaxis.h"
 #include "sdl_input_shim.h"
 
+#include "configuration.h"
+
 #include "tga.h"
 
 #define TICKS_PER_SECOND 25
@@ -49,6 +51,7 @@ SDL_Texture* load_tga(SDL_Renderer* r, int fd)
 
 int main(int argc, char** argv)
 {
+	test_configuration_read();
 	size_t num_objects = 2;
 	object* o = (object*)calloc(num_objects, sizeof(object));
 	if(o == NULL) {
