@@ -1,3 +1,5 @@
+#include "configuration.h"
+
 #include <string.h>
 #include <strings.h>
 #include <ctype.h>
@@ -13,15 +15,6 @@
 #define VALUE_STRING_MAX 1024
 #define PROPERTY_NAME_MAX 128
 #define COMMENT_CHAR '#'
-
-typedef struct {
-	const char* name;
-	int type;
-	char* strval;
-	int intval;
-	double dblval;
-	bool boolval;
-} property;
 
 property* get_property(property* props, const char* name)
 {
@@ -222,6 +215,20 @@ complete:
 	}
 }
 
+void read_configuration(int fd, property* props)
+{
+	while(true) {
+		int result = read_config_line(fd, props);
+		if(result == 0) {
+			// We read a line
+		} else if (result == 2) {
+			// Empty line/comment only
+		} else if (result == 1) {
+			// Done
+			break;
+		}
+	}
+}
 
 void test_configuration_read()
 {
@@ -259,15 +266,8 @@ void test_configuration_read()
 	props[8].name = NULL;
 	props[8].type = 0;
 
-	while(true) {
-		int result = read_config_line(fd, props);
-		if(result == 0) {
-			// We read a line
-		} else if (result == 2) {
-			// Empty line/comment only
-		} else if (result == 1) {
-			// Done
-			break;
-		}
-	}
+	read_configuration(fd, props);
+
+	close(fd);
+	free(props);
 }
