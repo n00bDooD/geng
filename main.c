@@ -31,7 +31,7 @@ void update_ball(object* o)
 	input* in = services_get_input();
 	double x = in->get_input(in->input_data, "horizontal");
 	double y = in->get_input(in->input_data, "vertical");
-	cpBodyApplyForce(o->transform.rigidbody, cpv(x, y), cpvzero);
+	cpBodyApplyImpulse(o->transform.rigidbody, cpv(x, y), cpvzero);
 }
 
 SDL_Texture* load_tga(SDL_Renderer* r, int fd)
