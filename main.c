@@ -103,10 +103,10 @@ int main(int argc, char** argv)
 
 	/* ## Set up ground ## */
 	cpVect boxverts[4] = {
-		cpv(-110,  45),
-		cpv( 110,  45),
-		cpv( 110, -45),
-		cpv(-110, -45)
+		cpv(-110,  35),
+		cpv( 110,  35),
+		cpv( 110, -35),
+		cpv(-110, -35)
 		};
 	o[0].name = "Ground";
 	o[0].update = NULL;
