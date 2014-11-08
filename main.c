@@ -67,8 +67,8 @@ int main(int argc, char** argv)
 
 	SDL_Window* w = SDL_CreateWindow(
 	                    "Test",
-	                    50,
-	                    50,
+	                    0,
+	                    0,
 	                    400,
 	                    400,
 	                    SDL_WINDOW_SHOWN);
@@ -92,16 +92,19 @@ int main(int argc, char** argv)
 	services_register_simulation(physics_sim_create(spas));
 
 	cpShape* g = cpSegmentShapeNew(spas->staticBody, cpv(-20, -250), cpv(180, -250), 0);
-	cpShapeSetFriction(g, 1);
+	cpShapeSetFriction(g, 100);
 	cpSpaceAddShape(spas, g);
 
+	cpFloat radius = 70;
+	cpFloat mass = 0.1;
+
 	object* o = (object*)calloc(1, sizeof(object));
-	o->transform.rigidbody = cpSpaceAddBody(spas, cpBodyNew(1, cpMomentForCircle(1, 0, 128, cpvzero)));
+	o->transform.rigidbody = cpSpaceAddBody(spas, cpBodyNew(mass, cpMomentForCircle(mass, 0, radius, cpvzero)));
 	cpBodySetPos(o->transform.rigidbody, cpv(0, 0));
-	cpShape* balls = cpSpaceAddShape(spas, cpCircleShapeNew(o->transform.rigidbody, 128, cpvzero));
+	cpShape* balls = cpSpaceAddShape(spas, cpCircleShapeNew(o->transform.rigidbody, radius, cpvzero));
 	cpShapeSetFriction(balls, 0.7);
 	
-	int texfd = open("planet.tga", O_RDONLY);
+	int texfd = open("kenney/tga/Aliens/alienBlue_round.tga", O_RDONLY);
 	o->sprite = load_tga(r, texfd);
 	close(texfd);
 
@@ -127,8 +130,8 @@ int main(int argc, char** argv)
 			apply_keyboard_input(inpdat, control_map);
 
 			input* in = services_get_input();
-			double x = in->get_input(in->input_data, "horizontal") * 100;
-			double y = in->get_input(in->input_data, "vertical") * 100;
+			double x = in->get_input(in->input_data, "horizontal");
+			double y = in->get_input(in->input_data, "vertical");
 			cpBodyApplyForce(o->transform.rigidbody, cpv(x, y), cpvzero);
 
 			simulation* sim = services_get_simulation();
