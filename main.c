@@ -40,11 +40,12 @@ SDL_Texture* load_tga(SDL_Renderer* r, int fd)
 	if (tga == NULL) fprintf(stderr, "%s\n", strerror(errno));
 
 	SDL_Texture* tex = SDL_CreateTexture(r, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, tga->head.width, tga->head.height);
-	//if(tex == NULL) SDL_Error();
+	if(tex == NULL) sdl_error("load_tga");
 
 	SDL_UpdateTexture(tex, NULL, tga->image_data, tga->head.width * sizeof(char) * 4);
 	SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
 
+	free(tga->image_data);
 	free(tga);
 	return tex;
 }
@@ -88,7 +89,7 @@ int main(int argc, char** argv)
 
 
 	/* ## Set up input ## */
-	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inpdat));
+	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));
 	if(inpdat == NULL) error("Create input data structure");
 	inpdat->num_inputaxes = 0;
 	inpdat->axes = NULL;
@@ -209,6 +210,8 @@ int main(int argc, char** argv)
 
 	cpShapeFree(g);
 	cpShapeFree(balls);
+	//cpSpaceRemoveBody(spas, o[0].transform.rigidbody);
+	cpSpaceRemoveBody(spas, o[1].transform.rigidbody);
 	cpBodyFree(o[0].transform.rigidbody);
 	cpBodyFree(o[1].transform.rigidbody);
 
