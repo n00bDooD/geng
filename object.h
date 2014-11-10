@@ -39,4 +39,7 @@ cpFloat get_object_angle(object* o);
 void draw_objects(size_t objc, object* obj);
 void update_objects(size_t objc, object* obj);
 
+object* create_object();
+void delete_object(object*);
+
 #endif /* OBJECT_H */

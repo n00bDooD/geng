@@ -35,3 +35,4 @@ void update_objects(size_t objc, object* objects)
 		objects[i].update(&(objects[i]));
 	}
 }
+
