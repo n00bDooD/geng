@@ -137,12 +137,12 @@ targa_file* tga_readfile ( int f_desc )
 	/* Get the file size reported by the heder */
 	size_t alleged_length = TGA_HEADER_LEN 
 		+ h.id_length
-		+ h.color_map_length * (size_t)depth2bytes(h.color_map_entry_size)
-		+ h.width * h.height * (size_t)depth2bytes(h.depth);
+		+ h.color_map_length * depth2bytes(h.color_map_entry_size)
+		+ h.width * h.height * depth2bytes(h.depth);
 
 	char* file_data = ( char* ) malloc ( alleged_length - TGA_HEADER_LEN );
 	
-	ssize_t read_result = 0;//read ( f_desc, file_data, alleged_length - TGA_HEADER_LEN );
+	ssize_t read_result = 0;
 	do {
 		read_result = read ( f_desc, file_data, alleged_length - TGA_HEADER_LEN );
 		if(read_result == -1){
@@ -202,9 +202,9 @@ targa_file* tga_readfile ( int f_desc )
 int tga_writefile ( targa_file* f, int fd )
 {
 	uint32_t idlen = f->head.id_length;
-	uint32_t cmlen = f->head.color_map_length * (uint32_t)depth2bytes (
+	uint32_t cmlen = f->head.color_map_length * depth2bytes (
 	                     f->head.color_map_entry_size );
-	uint32_t img_len = f->head.width * f->head.height * (uint32_t)depth2bytes ( f->head.depth );
+	uint32_t img_len = f->head.width * f->head.height * depth2bytes ( f->head.depth );
 	uint8_t* header = serialize_targa_header ( &f->head );
 
 	/* Write header */
@@ -242,11 +242,11 @@ size_t tga_undo_rle( targa_file* from, uint8_t** output_buffer )
 	targa_header* fh = &(from->head);
 	size_t b = 0;
 	uint8_t header = 0;
-	size_t img_data_len = fh->width * fh->height * (size_t)depth2bytes(fh->depth);
+	size_t img_data_len = fh->width * fh->height * depth2bytes(fh->depth);
 
 	while(b < img_data_len){
 		header = from->image_data[b++];
-		size_t len = ((header &!UINT8_MAX) + 1) * (size_t)depth2bytes(fh->depth);
+		size_t len = ((header &!UINT8_MAX) + 1) * depth2bytes(fh->depth);
 		output_len += len;
 		*output_buffer = (uint8_t*)realloc(*output_buffer,
 				sizeof(uint8_t) * output_len);
