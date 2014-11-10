@@ -109,3 +109,39 @@ input* services_register_input(input* i)
 	cur_input = i;
 	return old;
 }
+
+void do_nothing_logic(void* null, object* o)
+{
+	return 0;
+}
+
+logic* get_null_logic()
+{
+	logic* i = (logic*)malloc(sizeof(logic));
+	if(i == NULL) error("get_null_logic");
+	i->logic_data = NULL;
+	i->update = &do_nothing_logic;
+
+	return i;
+}
+
+logic* cur_logic = NULL;
+
+logic* services_get_logic()
+{
+	if(cur_logic == NULL) {
+		services_register_logic(get_null_logic());
+	}
+	return cur_logic;
+}
+
+logic* services_register_logic(logic* i)
+{
+	logic* old = cur_logic;
+	if(old != NULL && old->logic_data == NULL && old->update == &do_nothing_logic) {
+		free(old);
+		old = NULL;
+	}
+	cur_logic = i;
+	return old;
+}

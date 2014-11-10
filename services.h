@@ -26,4 +26,12 @@ typedef struct {
 input* services_get_input();
 input* services_register_input(input*);
 
+typedef struct {
+	void* logic_data;
+	void (*update)(void*, object*);
+} logic;
+
+logic* services_get_logic();
+logic* services_register_logic(logic*);
+
 #endif /* SERVICE_H */
