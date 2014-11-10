@@ -40,10 +40,14 @@ SDL_Texture* load_tga(SDL_Renderer* r, int fd)
 	if (tga == NULL) fprintf(stderr, "%s\n", strerror(errno));
 
 	SDL_Texture* tex = SDL_CreateTexture(r, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, tga->head.width, tga->head.height);
-	if(tex == NULL) sdl_error("load_tga");
+	if(tex == NULL) sdl_error("Texture creation failed.");
 
-	SDL_UpdateTexture(tex, NULL, tga->image_data, tga->head.width * sizeof(char) * 4);
-	SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
+	if(SDL_UpdateTexture(tex, NULL, tga->image_data, tga->head.width * sizeof(char) * 4) != 0) {
+		sdl_error("Texture write failed.");
+	}
+	if(SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND) != 0) {
+		sdl_error("Setting texture blend mode failed.");
+	}
 
 	free(tga->image_data);
 	free(tga);
