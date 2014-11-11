@@ -18,10 +18,44 @@
 
 #include "tga.h"
 
+#include "lua/lua_input.h"
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+
 #define TICKS_PER_SECOND 25
 #define STATIC_TIMESTEP (1.0 / (double)TICKS_PER_SECOND)
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
+
+void luaHandleResult(lua_State* state, int res, char* sorcestr)
+{
+	if (res != 0) {
+		const char* errmesg = lua_tolstring(state, -1, NULL);
+		switch (res) {
+		case LUA_ERRERR:
+			fprintf(stderr,"%s: Lua error handler error: %s\n",
+					sorcestr, errmesg);
+			break;
+		case LUA_ERRMEM:
+			fprintf(stderr,"%s: Lua memory error: %s\n",
+					sorcestr, errmesg);
+			break;
+		case LUA_ERRRUN:
+			fprintf(stderr,"%s: Runtime lua error: %s\n",
+					sorcestr, errmesg);
+			break;
+		case LUA_ERRSYNTAX:
+			fprintf(stderr,"%s: Lua syntax error: %s\n",
+					sorcestr, errmesg);
+			break;
+		default:
+			fprintf(stderr,"%s: Lua error: %s\n",
+					sorcestr, errmesg);
+			break;
+		}
+	}
+}
 
 void update_ball(object* o)
 {
@@ -96,8 +130,14 @@ int main(int argc, char** argv)
 	inpdat->axes = NULL;
 	services_register_input(create_inputaxis(inpdat));
 
-	create_axis(inpdat, "horizontal", default_settings());
-	create_axis(inpdat, "vertical", default_settings());
+	lua_State* l = luaL_newstate();
+	luaL_openlibs(l);
+	register_config_input(l, inpdat);
+	int res = luaL_dofile(l, "data/input_config.lua");
+	luaHandleResult(l, res, "data/input_config.lua");
+
+	//create_axis(inpdat, "horizontal", default_settings());
+	//create_axis(inpdat, "vertical", default_settings());
 
 #if 0
 	/* ## Set up physics ## */

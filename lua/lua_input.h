@@ -4,9 +4,9 @@
 
 #include "../services/inputaxis.h"
 
-int register_input(lua_State*);
+int register_input(lua_State*, inputaxis_data*);
 
-int register_config_input(lua_State*);
+int register_config_input(lua_State*, inputaxis_data*);
 
 inputaxis_data* luaG_checkinput(lua_State*, int);
 
