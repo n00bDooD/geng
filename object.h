@@ -3,9 +3,6 @@
 
 #include <stdlib.h>
 #include <chipmunk/chipmunk.h>
-#include <SDL2/SDL.h>
-
-typedef struct object object;
 
 typedef struct {
 	cpVect position;
@@ -17,29 +14,27 @@ union transform_ptr {
 	transform* transform;
 };
 
-struct object {
+#define OBJ_ACTIVE 1
+#define OBJ_PHYSICS 2
+
+typedef struct {
 	char* name;
 
-	/* 1, transform points to a rigidbody
-	 * 2, transform points to a transform-stucture
-	 */
-	int transform_type;
+	/* Flag values
+	 * bit 1: active-flag
+	 * bit 2: transform_ptr type
+	 */ 
+	uint8_t flags;
 	union transform_ptr transform;
 
-	int sprite_offset_x;
-	int sprite_offset_y;
-	SDL_Texture* sprite;
+	size_t sprite;
 
-	void (*update)(object*);
-};
+	void* parent;
+} object;
 
+cpFloat get_object_posx(object* o);
+cpFloat get_object_posy(object* o);
 cpVect get_object_position(object* o);
 cpFloat get_object_angle(object* o);
-
-void draw_objects(size_t objc, object* obj);
-void update_objects(size_t objc, object* obj);
-
-object* create_object();
-void delete_object(object*);
 
 #endif /* OBJECT_H */

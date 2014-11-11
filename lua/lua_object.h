@@ -11,7 +11,7 @@ typedef struct {
 int register_object(lua_State*);
 
 object_ref* luaG_checkobject(lua_State* L, int index);
-object_ref* luaG_pushobject(lua_State* L);
+object_ref* luaG_pushobject(lua_State* L, object*);
 
 #endif /* LUAOBJ_H */
 

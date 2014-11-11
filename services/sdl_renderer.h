@@ -1,18 +1,25 @@
-#ifndef SDL_RENDERER_H
-#define SDL_RENDERER_H
+#ifndef SDLRENDERER_H
+#define SDLRENDERER_H
 
-#include <SDL2/SDL.h>
-#include "../object.h"
-#include "../services.h"
+#include "../scene.h"
 
 typedef struct {
-	SDL_Window* w;
-	SDL_Renderer* r;
-} sdl_renderer_data;
+	texhandle tex;
+	int offset_x;
+	int offset_y;
+} sprite;
 
-void sdl_renderer_draw(void* renderer_data, object* obj);
+typedef struct {
+	size_t num_textures;
+	SDL_Texture* textures;
 
-renderer* sdl_renderer_create(SDL_Window* w, SDL_Renderer* r);
-void sdl_renderer_delete(renderer*);
+	size_t num_sprites;
+	sprite* sprites;
 
-#endif /* SDL_RENDERER_H */
+	SDL_Renderer* rend;
+} sdl_renderer;
+
+void draw_objects(scene*);
+
+#endif /* SDLRENDERER_H */
+

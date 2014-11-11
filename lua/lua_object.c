@@ -20,27 +20,19 @@ object_ref* luaG_checkobject(lua_State* L, int index)
 	return o;
 }
 
-object_ref* luaG_pushobject(lua_State *L)
+object_ref* luaG_pushobject(lua_State *L, object* obj)
 {
 	object_ref* o = (object_ref*)lua_newuserdata(L, sizeof(object_ref));
 	luaL_getmetatable(L, TYPE_NAME);
 	lua_setmetatable(L, -2);
-	o->o = create_object();
-	if (o->o == NULL) luaL_error(L, "Object allocation failed");
+	o->o = obj;
 	return o;
 }
 
 static int lua_object_gc(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
-	delete_object(o->o);
 	return 0;
-}
-
-static int lua_object_new(lua_State* l)
-{
-	/*object_ref* o = */luaG_pushobject(l);
-	return 1;
 }
 
 static int lua_object_tostring(lua_State *L)
@@ -67,7 +59,6 @@ static int lua_object_angle(lua_State* l)
 }
 
 static const luaL_reg methods[] = {
-	{"new", lua_object_new},
 	{"pos", lua_object_position},
 	{"angle", lua_object_angle},
 	{NULL, NULL}
