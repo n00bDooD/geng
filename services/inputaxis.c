@@ -136,8 +136,13 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 			val = fmax(val, -s->negative_maximum);
 			val = fmin(val, s->positive_maximum);
 
-			if(val < 0) val = fmin(val, -s->negative_deadzone);
-			if(val > 0) val = fmax(val, s->positive_deadzone);
+			if(val < 0) {
+				if(val > -s->negative_deadzone)
+					val = 0;
+			} else {
+				if(val < s->positive_deadzone)
+					val = 0;
+			}
 		}
 	}
 
