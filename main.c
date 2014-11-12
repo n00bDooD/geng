@@ -19,6 +19,9 @@
 #include "tga.h"
 
 #include "lua/lua_input.h"
+#include "lua/lua_object.h"
+#include "lua/lua_scene.h"
+#include "lua/lua_vector.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -130,11 +133,23 @@ int main(int argc, char** argv)
 	inpdat->axes = NULL;
 	services_register_input(create_inputaxis(inpdat));
 
-	lua_State* l = luaL_newstate();
-	luaL_openlibs(l);
-	register_config_input(l, inpdat);
-	int res = luaL_dofile(l, "data/input_config.lua");
-	luaHandleResult(l, res, "data/input_config.lua");
+	{
+		lua_State* l = luaL_newstate();
+		luaL_openlibs(l);
+		register_config_input(l, inpdat);
+		int res = luaL_dofile(l, "data/input_config.lua");
+		luaHandleResult(l, res, "data/input_config.lua");
+		lua_close(l);
+	}
+
+	{
+		lua_State* l = luaL_newstate();
+		luaL_openlibs(l);
+		register_scene(l, s);
+		int res = luaL_dofile(l, "data/scene_init.lua");
+		luaHandleResult(l, res, "data/scene_init.lua");
+		lua_close(l);
+	}
 
 	//create_axis(inpdat, "horizontal", default_settings());
 	//create_axis(inpdat, "vertical", default_settings());
