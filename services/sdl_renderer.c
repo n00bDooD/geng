@@ -68,10 +68,10 @@ void draw_objects(scene* sc)
 
 			double a = get_object_angle(o);
 			double x = get_object_posx(o) + s->offset_x;
-			double y = get_object_posy(o) + s->offset_y;
+			double y = get_object_posy(o) - s->offset_y;
 			SDL_Rect dst;
 			dst.x = floor(x);
-			dst.y = floor(y);
+			dst.y = floor(-y);
 			if(SDL_QueryTexture(t, NULL, NULL, &dst.w, &dst.h) < 0){
 				//sdl_error("SDL_QueryTexture");
 			}
