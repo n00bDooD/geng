@@ -88,13 +88,13 @@ static int lua_create_axis(lua_State* l)
 	return 0;
 }
 
-static const luaL_reg methods[] = {
+static const luaL_Reg methods[] = {
 	{"get", lua_get_input_for_axis},
 	{NULL, NULL}
 };
 
-static const luaL_reg private_methods[] = {
-	{"create", lua_create_axis},
+static const luaL_Reg private_methods[] = {
+		{"create", lua_create_axis},
 	{NULL, NULL}
 };
 

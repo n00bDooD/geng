@@ -7,7 +7,7 @@ object* create_object(scene* s)
 {
 	object* o = get_first_unused(s);
 	o->parent = s;
-	o->flags &= OBJ_ACTIVE;
+	o->flags |= OBJ_ACTIVE;
 	o->transform.transform = (transform*)calloc(1,
 				sizeof(transform));
 	return o;
@@ -100,7 +100,7 @@ cpBool object_has_physics(object* o)
 void set_object_physics(object* o, cpBool b)
 {
 	/* Don't set physics if it already has em */
-	if((o->flags & OBJ_PHYSICS) != b) return;
+	if((o->flags & OBJ_PHYSICS) == b) return;
 	if(o->flags & OBJ_PHYSICS) {
 		transform* t = (transform*)malloc(sizeof(transform));
 		if(t == NULL) error("set_object_physics");

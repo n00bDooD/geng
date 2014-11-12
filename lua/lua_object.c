@@ -58,9 +58,30 @@ static int lua_object_angle(lua_State* l)
 	return 1;
 }
 
+static int lua_object_setsprite(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	size_t s = luaL_checkinteger(l, 2);
+
+	o->o->sprite = s;
+	return 0;
+}
+
+static int lua_object_setphysics(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	luaL_checktype(l, 2, LUA_TBOOLEAN);
+	int b = lua_toboolean(l, 2);
+
+	set_object_physics(o->o, b);
+	return 0;
+}
+
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"angle", lua_object_angle},
+	{"set_sprite", lua_object_setsprite},
+	{"set_physics", lua_object_setphysics},
 	{NULL, NULL}
 };
 

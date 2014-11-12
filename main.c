@@ -16,12 +16,11 @@
 #include "services/inputaxis.h"
 #include "services/sdl_input_shim.h"
 
-#include "tga.h"
-
 #include "lua/lua_input.h"
 #include "lua/lua_object.h"
 #include "lua/lua_scene.h"
 #include "lua/lua_vector.h"
+#include "lua/lua_renderer.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -68,26 +67,6 @@ void update_ball(object* o)
 	cpBodyApplyImpulse(o->transform.rigidbody, cpv(x, y), cpvzero);
 }
 
-SDL_Texture* load_tga(SDL_Renderer* r, int fd)
-{
-	targa_file* tga = tga_readfile(fd);
-	if (tga == NULL) fprintf(stderr, "%s\n", strerror(errno));
-
-	SDL_Texture* tex = SDL_CreateTexture(r, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, tga->head.width, tga->head.height);
-	if(tex == NULL) sdl_error("Texture creation failed.");
-
-	if(SDL_UpdateTexture(tex, NULL, tga->image_data, tga->head.width * sizeof(char) * 4) != 0) {
-		sdl_error("Texture write failed.");
-	}
-	if(SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND) != 0) {
-		sdl_error("Setting texture blend mode failed.");
-	}
-
-	free(tga->image_data);
-	free(tga);
-	return tex;
-}
-
 int main(int argc, char** argv)
 {
 	size_t pool_size = 10000;
@@ -125,6 +104,12 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	sdlrend->rend = r;
+	s->render_data = sdlrend;
+
+	/* ## Set up physics ## */
+	cpSpace* spas = cpSpaceNew();
+	cpSpaceSetGravity(spas, cpv(0, -100));
+	s->physics_data = spas;
 
 	/* ## Set up input ## */
 	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));
@@ -143,23 +128,28 @@ int main(int argc, char** argv)
 	}
 
 	{
-		lua_State* l = luaL_newstate();
-		luaL_openlibs(l);
-		register_scene(l, s);
-		int res = luaL_dofile(l, "data/scene_init.lua");
-		luaHandleResult(l, res, "data/scene_init.lua");
-		lua_close(l);
+		lua_State* l2 = luaL_newstate();
+		luaL_openlibs(l2);
+		register_renderer(l2, sdlrend);
+		int res = luaL_dofile(l2, "data/renderer_config.lua");
+		luaHandleResult(l2, res, "data/renderer_config.lua");
+		lua_close(l2);
 	}
 
+	{
+		lua_State* l3 = luaL_newstate();
+		luaL_openlibs(l3);
+		register_scene(l3, s);
+		register_object(l3);
+		lua_pop(l3, 1);
+		int res = luaL_dofile(l3, "data/scene_init.lua");
+		luaHandleResult(l3, res, "data/scene_init.lua");
+		lua_close(l3);
+	}
 	//create_axis(inpdat, "horizontal", default_settings());
 	//create_axis(inpdat, "vertical", default_settings());
 
 #if 0
-	/* ## Set up physics ## */
-	cpSpace* spas = cpSpaceNew();
-	cpSpaceSetGravity(spas, cpv(0, -100));
-	services_register_simulation(physics_sim_create(spas));
-
 	/* ## Set up ground ## */
 	cpVect boxverts[4] = {
 		cpv(-110,  35),
@@ -254,6 +244,7 @@ int main(int argc, char** argv)
 
 			//simulation* sim = services_get_simulation();
 			//sim->simulate_step(sim->simulation_data, STATIC_TIMESTEP);
+			cpSpaceStep(spas, STATIC_TIMESTEP);
 
 			next_game_tick += SKIP_TICKS;
 			loops++;

@@ -43,12 +43,12 @@ static int lua_new_object(lua_State* l)
 	return 1;
 }
 
-static const luaL_reg methods[] = {
+static const luaL_Reg methods[] = {
 	{"newobject", lua_new_object},
 	{NULL, NULL}
 };
 
-static const luaL_reg meta_methods[] = {
+static const luaL_Reg meta_methods[] = {
 	{NULL, NULL}
 };
 
@@ -56,19 +56,7 @@ int register_scene(lua_State *L, scene* s)
 {
 	set_scene_registry(L, s);
 
-	/* Create methods table & add it to globals */
-	luaL_openlib(L, TYPE_NAME, methods, 0);
-	/* Create metatable for object, and add it to registry */
-	luaL_newmetatable(L, TYPE_NAME);
-	luaL_openlib(L, 0, meta_methods, 0); /* dill metatable */
-	lua_pushliteral(L, "__index");
-	lua_pushvalue(L, -3); 		/* duplicate methods table */
-	lua_rawset(L, -3);		/* metatable.__index = methods */
-	lua_pushliteral(L, "__metatable");
-	lua_pushvalue(L, -3);		/* duplicate methods table */
-	lua_rawset(L, -3);		/* hide metatable:
-					   metatabme.__metatable = methods */
-
-	lua_pop(L, 1); 			/* drop metatable */
-	return 1;			/* leave methods on stack */
+	luaL_register(L, TYPE_NAME, methods);
+	lua_pop(L, 1);
+	return 0;
 }
