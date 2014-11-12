@@ -17,7 +17,7 @@ inputaxis_data* luaG_checkinput(lua_State* L, int index)
 	return s;
 }
 
-inputaxis_data* get_from_registry(lua_State* L)
+inputaxis_data* get_input_registry(lua_State* L)
 {
 	lua_pushstring(L, REGISTRY_KEY);
 	lua_rawget(L, LUA_REGISTRYINDEX);
@@ -29,7 +29,7 @@ inputaxis_data* get_from_registry(lua_State* L)
 static int lua_get_input_for_axis(lua_State* l)
 {
 	int arg = 1;
-	inputaxis_data* d = get_from_registry(l);
+	inputaxis_data* d = get_input_registry(l);
 	const char* name = luaL_checkstring(l, arg++);
 
 	double ret = get_input_for_axis(d, name);
@@ -39,7 +39,7 @@ static int lua_get_input_for_axis(lua_State* l)
 
 static int lua_create_axis(lua_State* l)
 {
-	inputaxis_data* d = get_from_registry(l);
+	inputaxis_data* d = get_input_registry(l);
 	size_t namelen = 0;
 	const char* luaname = luaL_checklstring(l, 1, &namelen);
 	if(namelen == 0) {
@@ -98,7 +98,7 @@ static const luaL_reg private_methods[] = {
 	{NULL, NULL}
 };
 
-void add_to_registry(lua_State* L, inputaxis_data* d)
+void set_input_registry(lua_State* L, inputaxis_data* d)
 {
 	lua_pushstring(L, REGISTRY_KEY);
 	lua_pushlightuserdata(L, d);
@@ -108,7 +108,7 @@ void add_to_registry(lua_State* L, inputaxis_data* d)
 
 int register_input(lua_State *L, inputaxis_data* d)
 {
-	add_to_registry(L, d);
+	set_input_registry(L, d);
 	/* Create methods table & add it to globals */
 	luaL_openlib(L, TYPE_NAME, methods, 0);
 	/* Create metatable for object, and add it to registry */
@@ -123,7 +123,7 @@ int register_input(lua_State *L, inputaxis_data* d)
 
 int register_config_input(lua_State *L, inputaxis_data* d)
 {
-	add_to_registry(L, d);
+	set_input_registry(L, d);
 
 	luaL_register(L, TYPE_NAME, private_methods);
 	lua_pop(L, 1);

@@ -5,7 +5,7 @@
 
 #include "../scene.h"
 
-int register_scene(lua_State*);
+int register_scene(lua_State*, scene*);
 
 scene* luaG_checkscene(lua_State*, int);
 
