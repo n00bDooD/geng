@@ -1,5 +1,6 @@
 #include "object.h"
 #include "services.h"
+#include "services/cp_physics.h"
 #include "scene.h"
 #include "global.h"
 
@@ -97,7 +98,7 @@ cpBool object_has_physics(object* o)
 	return o->flags & OBJ_PHYSICS;
 }
 
-void set_object_physics(object* o, cpBool b)
+void set_object_physics(object* o, cpBool b, double ma, double mo)
 {
 	/* Don't set physics if it already has em */
 	if((o->flags & OBJ_PHYSICS) == b) return;
@@ -108,14 +109,15 @@ void set_object_physics(object* o, cpBool b)
 		t->angle = cpBodyGetAngle(o->transform.rigidbody);
 		free_physics(o);
 
-		o->flags |= OBJ_PHYSICS;
+		o->flags &= ~OBJ_PHYSICS;
 	} else {
-		cpBody* b = cpBodyNew(1, 1); //TODO: Add physobj-getter
+		cpBody* b = create_physics(o->parent, o, ma, mo);
 		cpBodySetPos(b, o->transform.transform->position);
 		cpBodySetAngle(b, o->transform.transform->angle);
 		free(o->transform.transform);
+		o->transform.rigidbody = b;
 
-		o->flags &= ~OBJ_PHYSICS;
+		o->flags |= OBJ_PHYSICS;
 	}
 }
 

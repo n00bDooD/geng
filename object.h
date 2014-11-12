@@ -41,6 +41,6 @@ void set_object_position(object* o, cpVect* n);
 void set_object_angle(object* o, cpFloat a);
 
 cpBool object_has_physics(object* o);
-void set_object_physics(object* o, cpBool p);
+void set_object_physics(object* o, cpBool p, double mass, double moment);
 
 #endif /* OBJECT_H */

@@ -73,7 +73,13 @@ static int lua_object_setphysics(lua_State* l)
 	luaL_checktype(l, 2, LUA_TBOOLEAN);
 	int b = lua_toboolean(l, 2);
 
-	set_object_physics(o->o, b);
+	double mass, moment;
+	if(b) {
+		mass = luaL_checknumber(l, 3);
+		moment = luaL_checknumber(l, 4);
+	}
+
+	set_object_physics(o->o, b, mass, moment);
 	return 0;
 }
 
