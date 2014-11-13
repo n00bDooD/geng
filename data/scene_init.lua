@@ -1,7 +1,5 @@
-local ball = scene.newobject()
-ball:set_sprite(1)
-ball:enable_physics(1, 1);
+local ball = scene.spawn_prefab("ball")
+ball:set_pos(200, -70)
 
-local block = scene.newobject()
-block:set_sprite(2)
+local block = scene.spawn_prefab("block")
 block:set_pos(200, -200)

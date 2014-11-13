@@ -1,3 +1,4 @@
+#define _DEFAULT_SOURCE
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -5,9 +6,11 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <chipmunk/chipmunk.h>
 #include <SDL2/SDL.h>
 #include <errno.h>
+#include <string.h>
 
 #include "global.h"
 #include "object.h"
@@ -69,6 +72,41 @@ void update_ball(object* o)
 }
 #endif
 
+char** get_files_in_dir(const char* dir, const char* file_ending, size_t* count)
+{
+	size_t num = 0;
+	char** names = NULL;
+	{
+		DIR* prefdir = NULL;
+		if((prefdir = opendir(dir)) != NULL) {
+			struct dirent* d = NULL;
+			while((d = readdir(prefdir)) != NULL) {
+				char* sub = strchr(d->d_name, '.');
+				if(sub != NULL) {
+					if(strcmp(sub, file_ending) == 0) {
+						char** n = (char**)realloc(names, ++num * sizeof(char*));
+						if(n == NULL) error("Read prefab dir");
+						names = n;
+
+						*sub = '\0';
+						char* new = strdup(d->d_name);
+						if(new == NULL) error("strdup");
+						*sub = '.';
+						names[num-1] = new;
+					}
+				}
+			}
+			closedir(prefdir);
+		} else {
+			error("Open prefab dir");
+		}
+	}
+	if(count != NULL) {
+		*count = num;
+	}
+	return names;
+}
+
 int main(int argc, char** argv)
 {
 	size_t pool_size = 10000;
@@ -76,6 +114,33 @@ int main(int argc, char** argv)
 	s->pool = (object*)calloc(pool_size, sizeof(object));
 	if(s->pool == NULL) error("Cannot allocate object pool");
 	s->num_objects = pool_size;
+
+	s->prefab_names = get_files_in_dir("data/prefabs.d/", ".prefab.lua", &s->num_prefabs);
+	if(s->num_prefabs > 0) {
+		s->prefabs = (char**)malloc(s->num_prefabs * sizeof(char*));
+		if(s->prefabs == NULL) error("Allocate prefab array");
+	}
+	for(size_t i = 0; i < s->num_prefabs; ++i) {
+		char* f = (char*)calloc(1024, sizeof(char));
+		strcat(f, "data/prefabs.d/");
+		strcat(f, s->prefab_names[i]);
+		strcat(f, ".prefab.lua");
+		struct stat statd;
+		if(stat(f, &statd) == -1){
+			error("stat failed");
+		}
+		char* code = malloc(statd.st_size);
+		if(code == NULL) error("Allocate prefab buffer");
+
+		int fd = 0;
+		if((fd = open(f, O_RDONLY)) != 0) {
+			read(fd, code, statd.st_size);
+		} else {
+			error(f);
+		}
+		free(f);
+		s->prefabs[i] = code;
+	}
 
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 
