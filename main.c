@@ -59,6 +59,7 @@ void luaHandleResult(lua_State* state, int res, char* sorcestr)
 	}
 }
 
+#if 0
 void update_ball(object* o)
 {
 	input* in = services_get_input();
@@ -66,6 +67,7 @@ void update_ball(object* o)
 	double y = in->get_input(in->input_data, "vertical");
 	cpBodyApplyImpulse(o->transform.rigidbody, cpv(x, y), cpvzero);
 }
+#endif
 
 int main(int argc, char** argv)
 {

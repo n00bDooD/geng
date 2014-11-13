@@ -5,7 +5,7 @@
 
 #include <string.h>
 
-#include "../object.h"
+#include "../scene.h"
 
 #include "lua_vector.h"
 
@@ -45,9 +45,8 @@ static int lua_object_tostring(lua_State *L)
 static int lua_object_position(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
-
-	cpVect* pos = luaG_pushvect(l);
-	*pos = get_object_position(o->o);
+	cpVect* v = luaG_pushvect(l);
+	*v = get_object_pos(o->o);
 	return 1;
 }
 
@@ -55,13 +54,17 @@ static int lua_object_setposition(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
 
+	double x, y;
 	if(lua_isnumber(l, 2)) {
-		cpVect v = cpv(luaL_checknumber(l, 2),
-				luaL_checknumber(l, 3));
-		set_object_position(o->o, &v);
+		x = luaL_checknumber(l, 2);
+		y = luaL_checknumber(l, 3);
 	} else {
-		set_object_position(o->o, luaG_checkvect(l, 2));
+		cpVect* v = luaG_checkvect(l, 2);
+		x = v->x;
+		y = v->y;
 	}
+
+	set_object_pos(o->o, cpv(x, y));
 
 	return 0;
 }
@@ -82,28 +85,11 @@ static int lua_object_setsprite(lua_State* l)
 	return 0;
 }
 
-static int lua_object_setphysics(lua_State* l)
-{
-	object_ref* o = luaG_checkobject(l, 1);
-	luaL_checktype(l, 2, LUA_TBOOLEAN);
-	int b = lua_toboolean(l, 2);
-
-	double mass, moment;
-	if(b) {
-		mass = luaL_checknumber(l, 3);
-		moment = luaL_checknumber(l, 4);
-	}
-
-	set_object_physics(o->o, b, mass, moment);
-	return 0;
-}
-
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
 	{"angle", lua_object_angle},
 	{"set_sprite", lua_object_setsprite},
-	{"set_physics", lua_object_setphysics},
 	{NULL, NULL}
 };
 
