@@ -29,4 +29,7 @@ double get_object_angle(object*);
 void set_object_pos(object*, cpVect);
 void set_object_angle(object*, double);
 
+void enable_object_physics(object*, double mass, double moment);
+void disable_object_physics(object*);
+
 #endif /* SCENE_H */

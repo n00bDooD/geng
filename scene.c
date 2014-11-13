@@ -77,3 +77,21 @@ void set_object_angle(object* o, double a)
 {
 	cpBodySetAngle(o->physics, a);
 }
+
+void disable_object_physics(object* o)
+{
+	if(!cpBodyIsStatic(o->physics)) {
+		cpSpace* s = ((scene*)o->parent)->physics_data;
+		cpSpaceRemoveBody(s, o->physics);
+		cpSpaceConvertBodyToStatic(s, o->physics);
+	}
+}
+
+void enable_object_physics(object* o, double mass, double moment)
+{
+	if(cpBodyIsStatic(o->physics)) {
+		cpSpace* s = ((scene*)o->parent)->physics_data;
+		cpSpaceConvertBodyToDynamic(s, o->physics, mass, moment);
+		cpSpaceAddBody(s, o->physics);
+	}
+}

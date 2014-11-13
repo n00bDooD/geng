@@ -85,11 +85,30 @@ static int lua_object_setsprite(lua_State* l)
 	return 0;
 }
 
+static int lua_object_set_static(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	disable_object_physics(o->o);
+	return 0;
+}
+
+static int lua_object_set_physics(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	double mass = luaL_checknumber(l, 2);
+	double moment = luaL_checknumber(l, 3);
+
+	enable_object_physics(o->o, mass, moment);
+	return 0;
+}
+
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
 	{"angle", lua_object_angle},
 	{"set_sprite", lua_object_setsprite},
+	{"disable_physics", lua_object_set_static},
+	{"enable_physics", lua_object_set_physics},
 	{NULL, NULL}
 };
 
