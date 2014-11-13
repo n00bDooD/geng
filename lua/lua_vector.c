@@ -365,6 +365,7 @@ static const luaL_reg meta_methods[] = {
 	{"__mul", lua_vect_mul},
 	{"__len", lua_vect_length},
 	{"__eq", lua_vect_eq},
+	{"__unm", lua_vect_neg},
 	{"__tostring", lua_vect_tostring},
 	{NULL, NULL}
 };
