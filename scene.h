@@ -14,10 +14,6 @@ typedef struct {
 	void* render_data;
 
 	void* physics_data;
-
-	size_t num_prefabs;
-	char** prefab_names;
-	char** prefabs;
 } scene;
 
 object* get_first_unused(scene*);

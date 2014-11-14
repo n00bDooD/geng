@@ -115,34 +115,6 @@ int main(int argc, char** argv)
 	if(s->pool == NULL) error("Cannot allocate object pool");
 	s->num_objects = pool_size;
 
-	s->prefab_names = get_files_in_dir("data/prefabs.d/", ".prefab.lua", &s->num_prefabs);
-	s->prefab_names = (char**)realloc(s->prefab_names, (s->num_prefabs + 1) * sizeof(char*));
-	s->prefabs = (char**)malloc((s->num_prefabs+1) * sizeof(char*));
-	if(s->prefabs == NULL) error("Allocate prefab array");
-	for(size_t i = 0; i < s->num_prefabs; ++i) {
-		char* f = (char*)calloc(1024, sizeof(char));
-		strcat(f, "data/prefabs.d/");
-		strcat(f, s->prefab_names[i]);
-		strcat(f, ".prefab.lua");
-		struct stat statd;
-		if(stat(f, &statd) == -1){
-			error("stat failed");
-		}
-		char* code = malloc(statd.st_size);
-		if(code == NULL) error("Allocate prefab buffer");
-
-		int fd = 0;
-		if((fd = open(f, O_RDONLY)) != 0) {
-			read(fd, code, statd.st_size);
-		} else {
-			error(f);
-		}
-		free(f);
-		s->prefabs[i] = code;
-	}
-	s->prefab_names[s->num_prefabs] = NULL;
-	s->prefabs[s->num_prefabs] = NULL;
-
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 
 	/* ## Set up rendering ## */

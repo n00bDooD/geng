@@ -1,3 +1,4 @@
+#define _DEFAULT_SOURCE
 #include "lua_scene.h"
 #include <lua.h>
 #include <lualib.h>
@@ -10,37 +11,14 @@
 #include "lua_object.h"
 
 #include <string.h>
-
-char* get_prefab_by_name(scene* s, const char* name)
-{
-	if (s->num_prefabs == 0) return NULL;
-
-	size_t i = 0;
-	do {
-		if(strcmp(name, s->prefab_names[i]) == 0){
-			return s->prefabs[i];
-		}
-	} while (s->prefab_names[++i] != NULL) ;
-	return NULL;
-}
+#include <libgen.h>
 
 object* create_prefab(lua_State* l, scene* s, const char* name)
 {
-	char* code = get_prefab_by_name(s, name);
-	if (code == NULL) {
-		luaL_error(l, "Unknown prefab");
-	}
-	int load_result = luaL_loadstring(l, code);
-	switch(load_result) {
-		case 0:
-			// OK
-			break;
-		case LUA_ERRSYNTAX:
-			luaL_error(l, "Syntax error in prefab.");
-		case LUA_ERRMEM:
-			luaL_error(l, "Memory allocation error on load of prefab.");
-	}
-	int run_result = lua_pcall(l, 0, LUA_MULTRET, 0);
+	lua_pushstring(l, name);
+	lua_rawget(l, LUA_REGISTRYINDEX);
+	if(lua_isnil(l, -1)) luaL_error(l, "Unknown prefab");
+	int run_result = lua_pcall(l, 0, 1, 0);
 	switch(run_result) {
 		case 0: {
 			// OK
@@ -84,6 +62,34 @@ void set_scene_registry(lua_State* l, scene* s)
 	lua_rawset(l, LUA_REGISTRYINDEX);
 }
 
+static int lua_load_prefab(lua_State* l)
+{
+	const char* filename = luaL_checklstring(l, 1, NULL);
+	if(filename == NULL) luaL_error(l, "Valid name to prefab file required.");
+	char* tmp = strdup(filename);
+	if(tmp == NULL) luaL_error(l, "Memory allocation error");
+	char* prefabname = basename(tmp);
+	char* end = strchr(prefabname, '.');
+	if(end != NULL)
+		*end = '\0';
+
+	lua_pushstring(l, prefabname);
+	free(tmp);
+	switch(luaL_loadfile(l, filename)) {
+		case 0:
+			// OK
+			lua_rawset(l, LUA_REGISTRYINDEX);
+			break;
+		case LUA_ERRSYNTAX:
+			luaL_error(l, "Syntax error in prefab.");
+		case LUA_ERRMEM:
+			luaL_error(l, "Memory allocation error on load of prefab.");
+		case  LUA_ERRFILE:
+			luaL_error(l, "Cannot open prefab file");
+	}
+	return 0;
+}
+
 static int lua_new_object(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
@@ -106,6 +112,7 @@ static int lua_spawn_prefab(lua_State* l)
 static const luaL_Reg methods[] = {
 	{"newobject", lua_new_object},
 	{"spawn_prefab", lua_spawn_prefab},
+	{"load_prefab_file", lua_load_prefab},
 	{NULL, NULL}
 };
 
