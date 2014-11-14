@@ -29,6 +29,15 @@ object_ref* luaG_pushobject(lua_State *L, object* obj)
 	return o;
 }
 
+static int lua_object_equals(lua_State* l)
+{
+	object_ref* a = luaG_checkobject(l, 1);
+	object_ref* b = luaG_checkobject(l, 2);
+
+	lua_pushboolean(l, a->o == b->o);
+	return 1;
+}
+
 static int lua_object_gc(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -69,6 +78,48 @@ static int lua_object_setposition(lua_State* l)
 	return 0;
 }
 
+static int lua_object_mass(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushnumber(l, get_object_mass(o->o));
+	return 1;
+}
+
+static int lua_object_moment(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushnumber(l, get_object_moment(o->o));
+	return 1;
+}
+
+static int lua_object_torque(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushnumber(l, get_object_torque(o->o));
+	return 1;
+}
+
+static int lua_object_angvel(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushnumber(l, get_object_angular_velocity(o->o));
+	return 1;
+}
+
+static int lua_object_angvel_limit(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushnumber(l, get_object_angular_velocity_limit(o->o));
+	return 1;
+}
+
+static int lua_object_vel_limit(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushnumber(l, get_object_velocity_limit(o->o));
+	return 1;
+}
+
 static int lua_object_angle(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -102,6 +153,47 @@ static int lua_object_set_physics(lua_State* l)
 	return 0;
 }
 
+static int lua_object_worldpos2local(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	cpVect* v = luaG_checkvect(l, 2);
+	cpVect* res = luaG_pushvect(l);
+	*res = object_convert_world2localpos(o->o, *v);
+	return 1;
+}
+
+static int lua_object_localpos2world(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	cpVect* v = luaG_checkvect(l, 2);
+	cpVect* res = luaG_pushvect(l);
+	*res = object_convert_local2worldpos(o->o, *v);
+	return 1;
+}
+
+static int lua_object_reset_forces(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	object_reset_forces(o->o);
+	return 0;
+}
+
+static int lua_object_apply_force(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	cpVect* f = luaG_checkvect(l, 2);
+	object_apply_force(o->o, *f);
+	return 0;
+}
+
+static int lua_object_apply_impulse(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	cpVect* f = luaG_checkvect(l, 2);
+	object_apply_impulse(o->o, *f);
+	return 0;
+}
+
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
@@ -109,11 +201,23 @@ static const luaL_reg methods[] = {
 	{"set_sprite", lua_object_setsprite},
 	{"disable_physics", lua_object_set_static},
 	{"enable_physics", lua_object_set_physics},
+	{"apply_force", lua_object_apply_force},
+	{"apply_impulse", lua_object_apply_impulse},
+	{"reset_forces", lua_object_reset_forces},
+	{"local2worldpos", lua_object_localpos2world},
+	{"world2localpos", lua_object_worldpos2local},
+	{"torque", lua_object_torque},
+	{"mass", lua_object_mass},
+	{"moment", lua_object_moment},
+	{"ang_vel", lua_object_angvel},
+	{"vel_limit", lua_object_vel_limit},
+	{"angular_vel_limit", lua_object_angvel_limit},
 	{NULL, NULL}
 };
 
 static const luaL_reg meta_methods[] = {
 	{"__tostring", lua_object_tostring},
+	{"__eq", lua_object_equals},
 	{"__gc", lua_object_gc},
 	{NULL, NULL}
 };

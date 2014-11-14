@@ -28,7 +28,7 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
-#define TICKS_PER_SECOND 25
+#define TICKS_PER_SECOND 125
 #define STATIC_TIMESTEP (1.0 / (double)TICKS_PER_SECOND)
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
