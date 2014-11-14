@@ -18,6 +18,7 @@ object* create_object(scene* s)
 	object* o = get_first_unused(s);
 	o->parent = s;
 	o->physics = cpBodyNewStatic();
+	cpBodySetUserData(o->physics, o);
 	o->flags |= OBJ_ACTIVE;
 	return o;
 }
