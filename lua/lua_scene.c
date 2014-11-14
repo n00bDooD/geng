@@ -15,7 +15,12 @@
 
 object* create_prefab(lua_State* l, scene* s, const char* name)
 {
-	lua_pushstring(l, name);
+	char* key = (char*)calloc(256, sizeof(char));
+	strcat(key, "geng.prefabs.");
+	strcat(key, name);
+
+	lua_pushstring(l, key);
+	free(key);
 	lua_rawget(l, LUA_REGISTRYINDEX);
 	if(lua_isnil(l, -1)) luaL_error(l, "Unknown prefab");
 	int run_result = lua_pcall(l, 0, 1, 0);
@@ -73,8 +78,13 @@ static int lua_load_prefab(lua_State* l)
 	if(end != NULL)
 		*end = '\0';
 
-	lua_pushstring(l, prefabname);
+	char* key = (char*)calloc(256, sizeof(char));
+	strcat(key, "geng.prefabs.");
+	strcat(key, prefabname);
 	free(tmp);
+
+	lua_pushstring(l, key);
+	free(key);
 	switch(luaL_loadfile(l, filename)) {
 		case 0:
 			// OK
