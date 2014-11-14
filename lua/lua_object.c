@@ -1,3 +1,4 @@
+#define _DEFAULT_SOURCE
 #include "lua_object.h"
 #include <lua.h>
 #include <lualib.h>
@@ -10,6 +11,63 @@
 #include "lua_vector.h"
 
 #define TYPE_NAME "object"
+
+
+void add_behaviour(lua_State* l, object* o, const char* name)
+{
+	behaviour* obj_threads = (behaviour*)o->tag;
+	size_t num_behaviours = 0;
+	if(obj_threads != NULL) {
+		while(obj_threads[num_behaviours++].name != NULL) {
+			const char* behn = obj_threads[num_behaviours++].name;
+			if(name != NULL && strcmp(behn, name) == 0) {
+				luaL_error(l, "Object already has this behaviour");
+			}
+		}
+	} else {
+		num_behaviours = 1;
+	}
+
+	behaviour* n = (behaviour*)realloc(obj_threads,
+			(num_behaviours+1) * sizeof(behaviour));
+	if (n == NULL) luaL_error(l, "Memory allocation error.");
+	o->tag = n; obj_threads = n;
+	obj_threads[num_behaviours].name = NULL;
+	obj_threads[num_behaviours].thread = NULL;
+
+	obj_threads[num_behaviours-1].name = strdup(name);
+	obj_threads[num_behaviours-1].thread = lua_newthread(l);
+	lua_State* t = obj_threads[num_behaviours-1].thread;
+
+	char* key = (char*)calloc(256, sizeof(char));
+	strcat(key, "geng.behaviours.");
+	strcat(key, name);
+
+	lua_pushstring(t, key);
+	free(key);
+	lua_rawget(t, LUA_REGISTRYINDEX);
+	if(lua_isnil(t, -1)) {
+		// Reset thread state
+		lua_pop(t, -1);
+		luaL_error(l, "Unknown behaviour.");
+	}
+	int run_result = lua_pcall(t, 0, 0, 0);
+	switch(run_result) {
+		case 0: {
+			// OK
+			return;
+			}
+		case LUA_ERRRUN:
+			luaL_error(l, "Runtime error when executing behaviour");
+		case LUA_ERRMEM:
+			luaL_error(l, "Memory error when executing behaviour");
+		case LUA_ERRERR:
+			luaL_error(l, "Error when executing behaviour");
+	}
+	return;
+}
+
+
 
 object_ref* luaG_checkobject(lua_State* L, int index)
 {
@@ -27,6 +85,15 @@ object_ref* luaG_pushobject(lua_State *L, object* obj)
 	lua_setmetatable(L, -2);
 	o->o = obj;
 	return o;
+}
+
+static int lua_add_behaviour(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	const char* name = luaL_checklstring(l, 2, NULL);
+	if(name == NULL) luaL_error(l, "Valid behaviour name required");
+	add_behaviour(l, o->o, name);
+	return 0;
 }
 
 static int lua_object_equals(lua_State* l)
@@ -220,6 +287,7 @@ static const luaL_reg methods[] = {
 	{"ang_vel", lua_object_angvel},
 	{"vel_limit", lua_object_vel_limit},
 	{"angular_vel_limit", lua_object_angvel_limit},
+	{"add_behaviour", lua_add_behaviour},
 	{NULL, NULL}
 };
 

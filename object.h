@@ -19,6 +19,8 @@ typedef struct {
 
 	size_t sprite;
 
+	void* tag;
+
 	void* parent;
 } object;
 

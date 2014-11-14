@@ -10,6 +10,7 @@ typedef size_t spritehandle;
 typedef struct {
 	size_t num_objects;
 	object* pool;
+	void** pooldata;
 
 	void* render_data;
 

@@ -31,12 +31,13 @@ object* create_prefab(lua_State* l, scene* s, const char* name)
 			if(res == NULL) return NULL;
 			return res->o;
 			}
-		case LUA_ERRRUN:
-			luaL_error(l, "Runtime error when executing prefab");
-		case LUA_ERRMEM:
-			luaL_error(l, "Memory error when executing prefab");
 		case LUA_ERRERR:
-			luaL_error(l, "Error when executing prefab");
+		case LUA_ERRMEM:
+		case LUA_ERRRUN:
+			{
+			char* balle = lua_tolstring(l, -1, NULL);
+			lua_error(l);
+			}
 	}
 	return NULL;
 }
@@ -100,6 +101,39 @@ static int lua_load_prefab(lua_State* l)
 	return 0;
 }
 
+static int lua_load_behaviour(lua_State* l)
+{
+	const char* filename = luaL_checklstring(l, 1, NULL);
+	if(filename == NULL) luaL_error(l, "Valid name to behaviour file required.");
+	char* tmp = strdup(filename);
+	if(tmp == NULL) luaL_error(l, "Memory allocation error");
+	char* behavname = basename(tmp);
+	char* end = strchr(behavname, '.');
+	if(end != NULL)
+		*end = '\0';
+
+	char* key = (char*)calloc(256, sizeof(char));
+	strcat(key, "geng.behaviours.");
+	strcat(key, behavname);
+	free(tmp);
+
+	lua_pushstring(l, key);
+	free(key);
+	switch(luaL_loadfile(l, filename)) {
+		case 0:
+			// OK
+			lua_rawset(l, LUA_REGISTRYINDEX);
+			break;
+		case LUA_ERRSYNTAX:
+			luaL_error(l, "Syntax error in behaviour.");
+		case LUA_ERRMEM:
+			luaL_error(l, "Memory allocation error on load of behaviour.");
+		case  LUA_ERRFILE:
+			luaL_error(l, "Cannot open behaviour file");
+	}
+	return 0;
+}
+
 static int lua_new_object(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
@@ -112,8 +146,12 @@ static int lua_spawn_prefab(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
 	const char* name = luaL_checklstring(l, 1, NULL);
+
 	if(name == NULL) luaL_error(l, "Name required");
-	object* o = create_prefab(l, s, name);
+
+	lua_State* newt = lua_newthread(l);
+	lua_pop(l, -1);
+	object* o = create_prefab(newt, s, name);
 	if(o == NULL) luaL_error(l, "Object NULL error");
 	luaG_pushobject(l, o);
 	return 1;
@@ -123,6 +161,7 @@ static const luaL_Reg methods[] = {
 	{"newobject", lua_new_object},
 	{"spawn_prefab", lua_spawn_prefab},
 	{"load_prefab_file", lua_load_prefab},
+	{"load_behaviour_file", lua_load_behaviour},
 	{NULL, NULL}
 };
 

@@ -5,6 +5,11 @@
 #include "../object.h"
 
 typedef struct {
+	const char* name;
+	lua_State* thread;
+} behaviour;
+
+typedef struct {
 	object* o;
 } object_ref;
 
