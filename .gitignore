@@ -4,3 +4,4 @@ geng
 *.o
 bin/*
 build/*
+.release_time
