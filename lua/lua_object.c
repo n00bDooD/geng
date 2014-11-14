@@ -182,7 +182,11 @@ static int lua_object_apply_force(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
 	cpVect* f = luaG_checkvect(l, 2);
-	object_apply_force(o->o, *f);
+	const cpVect* v = &cpvzero;
+	if(lua_gettop(l) > 2) {
+		v = luaG_checkvect(l, 3);
+	} 
+	object_apply_force(o->o, *f, *v);
 	return 0;
 }
 
@@ -190,7 +194,11 @@ static int lua_object_apply_impulse(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
 	cpVect* f = luaG_checkvect(l, 2);
-	object_apply_impulse(o->o, *f);
+	const cpVect* v = &cpvzero;
+	if(lua_gettop(l) > 2) {
+		v = luaG_checkvect(l, 3);
+	} 
+	object_apply_impulse(o->o, *f, *v);
 	return 0;
 }
 

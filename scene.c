@@ -78,6 +78,53 @@ void set_object_angle(object* o, double a)
 	cpBodySetAngle(o->physics, a);
 }
 
+
+double get_object_mass(object* o)
+{
+	return cpBodyGetMass(o->physics);
+}
+
+double get_object_torque(object* o)
+{
+	return cpBodyGetTorque(o->physics);
+}
+
+double get_object_moment(object* o)
+{
+	return cpBodyGetMoment(o->physics);
+}
+
+double get_object_angular_velocity(object* o)
+{
+	return cpBodyGetAngVel(o->physics);
+}
+
+double get_object_angular_velocity_limit(object* o)
+{
+	return cpBodyGetAngVelLimit(o->physics);
+}
+
+double get_object_velocity_limit(object* o)
+{
+	return cpBodyGetVelLimit(o->physics);
+}
+
+
+void object_apply_force(object* o, cpVect f, cpVect offset)
+{
+	cpBodyApplyForce(o->physics, f, offset);
+}
+
+void object_apply_impulse(object* o, cpVect f, cpVect offset)
+{
+	cpBodyApplyImpulse(o->physics, f, offset);
+}
+
+void object_reset_forces(object* o)
+{
+	cpBodyResetForces(o->physics);
+}
+
 void disable_object_physics(object* o)
 {
 	if(!cpBodyIsStatic(o->physics)) {
@@ -95,3 +142,14 @@ void enable_object_physics(object* o, double mass, double moment)
 		cpSpaceAddBody(s, o->physics);
 	}
 }
+
+cpVect object_convert_world2localpos(object* o, cpVect v)
+{
+	return cpBodyWorld2Local(o->physics, v);
+}
+
+cpVect object_convert_local2worldpos(object* o, cpVect v)
+{
+	return cpBodyLocal2World(o->physics, v);
+}
+

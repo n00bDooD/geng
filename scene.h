@@ -42,8 +42,8 @@ void set_object_angle(object*, double);
 void enable_object_physics(object*, double mass, double moment);
 void disable_object_physics(object*);
 
-void object_apply_impulse(object*,cpVect);
-void object_apply_force(object*,cpVect);
+void object_apply_impulse(object*,cpVect,cpVect);
+void object_apply_force(object*,cpVect,cpVect);
 
 void object_reset_forces(object*);
 cpVect object_convert_local2worldpos(object*, cpVect);
