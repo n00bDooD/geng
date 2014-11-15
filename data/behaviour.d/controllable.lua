@@ -1,11 +1,15 @@
-xacc = 2
-yacc = 0.5
+local xacc = 2
+local yacc = 1
 
 function update(obj, current_time)
-	local horinp = input.get_axis('horizontal')
-	local vertinp = input.get_axis('vertical')
+	local horinp = input.get('horizontal')
+	local vertinp = input.get('vertical')
 
-	obj:apply_force(vector.new(horinp * xacc,
-				   vertinp * yacc))
+	io.write(string.format("Force (%f,%f)", horinp, vertinp) .. '\n')
+
+	obj:apply_force(vector.new(horinp,
+				   vertinp))
 end
+
+coroutine.yield()
 

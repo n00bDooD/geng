@@ -22,7 +22,10 @@ void apply_keyboard_input(inputaxis_data* d, mapping* m)
 
 		mapping* ma = find_mapping(m, k);
 		if (ma != NULL){
-			double val = s[i];
+			double val = 0;
+			if(s[i]) {
+				val = 1;
+			}
 			if (ma->negative) val = -val;
 			update_axis_value(d, ma->axis, val);
 		}

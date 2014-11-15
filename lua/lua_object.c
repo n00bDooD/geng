@@ -4,6 +4,8 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
+#include <stdio.h>
+
 #include <string.h>
 
 #include "../scene.h"
@@ -39,6 +41,9 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	obj_threads[num_behaviours-1].thread = lua_newthread(l);
 	lua_State* t = obj_threads[num_behaviours-1].thread;
 
+	luaL_ref(l, LUA_REGISTRYINDEX);
+
+
 	char* key = (char*)calloc(256, sizeof(char));
 	strcat(key, "geng.behaviours.");
 	strcat(key, name);
@@ -51,18 +56,21 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 		lua_pop(t, -1);
 		luaL_error(l, "Unknown behaviour.");
 	}
-	int run_result = lua_pcall(t, 0, 0, 0);
+	int run_result = lua_resume(t, 0);
 	switch(run_result) {
-		case 0: {
+		case LUA_YIELD: {
 			// OK
 			return;
 			}
+		case 0:
+			fprintf(stderr, "Behaviour init did not yield!\n");
+			return;
 		case LUA_ERRRUN:
-			luaL_error(l, "Runtime error when executing behaviour");
 		case LUA_ERRMEM:
-			luaL_error(l, "Memory error when executing behaviour");
-		case LUA_ERRERR:
-			luaL_error(l, "Error when executing behaviour");
+		case LUA_ERRERR:{
+			const char* error = lua_tolstring(t, -1, NULL);
+			luaL_error(l, error);
+			}
 	}
 	return;
 }
@@ -317,5 +325,42 @@ int register_object(lua_State *L)
 	return 1;			/* leave methods on stack */
 }
 
+void run_update_method(object* o, lua_State* l, const char* bname, double time_step)
+{
+	char* thing = NULL;
+	switch(lua_status(l)) {
+		case 0:
+			thing = "ok"; break;
+		case LUA_YIELD:
+			thing = "yielded"; break;
+		case LUA_ERRMEM:
+			thing = "errmem"; break;
+		case LUA_ERRRUN:
+			thing = "errun"; break;
+		case LUA_ERRERR:
+			thing = "errerrerrerrr"; break;
+		default:
+			thing = "dunno"; break;
+	}
+	lua_getglobal(l, "update");
+	luaG_pushobject(l, o);
+	lua_pushnumber(l, time_step);
+	int result = lua_pcall(l, 2, 0, 0);
+	if(result != 0) {
+		const char* err = lua_tolstring(l, 1, NULL);
+		if(err == NULL) err = "Lua error in update";
+		fprintf(stderr, "Error in update for behaviour '%s': %s\n", bname, err);
+	}
+}
 
+void step_object(object* o, double time_step)
+{
+	size_t i = 0;
+	behaviour* bs = (behaviour*)o->tag;
+	if(bs == NULL) return;
+	while(bs[i++].name != NULL) {
+		lua_State* t = bs[i-1].thread;
 
+		run_update_method(o, t, bs[i-1].name, time_step);
+	}
+}

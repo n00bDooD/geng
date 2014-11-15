@@ -35,8 +35,8 @@ object* create_prefab(lua_State* l, scene* s, const char* name)
 		case LUA_ERRMEM:
 		case LUA_ERRRUN:
 			{
-			char* balle = lua_tolstring(l, -1, NULL);
-			lua_error(l);
+			const char* error = lua_tolstring(l, -1, NULL);
+			luaL_error(l, error);
 			}
 	}
 	return NULL;
@@ -92,11 +92,12 @@ static int lua_load_prefab(lua_State* l)
 			lua_rawset(l, LUA_REGISTRYINDEX);
 			break;
 		case LUA_ERRSYNTAX:
-			luaL_error(l, "Syntax error in prefab.");
 		case LUA_ERRMEM:
-			luaL_error(l, "Memory allocation error on load of prefab.");
-		case  LUA_ERRFILE:
-			luaL_error(l, "Cannot open prefab file");
+		case LUA_ERRFILE:
+			{
+			const char* error = luaL_checklstring(l, -1, NULL);
+			luaL_error(l, error);
+			}
 	}
 	return 0;
 }
@@ -125,11 +126,12 @@ static int lua_load_behaviour(lua_State* l)
 			lua_rawset(l, LUA_REGISTRYINDEX);
 			break;
 		case LUA_ERRSYNTAX:
-			luaL_error(l, "Syntax error in behaviour.");
 		case LUA_ERRMEM:
-			luaL_error(l, "Memory allocation error on load of behaviour.");
 		case  LUA_ERRFILE:
-			luaL_error(l, "Cannot open behaviour file");
+			{
+			const char* error = luaL_checklstring(l, -1, NULL);
+			luaL_error(l, error);
+			}
 	}
 	return 0;
 }
@@ -176,4 +178,13 @@ int register_scene(lua_State *L, scene* s)
 	luaL_register(L, TYPE_NAME, methods);
 	lua_pop(L, 1);
 	return 0;
+}
+
+void step_scene(scene* s, double time_step)
+{
+	for(size_t i = 0; i < s->num_objects; ++i){
+		object* o = &(s->pool[i]);
+
+		step_object(o, time_step);
+	}
 }

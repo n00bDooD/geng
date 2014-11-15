@@ -184,7 +184,9 @@ int main(int argc, char** argv)
 		lua_pop(l3, 1);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
 		luaHandleResult(l3, res, "data/scene_init.lua");
-		lua_close(l3);
+
+		register_input(l3, inpdat);
+		register_vector(l3);
 	}
 	//create_axis(inpdat, "horizontal", default_settings());
 	//create_axis(inpdat, "vertical", default_settings());
@@ -280,7 +282,7 @@ int main(int argc, char** argv)
 			reset_axis_values(inpdat);
 			apply_keyboard_input(inpdat, control_map);
 
-			//update_objects(num_objects, o);
+			step_scene(s, STATIC_TIMESTEP);
 
 			//simulation* sim = services_get_simulation();
 			//sim->simulate_step(sim->simulation_data, STATIC_TIMESTEP);
