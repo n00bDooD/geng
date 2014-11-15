@@ -146,10 +146,12 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 		}
 	}
 
-	if(a->value != 0){
-		a->value = (a->value + val) / 2.0;
-	} else {
-		a->value = val;
+	if(val != 0) {
+		if(a->value != 0){
+			a->value = (a->value + val) / 2.0;
+		} else {
+			a->value = val;
+		}
 	}
 	return 0;
 }
