@@ -5,7 +5,7 @@ function update(obj, current_time)
 	local horinp = input.get('horizontal') * xacc
 	local vertinp = input.get('vertical') * yacc
 
-	obj:apply_force(vector.new(horinp,
+	obj:apply_impulse(vector.new(horinp,
 				   vertinp))
 end
 
