@@ -59,6 +59,22 @@ static int lua_vect_y(lua_State* l)
 	return 1;
 }
 
+static int lua_vect_sety(lua_State* l)
+{
+	cpVect* v = luaG_checkvect(l, 1);
+	double y = luaL_checknumber(l, 2);
+	v->y = y;
+	return 0;
+}
+
+static int lua_vect_setx(lua_State* l)
+{
+	cpVect* v = luaG_checkvect(l, 1);
+	double x = luaL_checknumber(l, 2);
+	v->x = x;
+	return 0;
+}
+
 static int lua_vect_eq(lua_State* l)
 {
 	cpVect* v1 = luaG_checkvect(l, 1);
@@ -290,6 +306,8 @@ static const luaL_reg methods[] = {
 
 	{"x", lua_vect_x},
 	{"y", lua_vect_y},
+	{"setx", lua_vect_setx},
+	{"sety", lua_vect_sety},
 
 	{"negate", lua_vect_neg},
 

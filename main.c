@@ -242,7 +242,7 @@ int main(int argc, char** argv)
 #endif
 
 	/* )# Set up control mappings ## */
-	mapping* control_map = (mapping*)calloc(5, sizeof(mapping));
+	mapping* control_map = (mapping*)calloc(6, sizeof(mapping));
 	if(control_map == NULL) error("Allocate control map");
 	control_map[0].key = SDLK_w;
 	control_map[0].negative = false;
@@ -260,9 +260,13 @@ int main(int argc, char** argv)
 	control_map[3].negative = true;
 	control_map[3].axis = "horizontal";
 
-	control_map[4].key = 0;
+	control_map[4].key = SDLK_SPACE;
 	control_map[4].negative = false;
-	control_map[4].axis = NULL;
+	control_map[4].axis = "shoot";
+
+	control_map[5].key = 0;
+	control_map[5].negative = false;
+	control_map[5].axis = NULL;
 
 	cpSpaceReindexStatic(spas);
 

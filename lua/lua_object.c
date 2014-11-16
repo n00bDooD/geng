@@ -114,12 +114,6 @@ static int lua_object_equals(lua_State* l)
 	return 1;
 }
 
-static int lua_object_gc(lua_State* l)
-{
-	object_ref* o = luaG_checkobject(l, 1);
-	return 0;
-}
-
 static int lua_object_tostring(lua_State *L)
 {
 	object_ref* o = luaG_checkobject(L, 1);
@@ -340,7 +334,6 @@ static const luaL_reg methods[] = {
 static const luaL_reg meta_methods[] = {
 	{"__tostring", lua_object_tostring},
 	{"__eq", lua_object_equals},
-	{"__gc", lua_object_gc},
 	{NULL, NULL}
 };
 
@@ -383,9 +376,9 @@ void run_update_method(object* o, lua_State* l, const char* bname, double time_s
 	lua_getglobal(l, bname);
 	luaG_pushobject(l, o);
 	lua_pushnumber(l, time_step);
-	int result = lua_pcall(l, 2, 0, 0);
+	int result = lua_pcall(l, 2, LUA_MULTRET, 0);
 	if(result != 0) {
-		const char* err = lua_tolstring(l, 1, NULL);
+		const char* err = lua_tolstring(l, -1, NULL);
 		if(err == NULL) err = "Lua error in update";
 		fprintf(stderr, "Error in update for behaviour '%s': %s\n", bname, err);
 	}

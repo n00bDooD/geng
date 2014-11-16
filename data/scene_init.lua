@@ -2,6 +2,7 @@ scene.load_prefab_file("data/prefabs.d/ball.prefab.lua")
 scene.load_prefab_file("data/prefabs.d/glass_block.prefab.lua")
 scene.load_prefab_file("data/prefabs.d/metal.prefab.lua")
 scene.load_prefab_file("data/prefabs.d/block.prefab.lua")
+scene.load_prefab_file("data/prefabs.d/coin.lua")
 
 scene.load_behaviour_file("data/behaviour.d/controllable.lua")
 scene.load_behaviour_file("data/behaviour.d/upfloat.lua")
