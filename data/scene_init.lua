@@ -4,6 +4,7 @@ scene.load_prefab_file("data/prefabs.d/metal.prefab.lua")
 scene.load_prefab_file("data/prefabs.d/block.prefab.lua")
 
 scene.load_behaviour_file("data/behaviour.d/controllable.lua")
+scene.load_behaviour_file("data/behaviour.d/upfloat.lua")
 
 local block = scene.spawn_prefab("block")
 block:set_pos(200, -200)
