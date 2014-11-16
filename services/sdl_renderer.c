@@ -31,6 +31,35 @@ spritehandle sdl_renderer_add_sprite(sdl_renderer* r, texhandle tex, int xoffset
 }
 
 
+void flip_tga_vertical(targa_file* tga)
+{
+	size_t data_len = tga_get_image_buffer_length(tga);
+	uint8_t* new_buf = (uint8_t*)malloc(data_len);
+	if(new_buf == NULL) fprintf(stderr, "%s\n", strerror(errno));
+	size_t memsize = 0;
+	switch(tga->head.depth) {
+		case 8:
+			memsize=1; break;
+		case 16:
+			memsize=2; break;
+		case 24:
+			memsize=3; break;
+		case 32:
+			memsize=4; break;
+		default:
+			fprintf(stderr, "Invalid depth in tga-header.");
+	}
+	memsize *= tga->head.width;
+	size_t curidx = memsize;
+	while(curidx < data_len){
+		memcpy(new_buf + curidx, tga->image_data + (data_len - (curidx+memsize)), memsize);
+		curidx += memsize;
+	}
+	memcpy(new_buf, tga->image_data + data_len - memsize, memsize);
+	free(tga->image_data);
+	tga->image_data = new_buf;
+}
+
 SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 {
 	int fd = open(filename, O_RDONLY);
@@ -38,6 +67,7 @@ SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 
 	targa_file* tga = tga_readfile(fd);
 	if (tga == NULL) fprintf(stderr, "%s\n", strerror(errno));
+	flip_tga_vertical(tga);
 
 	SDL_Texture* tex = SDL_CreateTexture(r->rend, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, tga->head.width, tga->head.height);
 	if(tex == NULL) sdl_error("Texture creation failed.");
@@ -87,7 +117,7 @@ void draw_objects(scene* sc)
 					 &dst,
 					 a,
 					 NULL,
-					 SDL_FLIP_VERTICAL);
+					 SDL_FLIP_NONE);
 		}
 	}
 }

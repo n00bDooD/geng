@@ -51,6 +51,11 @@ uint8_t depth2bytes ( uint8_t d )
 	return bpp;
 }
 
+size_t tga_get_image_buffer_length ( targa_file* f )
+{
+	return f->head.width * f->head.height * depth2bytes(f->head.depth);
+}
+
 targa_header* extract_targa_header ( void* file_buf )
 {
 	unsigned char* file_start = ( unsigned char* ) file_buf;
