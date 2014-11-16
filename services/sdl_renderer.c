@@ -101,7 +101,7 @@ void draw_objects(scene* sc)
 			if(s->tex == 0) continue;
 			SDL_Texture* t = r->textures[s->tex-1];
 
-			double a = get_object_angle(o);
+			double a = get_object_angle(o) * (180/M_PI);
 			double x = get_object_posx(o) + s->offset_x;
 			double y = get_object_posy(o) - s->offset_y;
 			SDL_Rect dst;
@@ -115,7 +115,7 @@ void draw_objects(scene* sc)
 					 t,
 					 NULL,
 					 &dst,
-					 a,
+					 -a,
 					 NULL,
 					 SDL_FLIP_NONE);
 		}
