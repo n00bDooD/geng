@@ -96,6 +96,13 @@ object_ref* luaG_pushobject(lua_State *L, object* obj)
 	return o;
 }
 
+static int lua_object_delete(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	delete_object(o->o->parent, o->o);
+	return 0;
+}
+
 static int lua_add_behaviour(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -328,6 +335,7 @@ static const luaL_reg methods[] = {
 	{"add_behaviour", lua_add_behaviour},
 	{"add_circle_collider", lua_object_add_circlecoll},
 	{"add_box_collider", lua_object_add_boxcoll},
+	{"delete", lua_object_delete},
 	{NULL, NULL}
 };
 

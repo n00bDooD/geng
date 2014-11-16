@@ -27,15 +27,16 @@ object* create_object(scene* s)
 
 void cpShape_deleter(cpBody* b, cpShape* s, void* d)
 {
+	cpSpaceRemoveShape(d, s);
 	cpShapeFree(s);
 }
 
 void free_physics(object* o)
 {
-	cpBodyEachShape(o->physics,
-			&cpShape_deleter, NULL);
-
 	scene* s = o->parent;
+	cpBodyEachShape(o->physics,
+			&cpShape_deleter, s->physics_data);
+
 	cpSpaceRemoveBody(s->physics_data, o->physics);
 	cpBodyFree(o->physics);
 }
