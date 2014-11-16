@@ -203,6 +203,14 @@ static int lua_object_angle(lua_State* l)
 	return 1;
 }
 
+static int lua_object_setangle(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	double a = luaL_checknumber(l, 2);
+	set_object_angle(o->o, a);
+	return 0;
+}
+
 static int lua_object_setsprite(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -308,6 +316,7 @@ static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
 	{"angle", lua_object_angle},
+	{"set_angle", lua_object_setangle},
 	{"set_sprite", lua_object_setsprite},
 	{"disable_physics", lua_object_set_static},
 	{"enable_physics", lua_object_set_physics},
