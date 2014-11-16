@@ -371,7 +371,7 @@ void run_update_method(object* o, lua_State* l, const char* bname, double time_s
 		default:
 			thing = "dunno"; break;
 	}
-	lua_getglobal(l, "update");
+	lua_getglobal(l, bname);
 	luaG_pushobject(l, o);
 	lua_pushnumber(l, time_step);
 	int result = lua_pcall(l, 2, 0, 0);
