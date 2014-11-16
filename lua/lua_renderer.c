@@ -55,9 +55,19 @@ static int lua_add_sprite(lua_State* l)
 	return 1;
 }
 
+static int lua_set_background(lua_State* l)
+{
+	sdl_renderer* r = get_renderer_registry(l);
+	texhandle tex = luaL_checkinteger(l, 1);
+
+	r->background = tex;
+	return 0;
+}
+
 static const luaL_Reg methods[] = {
 	{"add_texture", lua_add_texture},
 	{"add_sprite", lua_add_sprite},
+	{"set_background", lua_set_background},
 	{NULL, NULL}
 };
 

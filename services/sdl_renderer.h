@@ -16,6 +16,8 @@ typedef struct {
 	size_t num_sprites;
 	sprite* sprites;
 
+	texhandle background;
+
 	SDL_Renderer* rend;
 } sdl_renderer;
 
