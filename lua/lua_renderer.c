@@ -64,10 +64,39 @@ static int lua_set_background(lua_State* l)
 	return 0;
 }
 
+static int lua_set_texture_blendmode(lua_State* l)
+{
+	sdl_renderer* r = get_renderer_registry(l);
+	texhandle tex = luaL_checkinteger(l, 1);
+
+	SDL_BlendMode m = SDL_BLENDMODE_BLEND;
+	int mode = luaL_checkinteger(l, 2);
+	switch(mode) {
+		case 0:
+			m = SDL_BLENDMODE_NONE;
+			break;
+		case 1:
+			m = SDL_BLENDMODE_BLEND;
+			break;
+		case 2:
+			m = SDL_BLENDMODE_ADD;
+			break;
+		case 3:
+			m = SDL_BLENDMODE_MOD;
+			break;
+	}
+	int res = SDL_SetTextureBlendMode(r->textures[tex-1], m);
+	if(res != 0) {
+		luaL_error(l, SDL_GetError());
+	}
+	return 0;
+}
+
 static const luaL_Reg methods[] = {
 	{"add_texture", lua_add_texture},
 	{"add_sprite", lua_add_sprite},
 	{"set_background", lua_set_background},
+	{"set_blendmode", lua_set_texture_blendmode},
 	{NULL, NULL}
 };
 
