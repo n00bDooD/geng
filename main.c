@@ -128,8 +128,8 @@ int main(int argc, char** argv)
 	                    "Test",
 	                    0,
 	                    0,
-	                    400,
-	                    400,
+	                    1200,
+	                    800,
 	                    SDL_WINDOW_SHOWN);
 	if(w == NULL) {
 		sdl_error("SDL_CreateWindow");
