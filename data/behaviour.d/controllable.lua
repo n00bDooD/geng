@@ -13,7 +13,7 @@ function controllable(obj, current_time)
 
 	local shootinp = input.get('shoot') 
 	if shootinp ~= 0 and cooldown < 0 then
-		cooldown = cooldown + 100
+		cooldown = 100
 		local coin = scene.spawn_prefab('coin')
 		local objpos = obj:pos()
 		objpos:sety(objpos:y() + 35 + 40)
