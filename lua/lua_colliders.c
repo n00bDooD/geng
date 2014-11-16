@@ -125,6 +125,7 @@ collider* object_add_circle(object* o, double radius, cpVect offset)
 	c->type = CIRCLE;
 	c->shape = cpCircleShapeNew(o->physics, radius, offset);
 	cpSpaceAddShape(((scene*)o->parent)->physics_data, c->shape);
+	cpBodySetMoment(o->physics, cpMomentForCircle(cpBodyGetMass(o->physics), 0, radius, offset));
 	return c;
 }
 

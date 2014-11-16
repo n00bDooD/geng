@@ -9,6 +9,8 @@ scene.load_behaviour_file("data/behaviour.d/upfloat.lua")
 local block = scene.spawn_prefab("block")
 block:set_pos(200, -200)
 
+block:set_angle(1)
+
 local ball = scene.spawn_prefab("ball")
 ball:set_pos(200, -70)
 
