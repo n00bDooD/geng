@@ -24,6 +24,7 @@
 #include "lua/lua_scene.h"
 #include "lua/lua_vector.h"
 #include "lua/lua_renderer.h"
+#include "lua/lua_colliders.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -181,12 +182,13 @@ int main(int argc, char** argv)
 		luaL_openlibs(l3);
 		register_scene(l3, s);
 		register_object(l3);
+		register_vector(l3);
+		register_colliders(l3);
 		lua_pop(l3, 1);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
 		luaHandleResult(l3, res, "data/scene_init.lua");
 
 		register_input(l3, inpdat);
-		register_vector(l3);
 	}
 	//create_axis(inpdat, "horizontal", default_settings());
 	//create_axis(inpdat, "vertical", default_settings());

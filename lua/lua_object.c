@@ -11,6 +11,7 @@
 #include "../scene.h"
 
 #include "lua_vector.h"
+#include "lua_colliders.h"
 
 #define TYPE_NAME "object"
 
@@ -277,6 +278,32 @@ static int lua_object_apply_impulse(lua_State* l)
 	return 0;
 }
 
+static int lua_object_add_circlecoll(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	double radius = luaL_checknumber(l, 2);
+	const cpVect* offset = &cpvzero;
+	if(lua_gettop(l) > 2) {
+		offset = luaG_checkvect(l, 3);
+	}
+	collider* c = object_add_circle(o->o, radius, *offset);
+	collider* ret = luaG_pushcoll(l);
+	memcpy(ret, c, sizeof(collider));
+	return 1;
+}
+
+static int lua_object_add_boxcoll(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	double w = luaL_checknumber(l, 2);
+	double h = luaL_checknumber(l, 3);
+	collider* c = object_add_box(o->o, w, h);
+	collider* ret = luaG_pushcoll(l);
+	memcpy(ret, c, sizeof(collider));
+	return 1;
+}
+
+
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
@@ -296,6 +323,8 @@ static const luaL_reg methods[] = {
 	{"vel_limit", lua_object_vel_limit},
 	{"angular_vel_limit", lua_object_angvel_limit},
 	{"add_behaviour", lua_add_behaviour},
+	{"add_circle_collider", lua_object_add_circlecoll},
+	{"add_box_collider", lua_object_add_boxcoll},
 	{NULL, NULL}
 };
 

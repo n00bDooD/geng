@@ -56,7 +56,7 @@ static int lua_create_axis(lua_State* l)
 	double neg_max = luaL_checknumber(l, 5);
 	double pos_max = luaL_checknumber(l, 6);
 
-	char* name = (char*)malloc(namelen);
+	char* name = (char*)malloc(namelen+1);
 	if(name == NULL) {
 		luaL_error(l,
 		   "Axis creation failed: Cannot allocate memory for name");
