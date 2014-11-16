@@ -148,6 +148,7 @@ int main(int argc, char** argv)
 	s->render_data = sdlrend;
 
 	/* ## Set up physics ## */
+	cpEnableSegmentToSegmentCollisions();
 	cpSpace* spas = cpSpaceNew();
 	cpSpaceSetGravity(spas, cpv(0, -100));
 	s->physics_data = spas;
@@ -262,6 +263,8 @@ int main(int argc, char** argv)
 	control_map[4].key = 0;
 	control_map[4].negative = false;
 	control_map[4].axis = NULL;
+
+	cpSpaceReindexStatic(spas);
 
 	int loops = 0;
 	uint32_t next_game_tick = SDL_GetTicks();
