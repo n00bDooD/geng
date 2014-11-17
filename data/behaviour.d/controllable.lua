@@ -24,5 +24,3 @@ function controllable(obj, current_time)
 	end
 end
 
-coroutine.yield()
-

@@ -8,6 +8,8 @@ int register_input(lua_State*, inputaxis_data*);
 
 int register_config_input(lua_State*, inputaxis_data*);
 
+inputaxis_data* get_input_registry(lua_State*);
+
 inputaxis_data* luaG_checkinput(lua_State*, int);
 
 #endif /* LUAINPUT_H */

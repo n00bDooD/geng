@@ -10,11 +10,36 @@
 
 #include "../scene.h"
 
+#include "globlua.h"
+
 #include "lua_vector.h"
 #include "lua_colliders.h"
+#include "lua_scene.h"
+#include "lua_input.h"
 
 #define TYPE_NAME "object"
 
+struct cdata{
+	size_t len;
+	char* data;
+};
+
+int dumpwriter(lua_State* l, const void* p, size_t sz, void* ud)
+{
+	struct cdata* d = (struct cdata*)ud;
+	void* t = realloc(d->data, d->len + sz);
+	d->data = t;
+	memcpy(d->data + d->len, p, sz);
+	d->len += sz;
+	return 0;
+}
+
+const char* dumpreader(lua_State* l, void* data, size_t* sz)
+{
+	struct cdata* d = (struct cdata*)data;
+	*sz = d->len;
+	return d->data;
+}
 
 void add_behaviour(lua_State* l, object* o, const char* name)
 {
@@ -33,14 +58,17 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 
 	behaviour* n = (behaviour*)realloc(obj_threads,
 			(num_behaviours+1) * sizeof(behaviour));
-	if (n == NULL) luaL_error(l, "Memory allocation error.");
+	if (n == NULL) {
+		luaL_error(l, "Memory allocation error.");
+	}
 	o->tag = n; obj_threads = n;
 	obj_threads[num_behaviours].name = NULL;
 	obj_threads[num_behaviours].thread = NULL;
 
 	obj_threads[num_behaviours-1].name = strdup(name);
-	obj_threads[num_behaviours-1].thread = lua_newthread(l);
+	obj_threads[num_behaviours-1].thread = luaL_newstate();
 	lua_State* t = obj_threads[num_behaviours-1].thread;
+	luaG_register_all(t, get_scene_registry(l), get_input_registry(l));
 
 	luaL_ref(l, LUA_REGISTRYINDEX);
 
@@ -49,14 +77,25 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	strcat(key, "geng.behaviours.");
 	strcat(key, name);
 
-	lua_pushstring(t, key);
-	free(key);
-	lua_rawget(t, LUA_REGISTRYINDEX);
-	if(lua_isnil(t, -1)) {
+	lua_pushstring(l, key);
+	lua_rawget(l, LUA_REGISTRYINDEX);
+	if(lua_isnil(l, -1)) {
 		// Reset thread state
-		lua_pop(t, -1);
+		lua_pop(l, -1);
 		luaL_error(l, "Unknown behaviour.");
 	}
+	struct cdata dat = { 0, NULL };
+	int dumpres = lua_dump(l, dumpwriter, &dat);
+	if(dumpres != 0) {
+		luaL_error(l, "Dump failed");
+	}
+	int loadres = lua_load(t, dumpreader, &dat, key);
+	if(loadres != 0) {
+		luaL_error(l, "Load failed");
+	}
+	free(key);
+	free(dat.data);
+
 	int run_result = lua_resume(t, 0);
 	switch(run_result) {
 		case LUA_YIELD: {
@@ -107,7 +146,9 @@ static int lua_add_behaviour(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
 	const char* name = luaL_checklstring(l, 2, NULL);
-	if(name == NULL) luaL_error(l, "Valid behaviour name required");
+	if(name == NULL) {
+		luaL_error(l, "Valid behaviour name required");
+	}
 	add_behaviour(l, o->o, name);
 	return 0;
 }

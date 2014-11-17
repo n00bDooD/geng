@@ -185,11 +185,10 @@ int main(int argc, char** argv)
 		register_object(l3);
 		register_vector(l3);
 		register_colliders(l3);
-		lua_pop(l3, 1);
+		register_input(l3, inpdat);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
 		luaHandleResult(l3, res, "data/scene_init.lua");
 
-		register_input(l3, inpdat);
 	}
 	//create_axis(inpdat, "horizontal", default_settings());
 	//create_axis(inpdat, "vertical", default_settings());

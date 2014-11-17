@@ -8,5 +8,3 @@ function timeout(obj, current_time)
 	end
 end
 
-coroutine.yield()
-

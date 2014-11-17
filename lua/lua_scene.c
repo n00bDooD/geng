@@ -22,7 +22,9 @@ object* create_prefab(lua_State* l, scene* s, const char* name)
 	lua_pushstring(l, key);
 	free(key);
 	lua_rawget(l, LUA_REGISTRYINDEX);
-	if(lua_isnil(l, -1)) luaL_error(l, "Unknown prefab");
+	if(lua_isnil(l, -1)) {
+		luaL_error(l, "Unknown prefab");
+	}
 	int run_result = lua_pcall(l, 0, 1, 0);
 	switch(run_result) {
 		case 0: {
@@ -57,7 +59,9 @@ scene* get_scene_registry(lua_State* l)
 	lua_pushstring(l, REGISTRY_KEY);
 	lua_rawget(l, LUA_REGISTRYINDEX);
 	scene* ret = (scene*)lua_touserdata(l, -1);
-	if(ret == NULL) luaL_error(l, "No current scene");
+	if(ret == NULL) {
+		luaL_error(l, "No current scene");
+	}
 	return ret;
 }
 
@@ -72,9 +76,13 @@ void set_scene_registry(lua_State* l, scene* s)
 static int lua_load_prefab(lua_State* l)
 {
 	const char* filename = luaL_checklstring(l, 1, NULL);
-	if(filename == NULL) luaL_error(l, "Valid name to prefab file required.");
+	if(filename == NULL) {
+		luaL_error(l, "Valid name to prefab file required.");
+	}
 	char* tmp = strdup(filename);
-	if(tmp == NULL) luaL_error(l, "Memory allocation error");
+	if(tmp == NULL) {
+		luaL_error(l, "Memory allocation error");
+	}
 	char* prefabname = basename(tmp);
 	char* end = strchr(prefabname, '.');
 	if(end != NULL)
@@ -106,9 +114,13 @@ static int lua_load_prefab(lua_State* l)
 static int lua_load_behaviour(lua_State* l)
 {
 	const char* filename = luaL_checklstring(l, 1, NULL);
-	if(filename == NULL) luaL_error(l, "Valid name to behaviour file required.");
+	if(filename == NULL) {
+		luaL_error(l, "Valid name to behaviour file required.");
+	}
 	char* tmp = strdup(filename);
-	if(tmp == NULL) luaL_error(l, "Memory allocation error");
+	if(tmp == NULL) {
+		luaL_error(l, "Memory allocation error");
+	}
 	char* behavname = basename(tmp);
 	char* end = strchr(behavname, '.');
 	if(end != NULL)
@@ -150,12 +162,16 @@ static int lua_spawn_prefab(lua_State* l)
 	scene* s = get_scene_registry(l);
 	const char* name = luaL_checklstring(l, 1, NULL);
 
-	if(name == NULL) luaL_error(l, "Name required");
+	if(name == NULL) {
+		luaL_error(l, "Name required");
+	}
 
 	lua_State* newt = lua_newthread(l);
 	lua_pop(l, -1);
 	object* o = create_prefab(newt, s, name);
-	if(o == NULL) luaL_error(l, "Object NULL error");
+	if(o == NULL) {
+		luaL_error(l, "Object NULL error");
+	}
 	luaG_pushobject(l, o);
 	return 1;
 }

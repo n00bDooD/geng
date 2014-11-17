@@ -22,7 +22,9 @@ inputaxis_data* get_input_registry(lua_State* L)
 	lua_pushstring(L, REGISTRY_KEY);
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	inputaxis_data* ret = (inputaxis_data*)lua_touserdata(L, -1);
-	if(ret == NULL) luaL_error(L, "Could not find input data");
+	if(ret == NULL) {
+		luaL_error(L, "Could not find input data");
+	}
 	return ret;
 }
 
@@ -94,7 +96,7 @@ static const luaL_Reg methods[] = {
 };
 
 static const luaL_Reg private_methods[] = {
-		{"create", lua_create_axis},
+	{"create", lua_create_axis},
 	{NULL, NULL}
 };
 

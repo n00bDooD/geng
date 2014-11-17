@@ -20,7 +20,9 @@ sdl_renderer* get_renderer_registry(lua_State* l)
 	lua_pushstring(l, REGISTRY_KEY);
 	lua_rawget(l, LUA_REGISTRYINDEX);
 	sdl_renderer* ret = (sdl_renderer*)lua_touserdata(l, -1);
-	if(ret == NULL) luaL_error(l, "No current renderer");
+	if(ret == NULL) {
+		luaL_error(l, "No current renderer");
+	}
 	return ret;
 }
 
