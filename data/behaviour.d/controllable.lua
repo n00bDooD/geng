@@ -16,11 +16,11 @@ function controllable(obj, current_time)
 		cooldown = 20
 		local coin = scene.spawn_prefab('coin')
 		local objpos = obj:pos()
-		objpos:sety(objpos:y() + 35 + 40)
-		coin:set_pos(objpos)
+ 		local addang = vector.forangle(obj:angle() + (3.14/2))
+		coin:set_pos(objpos + (addang * 40))
 
 		local xvel = (math.random() - 0.5) * 30
-		coin:apply_impulse(vector.new(xvel, 15))
+		coin:apply_impulse(addang * 30)
 	end
 end
 
