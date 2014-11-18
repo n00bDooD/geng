@@ -33,7 +33,6 @@ object* create_prefab(lua_State* l, scene* s, const char* name)
 			// OK
 			object_ref* res = luaG_checkobject(l, -1);
 			if(res == NULL) return NULL;
-			fprintf(stderr, "Created prefab named '%s' OK\n", name);
 			return res->o;
 			}
 		case LUA_ERRERR:
