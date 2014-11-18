@@ -441,21 +441,6 @@ int register_object(lua_State *L)
 
 void run_update_method(object* o, lua_State* l, const char* bname, double time_step)
 {
-	char* thing = NULL;
-	switch(lua_status(l)) {
-		case 0:
-			thing = "ok"; break;
-		case LUA_YIELD:
-			thing = "yielded"; break;
-		case LUA_ERRMEM:
-			thing = "errmem"; break;
-		case LUA_ERRRUN:
-			thing = "errun"; break;
-		case LUA_ERRERR:
-			thing = "errerrerrerrr"; break;
-		default:
-			thing = "dunno"; break;
-	}
 	lua_getglobal(l, bname);
 	luaG_pushobject(l, o);
 	lua_pushnumber(l, time_step);

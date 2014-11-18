@@ -210,7 +210,7 @@ void step_scene(scene* s, double time_step)
 {
 	for(size_t i = 0; i < s->num_objects; ++i){
 		object* o = &(s->pool[i]);
-		if(o->flags & OBJ_ACTIVE != 0) {
+		if((o->flags & OBJ_ACTIVE) != 0) {
 			step_object(o, time_step);
 		}
 	}
