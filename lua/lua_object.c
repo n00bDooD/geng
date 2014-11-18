@@ -186,6 +186,7 @@ static int lua_add_behaviour(lua_State* l)
 	if(name == NULL) {
 		luaL_error(l, "Valid behaviour name required");
 	}
+	lua_remove(l, 1);
 	add_behaviour(l, o->o, name);
 	return 0;
 }
