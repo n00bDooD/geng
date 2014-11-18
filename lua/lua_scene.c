@@ -18,6 +18,7 @@
 object* create_prefab(lua_State* l, scene* s, const char* name)
 {
 	UNUSED(s);
+	int num_args = lua_gettop(l);
 
 	/* Get prefab table */
 	lua_pushstring(l, "geng.prefabs");
@@ -31,6 +32,18 @@ object* create_prefab(lua_State* l, scene* s, const char* name)
 	if(lua_isnil(l, -1)) {
 		luaL_error(l, "Unknown prefab");
 	}
+	if(num_args > 0) {
+		/* move function to space below args */
+		lua_insert(l, 1);
+		/* move the prefab-table to the lowest spot */
+		lua_insert(l, 1);
+	}
+	lua_createtable(l, num_args, 0);
+	lua_insert(l, 3);
+	for(int i = 0; i < num_args; ++i){
+		lua_rawseti(l, 3, num_args - i);
+	}
+	lua_setglobal(l, "prefab_args");
 	int run_result = lua_pcall(l, 0, 1, 0);
 	switch(run_result) {
 		case 0: {
@@ -67,6 +80,9 @@ scene* get_scene_registry(lua_State* l)
 	if(ret == NULL) {
 		luaL_error(l, "No current scene");
 	}
+
+	/* Restore stack */
+	lua_pop(l, 1);
 	return ret;
 }
 
@@ -180,6 +196,7 @@ static int lua_spawn_prefab(lua_State* l)
 	if(name == NULL) {
 		luaL_error(l, "Name required");
 	}
+	lua_remove(l, 1);
 
 	object* o = create_prefab(l, s, name);
 	if(o == NULL) {
