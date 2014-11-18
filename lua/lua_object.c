@@ -134,13 +134,11 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 
 	int run_result = lua_resume(t, 0);
 	switch(run_result) {
+		case 0:
 		case LUA_YIELD: {
 			// OK
 			return;
 			}
-		case 0:
-			fprintf(stderr, "Behaviour init did not yield!\n");
-			return;
 		case LUA_ERRRUN:
 		case LUA_ERRMEM:
 		case LUA_ERRERR:{
