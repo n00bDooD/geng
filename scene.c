@@ -1,5 +1,5 @@
 #include "scene.h"
-
+#include "global.h"
 
 object* get_first_unused(scene* s)
 {
@@ -27,6 +27,7 @@ object* create_object(scene* s)
 
 void cpShape_deleter(cpBody* b, cpShape* s, void* d)
 {
+	UNUSED(b);
 	cpSpaceRemoveShape(d, s);
 	cpShapeFree(s);
 }
@@ -43,6 +44,7 @@ void free_physics(object* o)
 
 void delete_object(scene* s, object* o)
 {
+	UNUSED(s);
 	free_physics(o);
 	bzero(o, sizeof(object));
 }

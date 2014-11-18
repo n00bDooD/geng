@@ -110,6 +110,9 @@ char** get_files_in_dir(const char* dir, const char* file_ending, size_t* count)
 
 int main(int argc, char** argv)
 {
+	UNUSED(argc);
+	UNUSED(argv);
+
 	size_t pool_size = 10000;
 	scene* s = (scene*)calloc(1, sizeof(scene));
 	s->pool = (object*)calloc(pool_size, sizeof(object));

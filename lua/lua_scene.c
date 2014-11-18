@@ -7,6 +7,8 @@
 #define TYPE_NAME "scene"
 #define REGISTRY_KEY "geng.scene"
 
+#include "../global.h"
+
 #include "../scene.h"
 #include "lua_object.h"
 
@@ -15,6 +17,8 @@
 
 object* create_prefab(lua_State* l, scene* s, const char* name)
 {
+	UNUSED(s);
+
 	/* Get prefab table */
 	lua_pushstring(l, "geng.prefabs");
 	lua_rawget(l, LUA_REGISTRYINDEX);

@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "../scene.h"
+#include "../global.h"
 
 #include "globlua.h"
 
@@ -26,6 +27,7 @@ struct cdata{
 
 int dumpwriter(lua_State* l, const void* p, size_t sz, void* ud)
 {
+	UNUSED(l);
 	struct cdata* d = (struct cdata*)ud;
 	void* t = realloc(d->data, d->len + sz);
 	d->data = t;
@@ -36,6 +38,7 @@ int dumpwriter(lua_State* l, const void* p, size_t sz, void* ud)
 
 const char* dumpreader(lua_State* l, void* data, size_t* sz)
 {
+	UNUSED(l);
 	struct cdata* d = (struct cdata*)data;
 	*sz = d->len;
 	return d->data;

@@ -3,6 +3,8 @@
 
 double do_nothing_input(void* data, const char* inp)
 {
+	UNUSED(data);
+	UNUSED(inp);
 	return 0;
 }
 
