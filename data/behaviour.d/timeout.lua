@@ -1,4 +1,4 @@
-local spawntime = 1
+local spawntime = 3
 
 function timeout(obj, current_time)
 	spawntime = spawntime - current_time
