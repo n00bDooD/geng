@@ -41,6 +41,34 @@ const char* dumpreader(lua_State* l, void* data, size_t* sz)
 	return d->data;
 }
 
+void dup_lua_table(lua_State* l1, lua_State* l2)
+{
+	size_t n = 0;
+	lua_newtable(l2);
+	lua_pushnil(l1);
+	while(lua_next(l1, -2) != 0) {
+		const char* key = lua_tolstring(l1, -2, NULL);
+		lua_pushstring(l2, key);
+
+		struct cdata dat = { 0, NULL };
+		int dumpres = lua_dump(l1, dumpwriter, &dat);
+		if(dumpres != 0) {
+			luaL_error(l1, "Dump failed");
+		}
+		int loadres = lua_load(l2, dumpreader, &dat, key);
+		if(loadres != 0) {
+			luaL_error(l1, "Load failed");
+		}
+		free(dat.data);
+
+		lua_pop(l1, 1);
+
+		lua_rawset(l2, -3);
+		n++;
+	}
+	lua_pop(l1, 1);
+}
+
 void add_behaviour(lua_State* l, object* o, const char* name)
 {
 	behaviour* obj_threads = (behaviour*)o->tag;
@@ -68,33 +96,41 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	obj_threads[num_behaviours-1].name = strdup(name);
 	obj_threads[num_behaviours-1].thread = luaL_newstate();
 	lua_State* t = obj_threads[num_behaviours-1].thread;
+	luaL_openlibs(t);
 	luaG_register_all(t, get_scene_registry(l), get_input_registry(l));
 
-	luaL_ref(l, LUA_REGISTRYINDEX);
-
-
-	char* key = (char*)calloc(256, sizeof(char));
-	strcat(key, "geng.behaviours.");
-	strcat(key, name);
-
-	lua_pushstring(l, key);
+	lua_pushstring(l, "geng.behaviours");
 	lua_rawget(l, LUA_REGISTRYINDEX);
 	if(lua_isnil(l, -1)) {
+		luaL_error(l, "No behaviour table");
+	}
+
+	lua_pushstring(t, "geng.behaviours");
+	dup_lua_table(l, t);
+	lua_rawset(t, LUA_REGISTRYINDEX);
+	lua_pop(l, -1);
+
+	lua_pushstring(l, "geng.prefabs");
+	lua_rawget(l, LUA_REGISTRYINDEX);
+	if(lua_isnil(l, -1)) {
+		luaL_error(l, "No prefab table");
+	}
+
+	lua_pushstring(t, "geng.prefabs");
+	dup_lua_table(l, t);
+	lua_rawset(t, LUA_REGISTRYINDEX);
+	lua_pop(l, -1);
+
+	lua_pushstring(t, "geng.behaviours");
+	lua_rawget(t, LUA_REGISTRYINDEX);
+
+	lua_pushstring(t, name);
+	lua_rawget(t, -2);
+	if(lua_isnil(t, -1)) {
 		// Reset thread state
-		lua_pop(l, -1);
+		lua_pop(t, 2);
 		luaL_error(l, "Unknown behaviour.");
 	}
-	struct cdata dat = { 0, NULL };
-	int dumpres = lua_dump(l, dumpwriter, &dat);
-	if(dumpres != 0) {
-		luaL_error(l, "Dump failed");
-	}
-	int loadres = lua_load(t, dumpreader, &dat, key);
-	if(loadres != 0) {
-		luaL_error(l, "Load failed");
-	}
-	free(key);
-	free(dat.data);
 
 	int run_result = lua_resume(t, 0);
 	switch(run_result) {

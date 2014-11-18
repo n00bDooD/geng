@@ -15,13 +15,15 @@
 
 object* create_prefab(lua_State* l, scene* s, const char* name)
 {
-	char* key = (char*)calloc(256, sizeof(char));
-	strcat(key, "geng.prefabs.");
-	strcat(key, name);
-
-	lua_pushstring(l, key);
-	free(key);
+	/* Get prefab table */
+	lua_pushstring(l, "geng.prefabs");
 	lua_rawget(l, LUA_REGISTRYINDEX);
+	if(lua_isnil(l, -1)) {
+		luaL_error(l, "Unknown prefab");
+	}
+
+	lua_pushstring(l, name);
+	lua_rawget(l, -2);
 	if(lua_isnil(l, -1)) {
 		luaL_error(l, "Unknown prefab");
 	}
@@ -88,16 +90,22 @@ static int lua_load_prefab(lua_State* l)
 	if(end != NULL)
 		*end = '\0';
 
-	char* key = (char*)calloc(256, sizeof(char));
-	strcat(key, "geng.prefabs.");
-	strcat(key, prefabname);
-	free(tmp);
+	/* Push prefab table on stack */
+	lua_pushstring(l, "geng.prefabs");
+	lua_rawget(l, LUA_REGISTRYINDEX);
+	if(lua_isnil(l, -1)) {
+		lua_newtable(l);
+	}
 
-	lua_pushstring(l, key);
-	free(key);
+	lua_pushstring(l, prefabname);
 	switch(luaL_loadfile(l, filename)) {
 		case 0:
-			// OK
+			/* OK. Set the key prefabname to the loaded string,
+			 * in the table at index -3 (prefab-table).
+			 * Then, save prefab table in registry. */
+			lua_rawset(l, -3);
+			lua_pushstring(l, "geng.prefabs");
+			lua_insert(l, -2);
 			lua_rawset(l, LUA_REGISTRYINDEX);
 			break;
 		case LUA_ERRSYNTAX:
@@ -126,16 +134,20 @@ static int lua_load_behaviour(lua_State* l)
 	if(end != NULL)
 		*end = '\0';
 
-	char* key = (char*)calloc(256, sizeof(char));
-	strcat(key, "geng.behaviours.");
-	strcat(key, behavname);
-	free(tmp);
+	lua_pushstring(l, "geng.behaviours");
+	lua_rawget(l, LUA_REGISTRYINDEX);
+	if(lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+	}
 
-	lua_pushstring(l, key);
-	free(key);
+	lua_pushstring(l, behavname);
 	switch(luaL_loadfile(l, filename)) {
 		case 0:
 			// OK
+			lua_rawset(l, -3);
+			lua_pushstring(l, "geng.behaviours");
+			lua_insert(l, -2);
 			lua_rawset(l, LUA_REGISTRYINDEX);
 			break;
 		case LUA_ERRSYNTAX:
@@ -166,9 +178,7 @@ static int lua_spawn_prefab(lua_State* l)
 		luaL_error(l, "Name required");
 	}
 
-	lua_State* newt = lua_newthread(l);
-	lua_pop(l, -1);
-	object* o = create_prefab(newt, s, name);
+	object* o = create_prefab(l, s, name);
 	if(o == NULL) {
 		luaL_error(l, "Object NULL error");
 	}
