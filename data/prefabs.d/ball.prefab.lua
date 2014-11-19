@@ -1,5 +1,3 @@
-io.write(prefab_args[1] .. '\n')
-
 local o = scene.newobject();
 o:set_sprite(1);
 o:enable_physics(0.7, 1);
