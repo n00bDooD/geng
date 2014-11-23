@@ -18,59 +18,10 @@
 #include "lua_scene.h"
 #include "lua_input.h"
 
+// lua tools
+#include "lua_copy.h"
+
 #define TYPE_NAME "object"
-
-struct cdata{
-	size_t len;
-	char* data;
-};
-
-int dumpwriter(lua_State* l, const void* p, size_t sz, void* ud)
-{
-	UNUSED(l);
-	struct cdata* d = (struct cdata*)ud;
-	void* t = realloc(d->data, d->len + sz);
-	d->data = t;
-	memcpy(d->data + d->len, p, sz);
-	d->len += sz;
-	return 0;
-}
-
-const char* dumpreader(lua_State* l, void* data, size_t* sz)
-{
-	UNUSED(l);
-	struct cdata* d = (struct cdata*)data;
-	*sz = d->len;
-	return d->data;
-}
-
-void dup_lua_table(lua_State* l1, lua_State* l2)
-{
-	size_t n = 0;
-	lua_newtable(l2);
-	lua_pushnil(l1);
-	while(lua_next(l1, -2) != 0) {
-		const char* key = lua_tolstring(l1, -2, NULL);
-		lua_pushstring(l2, key);
-
-		struct cdata dat = { 0, NULL };
-		int dumpres = lua_dump(l1, dumpwriter, &dat);
-		if(dumpres != 0) {
-			luaL_error(l1, "Dump failed");
-		}
-		int loadres = lua_load(l2, dumpreader, &dat, key);
-		if(loadres != 0) {
-			luaL_error(l1, "Load failed");
-		}
-		free(dat.data);
-
-		lua_pop(l1, 1);
-
-		lua_rawset(l2, -3);
-		n++;
-	}
-	lua_pop(l1, 1);
-}
 
 void add_behaviour(lua_State* l, object* o, const char* name)
 {
@@ -109,7 +60,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	}
 
 	lua_pushstring(t, "geng.behaviours");
-	dup_lua_table(l, t);
+	luaExt_copy(l, t);
 	lua_rawset(t, LUA_REGISTRYINDEX);
 	lua_pop(l, -1);
 
@@ -120,7 +71,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	}
 
 	lua_pushstring(t, "geng.prefabs");
-	dup_lua_table(l, t);
+	luaExt_copy(l, t);
 	lua_rawset(t, LUA_REGISTRYINDEX);
 	lua_pop(l, -1);
 
