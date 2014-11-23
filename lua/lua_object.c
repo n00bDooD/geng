@@ -86,7 +86,15 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 		luaL_error(l, "Unknown behaviour.");
 	}
 
-	int run_result = lua_resume(t, 0);
+	// Argument copying
+	size_t num_args = lua_gettop(l);
+	for(size_t argi = 1; argi <= num_args; argi++) {
+		luaExt_copy(l, t);
+		// Move recently copied arg to just above the function
+		lua_insert(t, 2);
+	}
+
+	int run_result = lua_pcall(t, num_args, 0, 0);
 	switch(run_result) {
 		case 0:
 		case LUA_YIELD: {
