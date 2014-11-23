@@ -5,6 +5,8 @@
 #include "lua_renderer.h"
 #include "lua_scene.h"
 #include "lua_vector.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i)
 {
@@ -18,4 +20,13 @@ void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i)
 	lua_pop(s, 1);
 	register_scene(s, se);
 	lua_pop(s, 1);
+}
+
+void dbg_printstack(lua_State* l)
+{
+	size_t sz = lua_gettop(l);
+	for(size_t i = sz; i > 0; --i) {
+		const char* t = lua_typename(l, lua_type(l, i));
+		fprintf(stderr, "%i:[%s]\n", (int)i, t);
+	}
 }

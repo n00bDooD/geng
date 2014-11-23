@@ -62,7 +62,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	lua_pushstring(t, "geng.behaviours");
 	luaExt_copy(l, t);
 	lua_rawset(t, LUA_REGISTRYINDEX);
-	lua_pop(l, -1);
+	lua_pop(l, 1);
 
 	lua_pushstring(l, "geng.prefabs");
 	lua_rawget(l, LUA_REGISTRYINDEX);
@@ -73,7 +73,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	lua_pushstring(t, "geng.prefabs");
 	luaExt_copy(l, t);
 	lua_rawset(t, LUA_REGISTRYINDEX);
-	lua_pop(l, -1);
+	lua_pop(l, 1);
 
 	lua_pushstring(t, "geng.behaviours");
 	lua_rawget(t, LUA_REGISTRYINDEX);
@@ -88,13 +88,15 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 
 	// Argument copying
 	size_t num_args = lua_gettop(l);
-	for(size_t argi = 1; argi <= num_args; argi++) {
+	lua_createtable(t, num_args, 0);
+	for(size_t argi = num_args; argi > 0; argi--) {
 		luaExt_copy(l, t);
-		// Move recently copied arg to just above the function
-		lua_insert(t, 2);
+		lua_pop(l, 1);
+		lua_rawseti(t, -2, argi);
 	}
+	lua_setglobal(t, "args");
 
-	int run_result = lua_pcall(t, num_args, 0, 0);
+	int run_result = lua_pcall(t, 0, 0, 0);
 	switch(run_result) {
 		case 0:
 		case LUA_YIELD: {
@@ -141,12 +143,14 @@ static int lua_object_delete(lua_State* l)
 static int lua_add_behaviour(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
-	const char* name = luaL_checklstring(l, 2, NULL);
+	char* name = strdup(luaL_checklstring(l, 2, NULL));
 	if(name == NULL) {
 		luaL_error(l, "Valid behaviour name required");
 	}
 	lua_remove(l, 1);
+	lua_remove(l, 1);
 	add_behaviour(l, o->o, name);
+	free(name);
 	return 0;
 }
 

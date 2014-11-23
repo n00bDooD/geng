@@ -14,7 +14,7 @@ function controllable(obj, current_time)
 	local shootinp = input.get('shoot') 
 	if shootinp ~= 0 and cooldown < 0 then
 		cooldown = 20
-		local coin = scene.spawn_prefab('coin')
+		local coin = scene.spawn_prefab('coin', 3)
 		local objpos = obj:pos()
  		local addang = vector.forangle(obj:angle() + (3.14/2))
 		coin:set_pos(objpos + (addang * 40))
