@@ -16,7 +16,7 @@ void try_call_func(lua_State* l, cpArbiter* arb, const char* fname)
 	if(lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 	} else {
-		collision_pair* cp = luaG_pushcollpair(l);
+		luaG_pushcollpair(l, arb);
 		int res = lua_pcall(l, 1, 0, 0);
 		if (res != 0) {
 			// TODO: Do sensible stuff here

@@ -26,6 +26,7 @@
 #include "lua/lua_renderer.h"
 #include "lua/lua_colliders.h"
 #include "lua/lua_collision.h"
+#include "lua/lua_collisionpair.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -193,6 +194,7 @@ int main(int argc, char** argv)
 		register_object(l3);
 		register_vector(l3);
 		register_colliders(l3);
+		register_collpair(l3);
 		register_input(l3, inpdat);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
 		luaHandleResult(l3, res, "data/scene_init.lua");

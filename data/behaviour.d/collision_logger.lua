@@ -1,5 +1,14 @@
+function get_with(o)
+	return 'elasticity=' ..
+	o:get_elasticity() ..
+	', friction=' ..
+	o:get_friction() ..
+	', surface_velocity=' ..
+	tostring(o:get_surfvel())
+end
+
 function collision_begin(obj) 
-	io.write('The object has impacted something\n')
+	io.write('The object has impacted something with ' .. get_with(obj) .. '\n')
 end
 
 function collision_preSolve(obj) 
@@ -11,6 +20,6 @@ function collision_postSolve(obj)
 end
 
 function collision_separate(obj) 
-	io.write('The object has stopped touching something\n')
+	io.write('The object has stopped touching something with ' .. get_with(obj) .. '\n')
 end
 

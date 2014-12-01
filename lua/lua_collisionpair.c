@@ -3,6 +3,10 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
+#include <chipmunk/chipmunk.h>
+
+#include "lua_vector.h"
+
 #define TYPE_NAME "collpair"
 
 collision_pair* luaG_checkcollpair(lua_State* L, int index)
@@ -15,16 +19,42 @@ collision_pair* luaG_checkcollpair(lua_State* L, int index)
 }
 
 
-collision_pair* luaG_pushcollpair(lua_State* l)
+collision_pair* luaG_pushcollpair(lua_State* l, void* data)
 {
 	collision_pair* c = (collision_pair*)lua_newuserdata(l,
 			sizeof(collision_pair));
 	luaL_getmetatable(l, TYPE_NAME);
 	lua_setmetatable(l, -2);
+	c->data = data;
 	return c;
 }
 
+static int lua_collpair_get_elasticity(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	lua_pushnumber(l, cpArbiterGetElasticity(p->data));
+	return 1;
+}
+
+static int lua_collpair_get_friction(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	lua_pushnumber(l, cpArbiterGetFriction(p->data));
+	return 1;
+}
+
+static int lua_collpair_get_surfvel(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	cpVect* v = luaG_pushvect(l);
+	*v = cpArbiterGetSurfaceVelocity(p->data);
+	return 1;
+}
+
 static const luaL_reg methods [] = {
+	{"get_elasticity", lua_collpair_get_elasticity},
+	{"get_friction", lua_collpair_get_friction},
+	{"get_surfvel", lua_collpair_get_surfvel},
 	{NULL, NULL}
 };
 
