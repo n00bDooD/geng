@@ -34,6 +34,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 				luaL_error(l, "Object already has this behaviour");
 			}
 		}
+		num_behaviours++;
 	} else {
 		num_behaviours = 1;
 	}
