@@ -25,6 +25,7 @@
 #include "lua/lua_vector.h"
 #include "lua/lua_renderer.h"
 #include "lua/lua_colliders.h"
+#include "lua/lua_collision.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -158,6 +159,7 @@ int main(int argc, char** argv)
 	cpSpace* spas = cpSpaceNew();
 	cpSpaceSetGravity(spas, cpv(0, -98.1 * 4));
 	s->physics_data = spas;
+	setup_collision(s);
 
 	/* ## Set up input ## */
 	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));

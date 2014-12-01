@@ -28,7 +28,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	behaviour* obj_threads = (behaviour*)o->tag;
 	size_t num_behaviours = 0;
 	if(obj_threads != NULL) {
-		while(obj_threads[num_behaviours++].name != NULL) {
+		while(obj_threads[num_behaviours].name != NULL) {
 			const char* behn = obj_threads[num_behaviours++].name;
 			if(name != NULL && strcmp(behn, name) == 0) {
 				luaL_error(l, "Object already has this behaviour");
@@ -430,3 +430,4 @@ void step_object(object* o, double time_step)
 		run_update_method(o, t, bs[i-1].name, time_step);
 	}
 }
+

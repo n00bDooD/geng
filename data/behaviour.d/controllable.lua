@@ -24,3 +24,6 @@ function scene_update(obj, current_time)
 	end
 end
 
+function collision_begin(obj) 
+	io.write('The ball has impacted something\n')
+end
