@@ -409,6 +409,10 @@ int register_object(lua_State *L)
 void run_update_method(object* o, lua_State* l, const char* bname, double time_step)
 {
 	lua_getglobal(l, "scene_update");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		return;
+	}
 	luaG_pushobject(l, o);
 	lua_pushnumber(l, time_step);
 	int result = lua_pcall(l, 2, LUA_MULTRET, 0);
