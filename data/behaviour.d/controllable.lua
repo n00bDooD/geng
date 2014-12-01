@@ -24,19 +24,3 @@ function scene_update(obj, current_time)
 	end
 end
 
-function collision_begin(obj) 
-	io.write('The ball has impacted something\n')
-end
-
-function collision_preSolve(obj) 
-	--io.write('The ball is in preSolve state\n')
-end
-
-function collision_postSolve(obj) 
-	--io.write('The ball is in postSolve state\n')
-end
-
-function collision_separate(obj) 
-	io.write('The ball has stopped touching something\n')
-end
-
