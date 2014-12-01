@@ -46,6 +46,7 @@ do{ \
 
 int collision_begin(cpArbiter* arb, cpSpace* space, void* data)
 {
+	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
 	CALL_EACH(be1, arb, "collision_begin");
@@ -55,18 +56,30 @@ int collision_begin(cpArbiter* arb, cpSpace* space, void* data)
 
 int collision_preSolve(cpArbiter* arb, cpSpace* space, void* data)
 {
-	UNUSED(arb); UNUSED(space); UNUSED(data);
+	UNUSED(data); UNUSED(space);
+	GET_BEHAVLISTS(arb, be1, be2);
+
+	CALL_EACH(be1, arb, "collision_preSolve");
+	CALL_EACH(be2, arb, "collision_preSolve");
 	return true;
 }
 
 void collision_postSolve(cpArbiter* arb, cpSpace* space, void* data)
 {
-	UNUSED(arb); UNUSED(space); UNUSED(data);
+	UNUSED(data); UNUSED(space);
+	GET_BEHAVLISTS(arb, be1, be2);
+
+	CALL_EACH(be1, arb, "collision_postSolve");
+	CALL_EACH(be2, arb, "collision_postSolve");
 }
 
 void collision_separate(cpArbiter* arb, cpSpace* space, void* data)
 {
-	UNUSED(arb); UNUSED(space); UNUSED(data);
+	UNUSED(data); UNUSED(space);
+	GET_BEHAVLISTS(arb, be1, be2);
+
+	CALL_EACH(be1, arb, "collision_separate");
+	CALL_EACH(be2, arb, "collision_separate");
 }
 
 void setup_collision(scene* s)
