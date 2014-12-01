@@ -17,3 +17,5 @@ renderer.set_background(tex_handle)
 tex_handle = renderer.add_texture("kenney/tga/Other/coinGold.tga")
 renderer.add_sprite(tex_handle, -35, -35)
 
+renderer.set_cam_scale(2)
+renderer.set_cam_pos(3,-80)

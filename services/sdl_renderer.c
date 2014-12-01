@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "tga.h"
+#include <stdio.h>
 
 texhandle sdl_renderer_add_texture(sdl_renderer* r, SDL_Texture* tex)
 {
@@ -102,14 +103,18 @@ void draw_objects(scene* sc)
 			SDL_Texture* t = r->textures[s->tex-1];
 
 			double a = get_object_angle(o) * (180/M_PI);
-			double x = get_object_posx(o) + s->offset_x;
-			double y = get_object_posy(o) - s->offset_y;
+			double x = get_object_posx(o) * r->cam.scale;
+			double y = get_object_posy(o) * r->cam.scale;
 			SDL_Rect dst;
-			dst.x = floor(x);
-			dst.y = floor(-y);
+			dst.x = floor(x + r->cam.x);
+			dst.y = floor(-y + r->cam.y);
 			if(SDL_QueryTexture(t, NULL, NULL, &dst.w, &dst.h) < 0){
 				//sdl_error("SDL_QueryTexture");
 			}
+			dst.w *= r->cam.scale;
+			dst.h *= r->cam.scale;
+			dst.x += s->offset_x * r->cam.scale;
+			dst.y -= s->offset_y * r->cam.scale;
 
 			SDL_RenderCopyEx(r->rend,
 					 t,

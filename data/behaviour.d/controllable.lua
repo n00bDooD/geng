@@ -1,5 +1,5 @@
-local xacc = 2
-local yacc = 2
+local xacc = 0.5
+local yacc = 0.5
 
 local cooldown = 0
 

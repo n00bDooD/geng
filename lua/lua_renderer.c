@@ -94,11 +94,29 @@ static int lua_set_texture_blendmode(lua_State* l)
 	return 0;
 }
 
+static int lua_set_scale(lua_State* l)
+{
+	sdl_renderer* r = get_renderer_registry(l);
+	r->cam.scale = luaL_checknumber(l, 1);
+
+	return 0;
+}
+
+static int lua_set_pos(lua_State* l)
+{
+	sdl_renderer* r = get_renderer_registry(l);
+	r->cam.x = luaL_checknumber(l, 1);
+	r->cam.y = luaL_checknumber(l, 2);
+	return 0;
+}
+
 static const luaL_Reg methods[] = {
 	{"add_texture", lua_add_texture},
 	{"add_sprite", lua_add_sprite},
 	{"set_background", lua_set_background},
 	{"set_blendmode", lua_set_texture_blendmode},
+	{"set_cam_scale", lua_set_scale},
+	{"set_cam_pos", lua_set_pos},
 	{NULL, NULL}
 };
 

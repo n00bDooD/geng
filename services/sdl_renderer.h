@@ -10,6 +10,12 @@ typedef struct {
 } sprite;
 
 typedef struct {
+	double x;
+	double y;
+	double scale;
+} sdl_renderer_camera;
+
+typedef struct {
 	size_t num_textures;
 	SDL_Texture** textures;
 
@@ -19,6 +25,7 @@ typedef struct {
 	texhandle background;
 
 	SDL_Renderer* rend;
+	sdl_renderer_camera cam;
 } sdl_renderer;
 
 void draw_objects(scene*);

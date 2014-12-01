@@ -148,12 +148,15 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	sdlrend->rend = r;
+	sdlrend->cam.scale = 1;
+	sdlrend->cam.x = 0;
+	sdlrend->cam.y = 0;
 	s->render_data = sdlrend;
 
 	/* ## Set up physics ## */
 	cpEnableSegmentToSegmentCollisions();
 	cpSpace* spas = cpSpaceNew();
-	cpSpaceSetGravity(spas, cpv(0, -100));
+	cpSpaceSetGravity(spas, cpv(0, -98.1 * 4));
 	s->physics_data = spas;
 
 	/* ## Set up input ## */
