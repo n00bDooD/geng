@@ -3,7 +3,7 @@ local yacc = 0.5
 
 local cooldown = 0
 
-function controllable(obj, current_time)
+function scene_update(obj, current_time)
 	local horinp = input.get('horizontal') * xacc
 	local vertinp = input.get('vertical') * yacc
 
