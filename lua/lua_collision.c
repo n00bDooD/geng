@@ -9,28 +9,29 @@
 #include "../scene.h"
 
 #include <chipmunk/chipmunk.h>
-
-void try_call_func(lua_State* l, cpArbiter* arb, const char* fname)
+void try_call_func(lua_State* l, cpArbiter* arb, const char* fname, phys_callback current)
 {
 	lua_getglobal(l, fname);
 	if(lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 	} else {
-		luaG_pushcollpair(l, arb);
+		collision_pair* cp = luaG_pushcollpair(l, arb);
+		cp->current = current;
 		int res = lua_pcall(l, 1, 0, 0);
-		if (res != 0) {
-			// TODO: Do sensible stuff here
-			fprintf(stderr, "Collision handler error \n");
+		if(res != 0) {
+			const char* err = lua_tolstring(l, -1, NULL);
+			if(err == NULL) err = "Lua error in handler";
+			fprintf(stderr, "Error in collision handler: %s\n", err);
 		}
 	}
 }
 
-#define CALL_EACH(b, a, f) \
+#define CALL_EACH(b, a, f, c) \
 do { \
 	if(b != NULL) {\
 		size_t idx = 0; \
 		while(b[idx].name != NULL) { \
-			try_call_func(b[idx++].thread, a, f);\
+			try_call_func(b[idx++].thread, a, f, c);\
 		} \
 	} \
 } while(0);
@@ -49,8 +50,8 @@ int collision_begin(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_begin");
-	CALL_EACH(be2, arb, "collision_begin");
+	CALL_EACH(be1, arb, "collision_begin", COLL_BEGIN);
+	CALL_EACH(be2, arb, "collision_begin", COLL_BEGIN);
 	return true;
 }
 
@@ -59,8 +60,8 @@ int collision_preSolve(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_preSolve");
-	CALL_EACH(be2, arb, "collision_preSolve");
+	CALL_EACH(be1, arb, "collision_preSolve", COLL_PRESOLVE);
+	CALL_EACH(be2, arb, "collision_preSolve", COLL_PRESOLVE);
 	return true;
 }
 
@@ -69,8 +70,8 @@ void collision_postSolve(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_postSolve");
-	CALL_EACH(be2, arb, "collision_postSolve");
+	CALL_EACH(be1, arb, "collision_postSolve", COLL_POSTSOLVE);
+	CALL_EACH(be2, arb, "collision_postSolve", COLL_POSTSOLVE);
 }
 
 void collision_separate(cpArbiter* arb, cpSpace* space, void* data)
@@ -78,8 +79,8 @@ void collision_separate(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_separate");
-	CALL_EACH(be2, arb, "collision_separate");
+	CALL_EACH(be1, arb, "collision_separate", COLL_SEP);
+	CALL_EACH(be2, arb, "collision_separate", COLL_SEP);
 }
 
 void setup_collision(scene* s)

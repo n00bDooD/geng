@@ -2,8 +2,16 @@
 #define LUA_COLLISIONPAIR_H
 #include <lua.h>
 
+typedef enum {
+	COLL_BEGIN,
+	COLL_PRESOLVE,
+	COLL_POSTSOLVE,
+	COLL_SEP
+} phys_callback;
+
 typedef struct {
 	void* data;
+	phys_callback current;
 } collision_pair;
 
 

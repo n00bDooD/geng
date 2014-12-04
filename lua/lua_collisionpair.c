@@ -36,10 +36,32 @@ static int lua_collpair_get_elasticity(lua_State* l)
 	return 1;
 }
 
+static int lua_collpair_set_elasticity(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	if (p->current != COLL_PRESOLVE) {
+		luaL_error(l, "Setting elasticity outside of a preSolve \
+				callback will not have an effect");
+	}
+	cpArbiterSetElasticity(p->data, luaL_checknumber(l, 2));
+	return 1;
+}
+
 static int lua_collpair_get_friction(lua_State* l)
 {
 	collision_pair* p = luaG_checkcollpair(l, 1);
 	lua_pushnumber(l, cpArbiterGetFriction(p->data));
+	return 1;
+}
+
+static int lua_collpair_set_friction(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	if (p->current != COLL_PRESOLVE) {
+		luaL_error(l, "Setting friction outside of a preSolve \
+				callback will not have an effect");
+	}
+	cpArbiterSetFriction(p->data, luaL_checknumber(l, 2));
 	return 1;
 }
 
@@ -51,10 +73,54 @@ static int lua_collpair_get_surfvel(lua_State* l)
 	return 1;
 }
 
+static int lua_collpair_set_surfvel(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	if (p->current != COLL_PRESOLVE) {
+		luaL_error(l, "Setting surface velocity outside of a preSolve \
+				callback will not have an effect");
+	}
+	cpVect* v = luaG_checkvect(l, 2);
+	cpArbiterSetSurfaceVelocity(p->data, *v);
+	return 1;
+}
+
+static int lua_collpair_get_impulse_f(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	cpVect* v = luaG_pushvect(l);
+	*v = cpArbiterTotalImpulseWithFriction(p->data);
+	return 1;
+}
+
+static int lua_collpair_get_impulse(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	cpVect* v = luaG_pushvect(l);
+	*v = cpArbiterTotalImpulse(p->data);
+	return 1;
+}
+
+static int lua_collpair_get_ke(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	if(p->current != COLL_POSTSOLVE) {
+		luaL_error(l, "Can only be called from a postStep callback");
+	}
+	lua_pushnumber(l, cpArbiterTotalKE(p->data));
+	return 1;
+}
+
 static const luaL_reg methods [] = {
 	{"get_elasticity", lua_collpair_get_elasticity},
 	{"get_friction", lua_collpair_get_friction},
 	{"get_surfvel", lua_collpair_get_surfvel},
+	{"set_elasticity", lua_collpair_set_elasticity},
+	{"set_friction", lua_collpair_set_friction},
+	{"set_surfvel", lua_collpair_set_surfvel},
+	{"get_impulse", lua_collpair_get_impulse_f},
+	{"get_impulse_without_friction", lua_collpair_get_impulse},
+	{"get_ke", lua_collpair_get_ke},
 	{NULL, NULL}
 };
 

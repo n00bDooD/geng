@@ -8,7 +8,7 @@ function get_with(o)
 end
 
 function collision_begin(obj) 
-	io.write('The object has impacted something with ' .. get_with(obj) .. '\n')
+	--io.write('The object has impacted something with ' .. get_with(obj) .. '\n')
 end
 
 function collision_preSolve(obj) 
@@ -17,9 +17,10 @@ end
 
 function collision_postSolve(obj) 
 	--io.write('The object is in postSolve state\n')
+	io.write('Impact with energy ' .. obj:get_ke() .. '\n')
 end
 
 function collision_separate(obj) 
-	io.write('The object has stopped touching something with ' .. get_with(obj) .. '\n')
+	--io.write('The object has stopped touching something with ' .. get_with(obj) .. '\n')
 end
 
