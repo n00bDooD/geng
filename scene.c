@@ -38,7 +38,9 @@ void free_physics(object* o)
 	cpBodyEachShape(o->physics,
 			&cpShape_deleter, s->physics_data);
 
-	cpSpaceRemoveBody(s->physics_data, o->physics);
+	if(!cpBodyIsStatic(o->physics)) {
+		cpSpaceRemoveBody(s->physics_data, o->physics);
+	}
 	cpBodyFree(o->physics);
 }
 
