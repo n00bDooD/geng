@@ -45,16 +45,41 @@ void bbqueryfunc(cpShape* sh, void* data)
 static int lua_query_aabb(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
-	
-	cpBB foo = {.l=1, .b=2, .r=3, .t=4};
-	luaL_checktype(l, 1, LUA_TFUNCTION);
-	cpSpaceBBQuery(s->physics_data, foo, 0, 0, bbqueryfunc, l);
+	cpBB* box = luaG_checkbox(l, 1);
+
+	luaL_checktype(l, 2, LUA_TFUNCTION);
+	// Func has to be at the top of the stack
+	lua_settop(l, 2);
+	cpSpaceBBQuery(s->physics_data, *box, 0, 0, bbqueryfunc, l);
+	return 0;
+}
+
+void segmentqueryfunc(cpShape* sh, cpFloat t, cpVect n, void* data)
+{
+	lua_State* l = (lua_State*)data;
+	lua_pushvalue(l, -1);
+	collider* c = luaG_pushcoll(l);
+	c->shape = sh;
+	lua_pushnumber(l, t);
+	cpVect* v = luaG_pushvect(l);
+	*v = n;
+	lua_pcall(l, 3, 0, 0);
+}
+
+static int lua_query_segment(lua_State* l)
+{
+	scene* s = get_scene_registry(l);
+	cpVect* start = luaG_checkvect(l, 1);
+	cpVect* end = luaG_checkvect(l, 2);
+
+	cpSpaceSegmentQuery(s->physics_data, *start, *end, 0, 0, segmentqueryfunc, l);
 	return 0;
 }
 
 static const luaL_Reg methods[] = {
 	{"nearest", lua_query_nearest},
 	{"box", lua_query_aabb},
+	{"segment", lua_query_segment},
 	{NULL, NULL}
 };
 
