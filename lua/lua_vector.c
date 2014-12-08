@@ -1,4 +1,5 @@
 #include "lua_vector.h"
+#include "lua_box.h"
 
 #include <lua.h>
 #include <lualib.h>
@@ -292,6 +293,26 @@ static int lua_vect_unrotate(lua_State* l)
 	return 1;
 }
 
+static int lua_vect_clamp2box(lua_State* l)
+{
+	cpVect* v = luaG_checkvect(l, 1);
+	cpBB* b = luaG_checkbox(l, 2);
+
+	cpVect* v2 = luaG_pushvect(l);
+	*v2 = cpBBClampVect(*b, *v);
+	return 1;
+}
+
+static int lua_vect_wrap2box(lua_State* l)
+{
+	cpVect* v = luaG_checkvect(l, 1);
+	cpBB* b = luaG_checkbox(l, 2);
+
+	cpVect* v2 = luaG_pushvect(l);
+	*v2 = cpBBWrapVect(*b, *v);
+	return 1;
+}
+
 static int lua_vect_tostring(lua_State* l)
 {
 	cpVect* v = luaG_checkvect(l, 1);
@@ -342,6 +363,9 @@ static const luaL_reg methods[] = {
 
 	{"forangle", lua_vect_forangle},
 	{"toangle", lua_vect_toangle},
+
+	{"bclamp", lua_vect_clamp2box},
+	{"bwrap", lua_vect_wrap2box},
 
 	{"tostring", lua_vect_tostring},
 	{NULL, NULL}
