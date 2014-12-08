@@ -6,6 +6,7 @@
 #include "lua_collisionpair.h"
 #include "lua_scene.h"
 #include "lua_vector.h"
+#include "lua_physics.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -22,6 +23,8 @@ void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i)
 	register_scene(s, se);
 	lua_pop(s, 1);
 	register_collpair(s);
+	lua_pop(s, 1);
+	register_physics(s);
 	lua_pop(s, 1);
 }
 
