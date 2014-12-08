@@ -120,7 +120,7 @@ void draw_objects(scene* sc)
 					 t,
 					 NULL,
 					 &dst,
-					 -a,
+					 -round(a),
 					 NULL,
 					 SDL_FLIP_NONE);
 		}
