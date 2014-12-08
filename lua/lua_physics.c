@@ -17,7 +17,13 @@ static int lua_query_nearest(lua_State* l)
 	scene* s = get_scene_registry(l);
 
 	cpNearestPointQueryInfo qi;
-	cpSpaceNearestPointQueryNearest(s->physics_data, *luaG_checkvect(l, 1), luaL_checknumber(l, 2), 0, 0, &qi);
+	cpSpaceNearestPointQueryNearest(
+			s->physics_data,
+			*luaG_checkvect(l, 1),
+			luaL_checknumber(l, 2),
+			0,
+			0,
+			&qi);
 	collider* c = luaG_pushcoll(l);
 	c->shape = qi.shape;
 
