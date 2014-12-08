@@ -49,6 +49,14 @@ void delete_object(scene* s, object* o)
 	bzero(o, sizeof(object));
 }
 
+void cleanup_deleted(scene* s)
+{
+	for(size_t i = 0; i < s->num_objects; ++i) {
+		if ((s->pool[i].flags & OBJ_DELETED) != 0) {
+			delete_object(s, &(s->pool[i]));
+		}
+	}
+}
 
 
 double get_object_posx(object* o)

@@ -5,13 +5,14 @@
 #include <chipmunk/chipmunk.h>
 
 #define OBJ_ACTIVE 1
-#define OBJ_PHYSICS 2
+#define OBJ_DELETED 2
 
 typedef struct {
 	char* name;
 
 	/* Flag values
 	 * bit 1: active-flag
+	 * bit 2: deleted-flag
 	 */ 
 	uint8_t flags;
 

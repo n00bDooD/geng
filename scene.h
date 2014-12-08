@@ -21,6 +21,8 @@ object* get_first_unused(scene*);
 object* create_object(scene*);
 void delete_object(scene*, object*);
 
+void cleanup_deleted(scene*);
+
 double get_object_posx(object*);
 double get_object_posy(object*);
 cpVect get_object_pos(object*);

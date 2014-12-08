@@ -137,7 +137,7 @@ object_ref* luaG_pushobject(lua_State *L, object* obj)
 static int lua_object_delete(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
-	delete_object(o->o->parent, o->o);
+	o->o->flags |= OBJ_DELETED;
 	return 0;
 }
 
@@ -169,6 +169,20 @@ static int lua_object_tostring(lua_State *L)
 	object_ref* o = luaG_checkobject(L, 1);
 	lua_pushstring(L, o->o->name);
 	return 1;
+}
+
+static int lua_object_set_name(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	if (o->o->name != NULL) {
+		free(o->o->name);
+		o->o->name = NULL;
+	}
+	const char* name = luaL_checklstring(l, 2, NULL);
+	if (name != NULL) {
+		o->o->name = strdup(name);
+	}
+	return 0;
 }
 
 static int lua_object_position(lua_State* l)
@@ -379,6 +393,8 @@ static const luaL_reg methods[] = {
 	{"add_circle_collider", lua_object_add_circlecoll},
 	{"add_box_collider", lua_object_add_boxcoll},
 	{"delete", lua_object_delete},
+	{"set_name", lua_object_set_name},
+	{"name", lua_object_tostring},
 	{NULL, NULL}
 };
 

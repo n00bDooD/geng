@@ -300,11 +300,15 @@ int main(int argc, char** argv)
 			reset_axis_values(inpdat);
 			apply_keyboard_input(inpdat, control_map);
 
-			step_scene(s, STATIC_TIMESTEP);
 
 			//simulation* sim = services_get_simulation();
 			//sim->simulate_step(sim->simulation_data, STATIC_TIMESTEP);
 			cpSpaceStep(spas, STATIC_TIMESTEP);
+
+			step_scene(s, STATIC_TIMESTEP);
+
+			// Delete any objects marked DELETED
+			cleanup_deleted(s);
 
 			next_game_tick += SKIP_TICKS;
 			loops++;
