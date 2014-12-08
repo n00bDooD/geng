@@ -1,11 +1,14 @@
 #include "lua_collisionpair.h"
 #include <stdlib.h>
+#include <string.h>
 #include <lualib.h>
 #include <lauxlib.h>
 
 #include <chipmunk/chipmunk.h>
 
 #include "lua_vector.h"
+#include "lua_object.h"
+#include "lua_colliders.h"
 
 #define TYPE_NAME "collpair"
 
@@ -111,6 +114,24 @@ static int lua_collpair_get_ke(lua_State* l)
 	return 1;
 }
 
+static int lua_collpair_get_objects(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	CP_ARBITER_GET_BODIES(p->data, a, b);
+	luaG_pushobject(l, cpBodyGetUserData(a));
+	luaG_pushobject(l, cpBodyGetUserData(b));
+	return 2;
+}
+
+static int lua_collpair_get_shapes(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	collider* a = luaG_pushcoll(l);
+	collider* b = luaG_pushcoll(l);
+	cpArbiterGetShapes(p->data, &a->shape, &b->shape);
+	return 2;
+}
+
 static const luaL_reg methods [] = {
 	{"get_elasticity", lua_collpair_get_elasticity},
 	{"get_friction", lua_collpair_get_friction},
@@ -121,6 +142,8 @@ static const luaL_reg methods [] = {
 	{"get_impulse", lua_collpair_get_impulse_f},
 	{"get_impulse_without_friction", lua_collpair_get_impulse},
 	{"get_ke", lua_collpair_get_ke},
+	{"get_objects", lua_collpair_get_objects},
+	{"get_colliders", lua_collpair_get_shapes},
 	{NULL, NULL}
 };
 

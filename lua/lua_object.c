@@ -383,7 +383,7 @@ static const luaL_reg methods[] = {
 };
 
 static const luaL_reg meta_methods[] = {
-	{"__tostring", lua_object_tostring},
+	//{"__tostring", lua_object_tostring},
 	{"__eq", lua_object_equals},
 	{NULL, NULL}
 };
