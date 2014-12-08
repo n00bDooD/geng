@@ -10,6 +10,7 @@ scene.load_behaviour_file("data/behaviour.d/upfloat.lua")
 scene.load_behaviour_file("data/behaviour.d/timeout.lua")
 scene.load_behaviour_file("data/behaviour.d/collision_logger.lua")
 scene.load_behaviour_file("data/behaviour.d/boolet.lua")
+scene.load_behaviour_file("data/behaviour.d/breakable.lua")
 
 local block = scene.spawn_prefab("block")
 block:set_pos(200, -200)
