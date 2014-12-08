@@ -3,6 +3,7 @@ scene.load_prefab_file("data/prefabs.d/glass_block.prefab.lua")
 scene.load_prefab_file("data/prefabs.d/metal.prefab.lua")
 scene.load_prefab_file("data/prefabs.d/block.prefab.lua")
 scene.load_prefab_file("data/prefabs.d/coin.lua")
+scene.load_prefab_file("data/prefabs.d/hip_to_be_square.lua")
 
 scene.load_behaviour_file("data/behaviour.d/controllable.lua")
 scene.load_behaviour_file("data/behaviour.d/upfloat.lua")
@@ -22,3 +23,6 @@ glass:set_pos(300, -300)
 
 local metal = scene.spawn_prefab("metal")
 metal:set_pos(100, -300)
+
+local target = scene.spawn_prefab("hip_to_be_square")
+target:set_pos(350, -70)
