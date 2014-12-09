@@ -6,6 +6,8 @@
 
 #define OBJ_ACTIVE 1
 #define OBJ_DELETED 2
+#define OBJ_FLIPHOR 2
+#define OBJ_FLIPVERT 2
 
 typedef struct {
 	char* name;
@@ -13,6 +15,8 @@ typedef struct {
 	/* Flag values
 	 * bit 1: active-flag
 	 * bit 2: deleted-flag
+	 * bit 3: flip-horiz-flag
+	 * bit 4: flip-vert-flag
 	 */ 
 	uint8_t flags;
 

@@ -108,7 +108,8 @@ void draw_objects(scene* sc)
 	sdl_renderer* r = sc->render_data;
 	SDL_Rect viewport; SDL_RenderGetViewport(r->rend, &viewport);
 	if(r->background != 0) {
-		SDL_RenderCopy(r->rend, r->textures[r->background-1], &viewport, &viewport);
+		SDL_RenderCopy(r->rend, r->textures[r->background-1],
+				&viewport, &viewport);
 	}
 
 	for(size_t i = 0; i < sc->num_objects; ++i) {
@@ -116,6 +117,11 @@ void draw_objects(scene* sc)
 		if(o->flags & (OBJ_ACTIVE) && o->sprite > 0) {
 			sprite* s = r->sprites + o->sprite-1;
 			if(s->tex == 0) continue;
+
+			SDL_RendererFlip f = SDL_FLIP_NONE;
+			if (o->flags & OBJ_FLIPHOR) f |= SDL_FLIP_HORIZONTAL;
+			if (o->flags & OBJ_FLIPVERT) f |= SDL_FLIP_VERTICAL;
+
 			SDL_Texture* t = r->textures[s->tex-1];
 
 			SDL_Rect src = {.x = s->tex_source_x,
@@ -142,7 +148,7 @@ void draw_objects(scene* sc)
 					 &dst,
 					 -round(a),
 					 NULL,
-					 SDL_FLIP_NONE);
+					 f);
 		}
 	}
 }
