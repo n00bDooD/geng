@@ -1,6 +1,7 @@
 scene.load_prefab_file("data/prefabs.d/hero.lua")
 scene.load_prefab_file("data/prefabs.d/buddy.lua")
 scene.load_prefab_file("data/prefabs.d/baddie.lua")
+scene.load_prefab_file("data/prefabs.d/fly.lua")
 
 scene.load_behaviour_file("data/behaviour.d/controllable.lua")
 scene.load_behaviour_file("data/behaviour.d/boolet.lua")
@@ -14,3 +15,6 @@ buddy:set_pos(300, -200)
 
 local baddie = scene.spawn_prefab("baddie")
 baddie:set_pos(400, -200)
+
+local blocker = scene.spawn_prefab('fly')
+blocker:set_pos(200, -300)
