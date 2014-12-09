@@ -369,6 +369,41 @@ static int lua_object_add_boxcoll(lua_State* l)
 	return 1;
 }
 
+static int lua_object_set_fliph(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	if(lua_toboolean(l, 2) != 0) {
+		o->o->flags |= OBJ_FLIPHOR;
+	} else {
+		o->o->flags &= ~OBJ_FLIPHOR;
+	}
+	return 0;
+}
+
+static int lua_object_set_flipv(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	if(lua_toboolean(l, 2) != 0) {
+		o->o->flags |= OBJ_FLIPVERT;
+	} else {
+		o->o->flags &= ~OBJ_FLIPVERT;
+	}
+	return 0;
+}
+
+static int lua_object_get_fliph(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushboolean(l, o->o->flags & OBJ_FLIPHOR);
+	return 1;
+}
+
+static int lua_object_get_flipv(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_pushboolean(l, o->o->flags & OBJ_FLIPVERT);
+	return 1;
+}
 
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
@@ -395,6 +430,10 @@ static const luaL_reg methods[] = {
 	{"delete", lua_object_delete},
 	{"set_name", lua_object_set_name},
 	{"name", lua_object_tostring},
+	{"flipv", lua_object_get_flipv},
+	{"fliph", lua_object_get_fliph},
+	{"set_flipv", lua_object_set_flipv},
+	{"set_fliph", lua_object_set_fliph},
 	{NULL, NULL}
 };
 

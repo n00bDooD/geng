@@ -27,6 +27,8 @@ function scene_update(obj, step)
 		else
 			object_state = 'idle'
 		end
+		obj:set_flipv(math.random() > 0.9)
+		obj:set_fliph(math.random() > 0.8)
 	end
 
 	if object_state == 'idle' then
