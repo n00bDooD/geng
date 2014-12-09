@@ -16,7 +16,8 @@ texhandle sdl_renderer_add_texture(sdl_renderer* r, SDL_Texture* tex)
 	return (texhandle)r->num_textures;
 }
 
-spritehandle sdl_renderer_add_sprite(sdl_renderer* r, texhandle tex, int xoffset, int yoffset)
+spritehandle sdl_renderer_add_sprite(sdl_renderer* r, texhandle tex, int xoffset,
+		int yoffset, int srcx, int srcy, int srcw, int srch)
 {
 	void* n = realloc(r->sprites, (++r->num_sprites) * sizeof(sprite));
 	if (n == NULL)
@@ -27,6 +28,21 @@ spritehandle sdl_renderer_add_sprite(sdl_renderer* r, texhandle tex, int xoffset
 	s->tex = tex;
 	s->offset_x = xoffset;
 	s->offset_y = yoffset;
+	if (srcx == -1 && srcy == -1 && srcw == -1 && srch == -1) {
+		s->tex_source_x = 0;
+		s->tex_source_y = 0;
+		if(SDL_QueryTexture(r->textures[tex-1],
+					NULL, NULL,
+					&(s->tex_source_w),
+					&(s->tex_source_h)) < 0){
+			return 0;
+		}
+	} else {
+		s->tex_source_x = srcx;
+		s->tex_source_y = srcy;
+		s->tex_source_w = srcw;
+		s->tex_source_h = srch;
+	}
 	
 	return (spritehandle)r->num_sprites;
 }
@@ -102,15 +118,19 @@ void draw_objects(scene* sc)
 			if(s->tex == 0) continue;
 			SDL_Texture* t = r->textures[s->tex-1];
 
+			SDL_Rect src = {.x = s->tex_source_x,
+					.y = s->tex_source_y,
+					.w = s->tex_source_w,
+					.h = s->tex_source_h };
+
 			double a = get_object_angle(o) * (180/M_PI);
 			double x = get_object_posx(o) * r->cam.scale;
 			double y = get_object_posy(o) * r->cam.scale;
 			SDL_Rect dst;
 			dst.x = floor(x + r->cam.x);
 			dst.y = floor(-y + r->cam.y);
-			if(SDL_QueryTexture(t, NULL, NULL, &dst.w, &dst.h) < 0){
-				//sdl_error("SDL_QueryTexture");
-			}
+			dst.w = src.w;
+			dst.h = src.h;
 			dst.w *= r->cam.scale;
 			dst.h *= r->cam.scale;
 			dst.x += s->offset_x * r->cam.scale;
@@ -118,7 +138,7 @@ void draw_objects(scene* sc)
 
 			SDL_RenderCopyEx(r->rend,
 					 t,
-					 NULL,
+					 &src,
 					 &dst,
 					 -round(a),
 					 NULL,

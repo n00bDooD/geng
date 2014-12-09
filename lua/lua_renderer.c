@@ -23,6 +23,7 @@ sdl_renderer* get_renderer_registry(lua_State* l)
 	if(ret == NULL) {
 		luaL_error(l, "No current renderer");
 	}
+	lua_pop(l, 1);
 	return ret;
 }
 
@@ -51,8 +52,19 @@ static int lua_add_sprite(lua_State* l)
 	texhandle tex = luaL_checkinteger(l, 1);
 	int xoff = luaL_checkint(l, 2);
 	int yoff = luaL_checkint(l, 3);
+	int texx = luaL_optint(l, 4, -1);
+	int texy = luaL_optint(l, 5, -1);
+	int texh = luaL_optint(l, 6, -1);
+	int texw = luaL_optint(l, 7, -1);
 
-	spritehandle s = sdl_renderer_add_sprite(r, tex, xoff, yoff);
+	spritehandle s = sdl_renderer_add_sprite(r, tex,
+			                         xoff, yoff,
+					         texx, texy,
+					         texh, texw);
+	if (s == 0) {
+		luaL_error(l, "Failure to create sprite. \
+				Is the texture handle valid?");
+	}
 	lua_pushinteger(l, s);
 	return 1;
 }
