@@ -6,8 +6,8 @@
 
 #define OBJ_ACTIVE 1
 #define OBJ_DELETED 2
-#define OBJ_FLIPHOR 2
-#define OBJ_FLIPVERT 2
+#define OBJ_FLIPHOR 4
+#define OBJ_FLIPVERT 8
 
 typedef struct {
 	char* name;
