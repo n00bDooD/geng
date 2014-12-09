@@ -4,7 +4,7 @@ local hurt 	= args[3]
 local jump 	= args[4]
 
 local walk_cycle = args[5]
-local walk_speed = 8
+local walk_speed = 12
 
 local object_state = 'walk'
 local walk_idx = 1
@@ -37,9 +37,11 @@ function scene_update(obj, step)
 		obj:set_sprite(hurt)
 	elseif object_state == 'walk' then
 		walk_idx = walk_idx + step * walk_speed
-		if walk_idx > #walk_cycle then
-			walk_idx = 1
+		if walk_idx >= #walk_cycle then
+			local remainder = walk_idx - #walk_cycle
+			walk_idx = 1 + remainder
 		end
-		obj:set_sprite(walk_cycle[math.min(math.floor(walk_idx), #walk_cycle)])
+		local s = walk_cycle[math.ceil(walk_idx)]
+		if s ~= nil then obj:set_sprite(s) end
 	end
 end
