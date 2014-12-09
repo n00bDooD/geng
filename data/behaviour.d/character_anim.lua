@@ -18,10 +18,12 @@ function scene_update(obj, step)
 		local r = math.random()
 		if r > 0.3 then 
 			object_state = 'walk'
+		elseif r > 0.3 then
+			object_state = 'hurt'
 		elseif r > 0.2 then
 			object_state = 'duck'
 		elseif r > 0.1 then
-			object_state = 'duck'
+			object_state = 'jump'
 		else
 			object_state = 'idle'
 		end
