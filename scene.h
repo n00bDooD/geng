@@ -27,6 +27,7 @@ double get_object_posx(object*);
 double get_object_posy(object*);
 cpVect get_object_pos(object*);
 double get_object_angle(object*);
+cpVect get_object_velocity(object*);
 double get_object_velocity_limit(object*);
 double get_object_angular_velocity_limit(object*);
 double get_object_angular_velocity(object*);

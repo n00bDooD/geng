@@ -233,6 +233,14 @@ static int lua_object_torque(lua_State* l)
 	return 1;
 }
 
+static int lua_object_velocity(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	cpVect* res = luaG_pushvect(l);
+	*res = get_object_velocity(o->o);
+	return 1;
+}
+
 static int lua_object_angvel(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -454,6 +462,7 @@ static const luaL_reg methods[] = {
 	{"torque", lua_object_torque},
 	{"mass", lua_object_mass},
 	{"moment", lua_object_moment},
+	{"velocity", lua_object_velocity},
 	{"ang_vel", lua_object_angvel},
 	{"vel_limit", lua_object_vel_limit},
 	{"angular_vel_limit", lua_object_angvel_limit},

@@ -118,6 +118,11 @@ double get_object_angular_velocity_limit(object* o)
 	return cpBodyGetAngVelLimit(o->physics);
 }
 
+cpVect get_object_velocity(object* o)
+{
+	return cpBodyGetVel(o->physics);
+}
+
 double get_object_velocity_limit(object* o)
 {
 	return cpBodyGetVelLimit(o->physics);
