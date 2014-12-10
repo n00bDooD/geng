@@ -8,7 +8,18 @@ local walk_speed = 12
 
 local object_state = 'idle'
 local walk_idx = 1
-function receive(message) if type(message) == 'string' then object_state = message; io.write('New state ' .. message .. '\n') end end
+
+
+function receive(obj, message) 
+	if message == nil then return end
+	if type(message) == 'string' then
+		object_state = message;
+	else
+		object_state = message.state;
+		obj:set_fliph(message.direction == 'left')
+		obj:set_flipv(message.direction == 'up')
+	end
+end
 
 function scene_update(obj, step)
 	if object_state == 'idle' then
