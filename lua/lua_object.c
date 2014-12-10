@@ -405,6 +405,39 @@ static int lua_object_get_flipv(lua_State* l)
 	return 1;
 }
 
+static int lua_object_send_message(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	const char* name = luaL_checklstring(l, 2, NULL);
+	if (name == NULL) luaL_error(l, "Invalid name");
+	// Only one argument
+	lua_settop(l, 3);
+
+	behaviour* obj_threads = o->o->tag;
+	if (obj_threads == NULL) return 0;
+	size_t num_behaviours = 0;
+	while(obj_threads[num_behaviours].name != NULL) {
+		const char* behn = obj_threads[num_behaviours++].name;
+		if(strcmp(behn, name) == 0) {
+			lua_State* r = obj_threads[num_behaviours-1].thread;
+			lua_getglobal(r, "receive");
+			if (lua_isnil(r, -1)) {
+				lua_pop(r, 1);
+				return 0;
+			}
+			luaExt_copy(l, r);
+			int result = lua_pcall(r, 1, 0, 0);
+			if(result != 0) {
+				const char* err = lua_tolstring(r, -1, NULL);
+				if(err == NULL) err = "Lua error in receive";
+				fprintf(stderr, "Receive error in %s: %s", name, err);
+			}
+			return 0;
+		}
+	}
+	return 0;
+}
+
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
@@ -434,6 +467,7 @@ static const luaL_reg methods[] = {
 	{"fliph", lua_object_get_fliph},
 	{"set_flipv", lua_object_set_flipv},
 	{"set_fliph", lua_object_set_fliph},
+	{"send_message", lua_object_send_message},
 	{NULL, NULL}
 };
 

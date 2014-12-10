@@ -17,13 +17,16 @@ static int lua_query_nearest(lua_State* l)
 	scene* s = get_scene_registry(l);
 
 	cpNearestPointQueryInfo qi;
-	cpSpaceNearestPointQueryNearest(
+	if (cpSpaceNearestPointQueryNearest(
 			s->physics_data,
 			*luaG_checkvect(l, 1),
 			luaL_checknumber(l, 2),
 			0,
 			0,
-			&qi);
+			&qi) == NULL) {
+		lua_pushnil(l);
+		return 1;
+	}
 	collider* c = luaG_pushcoll(l);
 	c->shape = qi.shape;
 
@@ -82,10 +85,32 @@ static int lua_query_segment(lua_State* l)
 	return 0;
 }
 
+static int lua_query_segment_first(lua_State* l)
+{
+	scene* s = get_scene_registry(l);
+	cpVect* start = luaG_checkvect(l, 1);
+	cpVect* end = luaG_checkvect(l, 2);
+
+	cpSegmentQueryInfo i;
+	if(cpSpaceSegmentQueryFirst(s->physics_data,
+				*start, *end, 0, 0,
+				&i) == NULL) {
+		lua_pushnil(l);
+		return 1;
+	}
+	collider* c = luaG_pushcoll(l);
+	c->shape = i.shape;
+	lua_pushnumber(l, i.t);
+	cpVect* v = luaG_pushvect(l);
+	*v = i.n;
+	return 3;
+}
+
 static const luaL_Reg methods[] = {
 	{"nearest", lua_query_nearest},
 	{"box", lua_query_aabb},
 	{"segment", lua_query_segment},
+	{"segment_first", lua_query_segment_first},
 	{NULL, NULL}
 };
 

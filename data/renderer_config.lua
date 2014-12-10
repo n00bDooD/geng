@@ -1,6 +1,6 @@
 function add_sprites(thandle, sprites)
 	for k, s in ipairs(sprites) do
-		renderer.add_sprite(thandle, s.w * 0.5, s.h, s.x, s.y, s.w, s.h)
+		renderer.add_sprite(thandle, s.w * 0.5, s.h* 0.5, s.x, s.y, s.w, s.h)
 	end
 end
 

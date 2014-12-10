@@ -6,31 +6,11 @@ local jump 	= args[4]
 local walk_cycle = args[5]
 local walk_speed = 12
 
-local object_state = 'walk'
+local object_state = 'idle'
 local walk_idx = 1
+function receive(message) if type(message) == 'string' then object_state = message; io.write('New state ' .. message .. '\n') end end
 
-local next_step = 0
-local cur_step = 0
 function scene_update(obj, step)
-	cur_step = cur_step + step
-	if cur_step > next_step then
-		next_step = math.ceil(cur_step)
-		local r = math.random()
-		if r > 0.3 then 
-			object_state = 'walk'
-		elseif r > 0.3 then
-			object_state = 'hurt'
-		elseif r > 0.2 then
-			object_state = 'duck'
-		elseif r > 0.1 then
-			object_state = 'jump'
-		else
-			object_state = 'idle'
-		end
-		obj:set_flipv(math.random() > 0.9)
-		obj:set_fliph(math.random() > 0.8)
-	end
-
 	if object_state == 'idle' then
 		obj:set_sprite(front)
 	elseif object_state == 'duck' then

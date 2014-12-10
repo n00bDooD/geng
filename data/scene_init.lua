@@ -4,6 +4,7 @@ scene.load_prefab_file("data/prefabs.d/baddie.lua")
 scene.load_prefab_file("data/prefabs.d/fly.lua")
 
 scene.load_behaviour_file("data/behaviour.d/controllable.lua")
+scene.load_behaviour_file("data/behaviour.d/platformer.lua")
 scene.load_behaviour_file("data/behaviour.d/boolet.lua")
 scene.load_behaviour_file("data/behaviour.d/character_anim.lua")
 
