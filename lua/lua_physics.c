@@ -21,8 +21,8 @@ static int lua_query_nearest(lua_State* l)
 			s->physics_data,
 			*luaG_checkvect(l, 1),
 			luaL_checknumber(l, 2),
-			0,
-			0,
+			CP_ALL_LAYERS,
+			CP_NO_GROUP,
 			&qi) == NULL) {
 		lua_pushnil(l);
 		return 1;
@@ -59,7 +59,10 @@ static int lua_query_aabb(lua_State* l)
 	luaL_checktype(l, 2, LUA_TFUNCTION);
 	// Func has to be at the top of the stack
 	lua_settop(l, 2);
-	cpSpaceBBQuery(s->physics_data, *box, 0, 0, bbqueryfunc, l);
+	cpSpaceBBQuery(s->physics_data, *box,
+			CP_ALL_LAYERS,
+			CP_NO_GROUP,
+			bbqueryfunc, l);
 	return 0;
 }
 
@@ -81,7 +84,11 @@ static int lua_query_segment(lua_State* l)
 	cpVect* start = luaG_checkvect(l, 1);
 	cpVect* end = luaG_checkvect(l, 2);
 
-	cpSpaceSegmentQuery(s->physics_data, *start, *end, 0, 0, segmentqueryfunc, l);
+	cpSpaceSegmentQuery(s->physics_data,
+			*start, *end,
+			CP_ALL_LAYERS,
+			CP_NO_GROUP,
+			segmentqueryfunc, l);
 	return 0;
 }
 
@@ -93,7 +100,9 @@ static int lua_query_segment_first(lua_State* l)
 
 	cpSegmentQueryInfo i;
 	if(cpSpaceSegmentQueryFirst(s->physics_data,
-				*start, *end, 0, 0,
+				*start, *end,
+				CP_ALL_LAYERS,
+				CP_NO_GROUP,
 				&i) == NULL) {
 		lua_pushnil(l);
 		return 1;
