@@ -433,8 +433,9 @@ static int lua_object_send_message(lua_State* l)
 				lua_pop(r, 1);
 				return 0;
 			}
+			luaG_pushobject(r, o->o);
 			luaExt_copy(l, r);
-			int result = lua_pcall(r, 1, 0, 0);
+			int result = lua_pcall(r, 2, 0, 0);
 			if(result != 0) {
 				const char* err = lua_tolstring(r, -1, NULL);
 				if(err == NULL) err = "Lua error in receive";
