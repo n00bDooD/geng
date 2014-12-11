@@ -4,7 +4,7 @@ local hurt 	= args[3]
 local jump 	= args[4]
 
 local walk_cycle = args[5]
-local walk_speed = 12
+local walk_speed = (#walk_cycle / 1) * 2
 
 local object_state = 'idle'
 local walk_idx = 1
