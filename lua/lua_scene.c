@@ -11,7 +11,9 @@
 
 #include "../scene.h"
 #include "lua_object.h"
+#include "lua_copy.h"
 
+#include <stdbool.h>
 #include <string.h>
 #include <libgen.h>
 
@@ -138,8 +140,52 @@ static int lua_load_prefab(lua_State* l)
 	return 0;
 }
 
+void reload_obj_behaviour(object* o, const char* name, lua_State* l)
+{
+	behaviour* obj_threads = o->tag;
+	if (obj_threads == NULL) return;
+	size_t num_behaviours = 0;
+	while(obj_threads[num_behaviours].name != NULL) {
+		const char* behn = obj_threads[num_behaviours++].name;
+		if(strcmp(behn, name) == 0) {
+			lua_State* r = obj_threads[num_behaviours-1].thread;
+
+			// This behaviour needs to be reloaded
+			luaExt_copy(l, r);
+			int run_result = lua_pcall(r, 0, 0, 0);
+			switch(run_result) {
+				case 0:
+				case LUA_YIELD: {
+					// OK
+					return;
+					}
+				case LUA_ERRRUN:
+				case LUA_ERRMEM:
+				case LUA_ERRERR:{
+					const char* error = lua_tolstring(r, -1, NULL);
+					luaL_error(l, error);
+					}
+			}
+			return;
+		}
+	}
+	return;
+}
+
+void reload_behaviour(scene* s, const char* name, lua_State* l)
+{
+	for(size_t i = 0; i < s->num_objects; ++i){
+		object* o = &(s->pool[i]);
+		if((o->flags & OBJ_ACTIVE) != 0) {
+			reload_obj_behaviour(o, name, l);
+		}
+	}
+}
+
 static int lua_load_behaviour(lua_State* l)
 {
+	scene* scn = get_scene_registry(l);
+
 	const char* filename = luaL_checklstring(l, 1, NULL);
 	if(filename == NULL) {
 		luaL_error(l, "Valid name to behaviour file required.");
@@ -161,13 +207,36 @@ static int lua_load_behaviour(lua_State* l)
 	}
 
 	lua_pushstring(l, behavname);
+
+	// Check if we need to reload this behaviour in
+	// the entire scene
+	lua_pushvalue(l, -1);
+	lua_rawget(l, -3);
+	bool reloading_function = !lua_isnil(l, -1);
+	lua_pop(l, 1);
+
 	switch(luaL_loadfile(l, filename)) {
 		case 0:
 			// OK
+			if (reloading_function) {
+				// Copy values for refreshing the 
+				// scene with if needed
+				lua_pushvalue(l, -2);
+				lua_pushvalue(l, -2);
+				lua_insert(l, -5);
+				lua_insert(l, -5);
+			}
+
 			lua_rawset(l, -3);
 			lua_pushstring(l, "geng.behaviours");
 			lua_insert(l, -2);
 			lua_rawset(l, LUA_REGISTRYINDEX);
+
+			// Reload for current scene
+			if (reloading_function) {
+				reload_behaviour(scn, behavname, l);
+			}
+
 			break;
 		case LUA_ERRSYNTAX:
 		case LUA_ERRMEM:
