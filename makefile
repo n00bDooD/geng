@@ -16,7 +16,7 @@ DCOMPILE_FLAGS = -D DEBUG
 # Add additional include paths
 INCLUDES = -I $(SRC_PATH)/ 
 # General linker settings
-LINK_FLAGS = -L /usr/local/lib -lm -ldl -lchipmunk -lSDL2 -lluajit-5.1
+LINK_FLAGS = -L /usr/local/lib -lm -ldl -lchipmunk -lSDL2 -lSDL2_mixer -lluajit-5.1
 # Additional release-specific linker settings
 RLINK_FLAGS = 
 # Additional debug-specific linker settings

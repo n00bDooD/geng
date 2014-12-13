@@ -9,6 +9,7 @@
 #include <dirent.h>
 #include <chipmunk/chipmunk.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include <errno.h>
 #include <string.h>
 
@@ -128,6 +129,15 @@ int main(int argc, char** argv)
 		sdl_error("SDL_Init");
 		return -1;
 	}
+
+	{
+		int flags = MIX_INIT_OGG;
+		if ((Mix_Init(flags) & flags) != flags) {
+    			fprintf(stderr, "Mix_Init: %s\n", Mix_GetError());
+			return -1;
+		}
+	}
+
 
 	SDL_Window* w = SDL_CreateWindow(
 	                    "Test",
@@ -348,6 +358,7 @@ int main(int argc, char** argv)
 
 	SDL_DestroyRenderer(r);
 	SDL_DestroyWindow(w);
+	Mix_Quit();
 	SDL_Quit();
 	return 0;
 }
