@@ -171,7 +171,7 @@ static int lua_load_behaviour(lua_State* l)
 			break;
 		case LUA_ERRSYNTAX:
 		case LUA_ERRMEM:
-		case  LUA_ERRFILE:
+		case LUA_ERRFILE:
 			{
 			const char* error = luaL_checklstring(l, -1, NULL);
 			luaL_error(l, error);
