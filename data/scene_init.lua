@@ -17,5 +17,7 @@ buddy:set_pos(300, -200)
 local baddie = scene.spawn_prefab("baddie")
 baddie:set_pos(400, -200)
 
-local blocker = scene.spawn_prefab('fly')
-blocker:set_pos(200, -300)
+for i = 0, 20 do
+	local blocker = scene.spawn_prefab('fly')
+	blocker:set_pos(51 * i, -600)
+end
