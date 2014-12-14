@@ -20,6 +20,7 @@
 #include "services/inputaxis.h"
 #include "services/sdl_input_shim.h"
 
+#include "lua/lua_audio.h"
 #include "lua/lua_input.h"
 #include "lua/lua_object.h"
 #include "lua/lua_scene.h"
@@ -197,6 +198,14 @@ int main(int argc, char** argv)
 		lua_close(l2);
 	}
 
+	{
+		lua_State* l = luaL_newstate();
+		luaL_openlibs(l);
+		register_config_audio(l);
+		int res = luaL_dofile(l, "data/audio_config.lua");
+		luaHandleResult(l, res, "data/audio_config.lua");
+		lua_close(l);
+	}
 	{
 		lua_State* l3 = luaL_newstate();
 		luaL_openlibs(l3);
