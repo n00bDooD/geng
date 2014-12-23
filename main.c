@@ -137,6 +137,7 @@ int main(int argc, char** argv)
     			fprintf(stderr, "Mix_Init: %s\n", Mix_GetError());
 			return -1;
 		}
+		Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	}
 
 
