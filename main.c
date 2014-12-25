@@ -125,6 +125,10 @@ int main(int argc, char** argv)
 
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 
+	sdl_audio* sdlaud = (sdl_audio*)calloc(1, sizeof(sdl_audio));
+	sdlaud->effects = NULL;
+	sdlaud->musics = NULL;
+
 	/* ## Set up rendering ## */
 	if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0) {
 		sdl_error("SDL_Init");
@@ -201,7 +205,7 @@ int main(int argc, char** argv)
 	{
 		lua_State* l = luaL_newstate();
 		luaL_openlibs(l);
-		register_config_audio(l);
+		register_config_audio(l, sdlaud);
 		int res = luaL_dofile(l, "data/audio_config.lua");
 		luaHandleResult(l, res, "data/audio_config.lua");
 		lua_close(l);

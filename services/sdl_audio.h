@@ -1,6 +1,11 @@
 #ifndef SDLAUDIO_H
 #define SDLAUDIO_H
 
-void play_audio(scene*);
+#include <SDL/SDL_mixer.h>
 
-#endif SDLAUDIO_H
+typedef struct {
+	Mix_Chunk** effects;
+	Mix_Music** musics;
+} sdl_audio;
+
+#endif /* SDLAUDIO_H */
