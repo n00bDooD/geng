@@ -137,7 +137,6 @@ int main(int argc, char** argv)
     			fprintf(stderr, "Mix_Init: %s\n", Mix_GetError());
 			return -1;
 		}
-		Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	}
 
 
@@ -368,6 +367,10 @@ int main(int argc, char** argv)
 
 	SDL_DestroyRenderer(r);
 	SDL_DestroyWindow(w);
+	int count = Mix_QuerySpec(NULL, NULL, NULL);
+	while(count-- > 0) {
+		Mix_CloseAudio();
+	}
 	Mix_Quit();
 	SDL_Quit();
 	return 0;

@@ -5,13 +5,29 @@
 
 #include <string.h>
 
+#include <SDL2/SDL_mixer.h>
+
 #define TYPE_NAME "audio"
+
+static int lua_openaudio(lua_State* l)
+{
+	// Frequecy default 44100khz
+	int freq = luaL_optinteger(l, 1, 44100);
+	// Default two channels
+	int channels = luaL_optinteger(l, 2, 2);
+	// Default 2048 byte chunks
+	int chunksize = luaL_optinteger(l, 3, 2048);
+
+	Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, channels, chunksize);
+	return 0;
+}
 
 static const luaL_Reg methods[] = {
 	{NULL, NULL}
 };
 
 static const luaL_Reg private_methods[] = {
+	{"open", lua_openaudio},
 	{NULL, NULL}
 };
 
