@@ -126,7 +126,7 @@ int main(int argc, char** argv)
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 
 	/* ## Set up rendering ## */
-	if(SDL_Init(SDL_INIT_VIDEO) != 0){
+	if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0) {
 		sdl_error("SDL_Init");
 		return -1;
 	}
