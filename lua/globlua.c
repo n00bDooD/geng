@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i)
+void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a)
 {
 	register_object(s);
 	lua_pop(s, 1);
@@ -30,7 +30,7 @@ void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i)
 	lua_pop(s, 1);
 	register_physics(s);
 	lua_pop(s, 1);
-	register_audio(s);
+	register_audio(s, a);
 	lua_pop(s, 1);
 }
 

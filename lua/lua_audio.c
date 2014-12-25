@@ -70,14 +70,19 @@ static int lua_loadchunk(lua_State* l)
 
 	// If successful, add the file to the array of chunks
 	size_t idx = 0;
-	while(a->chunks[idx++] != NULL);
+	if (a->chunks == NULL) {
+		idx = 1;
+	} else {
+		while(a->chunks[idx++] != NULL);
+	}
 	Mix_Chunk** e = realloc(a->chunks, idx * sizeof(Mix_Chunk*));
 	if (e == NULL) {
 		luaL_error(l, "realloc");
 	}
+	
 	a->chunks = e;
-	a->chunks[idx] = s;
-	a->chunks[idx+1] = NULL;
+	a->chunks[idx-1] = s;
+	a->chunks[idx] = NULL;
 
 	lua_pushnumber(l, idx+1);
 	return 1;
@@ -101,7 +106,8 @@ static int lua_play_chunk(lua_State* l)
 	// -1 plays on first free channel
 	int channel = luaL_optinteger(l, 2, -1);
 	// The chunk to play
-	Mix_Chunk* c = a->chunks[luaL_checkinteger(l, 1)-1];
+	int idx = luaL_checkinteger(l, 1);
+	Mix_Chunk* c = a->chunks[idx-1];
 	// Number of loops. -1 means infinite
 	int loops = luaL_optinteger(l, 3, -1);
 	// Number of milliseconds to play,
@@ -143,7 +149,7 @@ static const luaL_Reg private_methods[] = {
 	{NULL, NULL}
 };
 
-int register_audio(lua_State *L)
+int register_audio(lua_State *L, sdl_audio* a)
 {
 	/* Create methods table & add it to globals */
 	luaL_openlib(L, TYPE_NAME, methods, 0);
@@ -154,6 +160,7 @@ int register_audio(lua_State *L)
 	lua_rawset(L, -3);		/* metatable.__index = methods */
 
 	lua_pop(L, 1); 			/* drop metatable */
+	set_audio_registry(L, a);
 	return 1;			/* leave methods on stack */
 }
 

@@ -17,6 +17,7 @@
 #include "lua_colliders.h"
 #include "lua_scene.h"
 #include "lua_input.h"
+#include "lua_audio.h"
 
 // lua tools
 #include "lua_copy.h"
@@ -52,7 +53,11 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	obj_threads[num_behaviours-1].thread = luaL_newstate();
 	lua_State* t = obj_threads[num_behaviours-1].thread;
 	luaL_openlibs(t);
-	luaG_register_all(t, get_scene_registry(l), get_input_registry(l));
+	luaG_register_all(t,
+			get_scene_registry(l),
+			get_input_registry(l),
+			get_audio_registry(l)
+			);
 
 	lua_pushstring(l, "geng.behaviours");
 	lua_rawget(l, LUA_REGISTRYINDEX);

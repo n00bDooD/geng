@@ -219,6 +219,7 @@ int main(int argc, char** argv)
 		register_colliders(l3);
 		register_collpair(l3);
 		register_input(l3, inpdat);
+		register_audio(l3, sdlaud);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
 		luaHandleResult(l3, res, "data/scene_init.lua");
 
