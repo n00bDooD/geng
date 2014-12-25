@@ -173,7 +173,7 @@ static int lua_resume_channel(lua_State* l)
 static int lua_fade_out_channel(lua_State* l)
 {
 	lua_pushnumber(l, 
-	Mix_FadeOutChannel(
+		Mix_FadeOutChannel(
 			luaL_checkinteger(l, 1),
 			luaL_checkinteger(l, 2)
 			)
