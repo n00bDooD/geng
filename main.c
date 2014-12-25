@@ -126,7 +126,7 @@ int main(int argc, char** argv)
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 
 	sdl_audio* sdlaud = (sdl_audio*)calloc(1, sizeof(sdl_audio));
-	sdlaud->effects = NULL;
+	sdlaud->chunks = NULL;
 	sdlaud->musics = NULL;
 
 	/* ## Set up rendering ## */

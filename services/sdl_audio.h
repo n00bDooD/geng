@@ -4,7 +4,7 @@
 #include <SDL/SDL_mixer.h>
 
 typedef struct {
-	Mix_Chunk** effects;
+	Mix_Chunk** chunks;
 	Mix_Music** musics;
 } sdl_audio;
 

@@ -41,7 +41,6 @@ static void set_audio_registry(lua_State* l, sdl_audio* s)
 	lua_rawset(l, LUA_REGISTRYINDEX);
 }
 
-
 static int lua_openaudio(lua_State* l)
 {
 	// Frequecy default 44100khz
@@ -55,13 +54,13 @@ static int lua_openaudio(lua_State* l)
 	return 0;
 }
 
-static int lua_loadeffect(lua_State* l)
+static int lua_loadchunk(lua_State* l)
 {
 	sdl_audio* a = get_audio_registry(l);
 
 	// Get name of file
 	const char* fname = lua_tolstring(l, 1, NULL);
-	if (fname == NULL) luaL_error(l, "Effect name cannot be NULL");
+	if (fname == NULL) luaL_error(l, "chunk name cannot be NULL");
 
 	// Load the file
 	Mix_Chunk* s = Mix_LoadWAV(fname);
@@ -69,28 +68,77 @@ static int lua_loadeffect(lua_State* l)
 		luaL_error(l, Mix_GetError());
 	}
 
-	// If successful, add the file to the array of effects
+	// If successful, add the file to the array of chunks
 	size_t idx = 0;
-	while(a->effects[idx++] != NULL);
-	Mix_Chunk** e = realloc(a->effects, idx * sizeof(Mix_Chunk*));
+	while(a->chunks[idx++] != NULL);
+	Mix_Chunk** e = realloc(a->chunks, idx * sizeof(Mix_Chunk*));
 	if (e == NULL) {
 		luaL_error(l, "realloc");
 	}
-	a->effects = e;
-	a->effects[idx] = s;
-	a->effects[idx+1] = NULL;
+	a->chunks = e;
+	a->chunks[idx] = s;
+	a->chunks[idx+1] = NULL;
 
 	lua_pushnumber(l, idx+1);
 	return 1;
 }
 
+static int lua_get_chunk_volume(lua_State* l)
+{
+	sdl_audio* a = get_audio_registry(l);
+
+	int id = luaL_checkinteger(l, 1);
+	int vol = Mix_VolumeChunk(a->chunks[id-1],
+			luaL_optinteger(l, 2, -1));
+	lua_pushnumber(l, vol);
+	return 1;
+}
+
+static int lua_play_chunk(lua_State* l)
+{
+	sdl_audio* a = get_audio_registry(l);
+
+	// -1 plays on first free channel
+	int channel = luaL_optinteger(l, 2, -1);
+	// The chunk to play
+	Mix_Chunk* c = a->chunks[luaL_checkinteger(l, 1)-1];
+	// Number of loops. -1 means infinite
+	int loops = luaL_optinteger(l, 3, -1);
+	// Number of milliseconds to play,
+	// -1 means infinite
+	int ms = luaL_optinteger(l, 3, -1);
+	int fade = luaL_optinteger(l, 4, -1);
+	int res = 0;
+	if (fade == -1) {
+		res = Mix_PlayChannelTimed(
+			channel,
+			c,
+			loops,
+			ms);
+	} else {
+		res = Mix_FadeInChannelTimed(
+				channel,
+				c,
+				loops,
+				fade,
+				ms);
+	}
+	if (res == -1) {
+		luaL_error(l, Mix_GetError());
+	}
+
+	return 0;
+}
+
 static const luaL_Reg methods[] = {
+	{"volume", lua_get_chunk_volume},
+	{"play", lua_play_chunk},
 	{NULL, NULL}
 };
 
 static const luaL_Reg private_methods[] = {
 	{"open", lua_openaudio},
-	{"load_effect", lua_loadeffect},
+	{"load_chunk", lua_loadchunk},
 	//{"load_music", lua_loadmusic},
 	{NULL, NULL}
 };
