@@ -146,9 +146,48 @@ static int lua_channels(lua_State* l)
 	return 1;
 }
 
+static int lua_channel_volume(lua_State* l)
+{
+
+	lua_pushnumber(l,
+		Mix_Volume(
+			luaL_optinteger(l, 1, -1),
+			luaL_optinteger(l, 2, -1)
+			)
+		);
+	return 1;
+}
+
+static int lua_pause_channel(lua_State* l)
+{
+	Mix_Pause(luaL_optinteger(l, 1, -1));
+	return 0;
+}
+
+static int lua_resume_channel(lua_State* l)
+{
+	Mix_Resume(luaL_optinteger(l, 1, -1));
+	return 0;
+}
+
+static int lua_fade_out_channel(lua_State* l)
+{
+	lua_pushnumber(l, 
+	Mix_FadeOutChannel(
+			luaL_checkinteger(l, 1),
+			luaL_checkinteger(l, 2)
+			)
+	);
+	return 1;
+}
+
 static const luaL_Reg methods[] = {
-	{"volume", lua_get_chunk_volume},
+	{"chunk_volume", lua_get_chunk_volume},
+	{"channel_volume", lua_channel_volume},
 	{"play", lua_play_chunk},
+	{"pause_channel", lua_pause_channel},
+	{"resume_channel", lua_resume_channel},
+	{"fadeout_channel", lua_fade_out_channel},
 	{NULL, NULL}
 };
 
