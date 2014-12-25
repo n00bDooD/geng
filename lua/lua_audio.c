@@ -136,6 +136,16 @@ static int lua_play_chunk(lua_State* l)
 	return 0;
 }
 
+static int lua_channels(lua_State* l)
+{
+	lua_pushnumber(l,
+		Mix_AllocateChannels(
+			luaL_optinteger(l, 1, -1)
+			)
+		);
+	return 1;
+}
+
 static const luaL_Reg methods[] = {
 	{"volume", lua_get_chunk_volume},
 	{"play", lua_play_chunk},
@@ -144,6 +154,7 @@ static const luaL_Reg methods[] = {
 
 static const luaL_Reg private_methods[] = {
 	{"open", lua_openaudio},
+	{"channels", lua_channels},
 	{"load_chunk", lua_loadchunk},
 	//{"load_music", lua_loadmusic},
 	{NULL, NULL}
