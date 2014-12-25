@@ -80,8 +80,8 @@ static int lua_loadeffect(lua_State* l)
 	a->effects[idx] = s;
 	a->effects[idx+1] = NULL;
 
-
-	return 0;
+	lua_pushnumber(l, idx+1);
+	return 1;
 }
 
 static const luaL_Reg methods[] = {
