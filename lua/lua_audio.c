@@ -170,7 +170,7 @@ static int lua_resume_channel(lua_State* l)
 	return 0;
 }
 
-static int lua_fade_out_channel(lua_State* l)
+ static int lua_fade_out_channel(lua_State* l)
 {
 	lua_pushnumber(l, 
 		Mix_FadeOutChannel(
@@ -178,6 +178,35 @@ static int lua_fade_out_channel(lua_State* l)
 			luaL_checkinteger(l, 2)
 			)
 	);
+	return 1;
+}
+
+static int lua_loadmusic(lua_State* l)
+{
+	sdl_audio* a = get_audio_registry(l);
+
+	const char* fname = lua_tolstring(l, 1, NULL);
+	if (fname == NULL) luaL_error(l, "Name cannot be null");
+
+	Mix_Music* m = Mix_LoadMUS(fname);
+	if (m == NULL) {
+		luaL_error(l, Mix_GetError());
+	}
+
+	int idx = 0;
+	if (a->musics == NULL) {
+		idx = 1;
+	} else {
+		while(a->musics[idx++] != NULL);
+	}
+	Mix_Music** mu = realloc(a->musics, idx * sizeof(Mix_Music**));
+	if (mu == NULL) luaL_error(l, "realloc");
+
+	a->musics = mu;
+	a->musics[idx-1] = m;
+	a->musics[idx] = NULL;
+
+	lua_pushnumber(l, idx);
 	return 1;
 }
 
@@ -195,7 +224,7 @@ static const luaL_Reg private_methods[] = {
 	{"open", lua_openaudio},
 	{"channels", lua_channels},
 	{"load_chunk", lua_loadchunk},
-	//{"load_music", lua_loadmusic},
+	{"load_music", lua_loadmusic},
 	{NULL, NULL}
 };
 
