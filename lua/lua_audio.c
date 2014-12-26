@@ -210,6 +210,41 @@ static int lua_loadmusic(lua_State* l)
 	return 1;
 }
 
+static int lua_play_music(lua_State* l)
+{
+	sdl_audio* a = get_audio_registry(l);
+	int idx = luaL_checknumber(l, 1);
+
+	Mix_Music* m = a->musics[idx-1];
+	int loops = luaL_optinteger(l, 2, -1);
+	int ms = luaL_optinteger(l, 3, -1);
+	if (ms < 0) {
+		Mix_PlayMusic(
+			m,
+			loops
+		     );
+	} else {
+		Mix_FadeInMusicPos(
+			m,
+			loops,
+			ms,
+			luaL_optnumber(l, 4, 0)
+			);
+	}
+	return 0;
+}
+
+static int lua_fade_out_music(lua_State* l)
+{
+	lua_pushnumber(
+			l,
+			Mix_FadeOutMusic(
+				luaL_checkinteger(l, 1)
+			)
+		    );
+	return 1;
+}
+
 static const luaL_Reg methods[] = {
 	{"chunk_volume", lua_get_chunk_volume},
 	{"channel_volume", lua_channel_volume},
@@ -217,6 +252,8 @@ static const luaL_Reg methods[] = {
 	{"pause_channel", lua_pause_channel},
 	{"resume_channel", lua_resume_channel},
 	{"fadeout_channel", lua_fade_out_channel},
+	{"play_music", lua_play_music},
+	{"fadeout_music", lua_fade_out_music},
 	{NULL, NULL}
 };
 
