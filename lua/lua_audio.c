@@ -109,7 +109,7 @@ static int lua_play_chunk(lua_State* l)
 	int idx = luaL_checkinteger(l, 1);
 	Mix_Chunk* c = a->chunks[idx-1];
 	// Number of loops. -1 means infinite
-	int loops = luaL_optinteger(l, 3, -1);
+	int loops = luaL_optinteger(l, 3, 0);
 	// Number of milliseconds to play,
 	// -1 means infinite
 	int ms = luaL_optinteger(l, 3, -1);

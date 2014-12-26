@@ -11,6 +11,8 @@ end
 local next_step = 0
 local cur_step = 0
 
+local ducked = false
+
 function scene_update(obj, step)
 
 	local horinp = input.get('horizontal') * xacc
@@ -19,11 +21,14 @@ function scene_update(obj, step)
 	if is_grounded(obj) then
 		obj:apply_impulse(vector.new(horinp, 0))
 		if vertinp > 0 then
-			audio.play(2, -1, 0)
+			audio.play(2)
 			obj:apply_impulse(vector.new(0, jump_strength))
 		elseif vertinp < 0 then
-			audio.play(1, -1, 0)
+			if not ducked then audio.play(1) end
+			ducked = true
 			-- Set duck
+		else
+			ducked = false
 		end
 		if horinp > 0.01 then
 			obj:send_message('character_anim', {state='walk',direction='right'})
