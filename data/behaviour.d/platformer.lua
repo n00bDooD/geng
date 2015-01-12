@@ -23,6 +23,8 @@ function scene_update(obj, step)
 	local horinp = input.get('horizontal') * xacc
 	local vertinp = input.get('vertical')
 
+	obj:set_angle(0)
+
 	if is_grounded(obj) then
 		left_ground = 0
 		obj:apply_impulse(vector.new(horinp, 0))
