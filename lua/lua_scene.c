@@ -102,14 +102,11 @@ static int lua_load_prefab(lua_State* l)
 	if(filename == NULL) {
 		luaL_error(l, "Valid name to prefab file required.");
 	}
+	luaL_checktype(l, 2, LUA_TFUNCTION);
 	char* tmp = strdup(filename);
 	if(tmp == NULL) {
 		luaL_error(l, "Memory allocation error");
 	}
-	char* prefabname = basename(tmp);
-	char* end = strchr(prefabname, '.');
-	if(end != NULL)
-		*end = '\0';
 
 	/* Push prefab table on stack */
 	lua_pushstring(l, "geng.prefabs");
@@ -117,26 +114,19 @@ static int lua_load_prefab(lua_State* l)
 	if(lua_isnil(l, -1)) {
 		lua_newtable(l);
 	}
+	lua_pushstring(l, tmp);
 
-	lua_pushstring(l, prefabname);
-	switch(luaL_loadfile(l, filename)) {
-		case 0:
-			/* OK. Set the key prefabname to the loaded string,
-			 * in the table at index -3 (prefab-table).
-			 * Then, save prefab table in registry. */
-			lua_rawset(l, -3);
-			lua_pushstring(l, "geng.prefabs");
-			lua_insert(l, -2);
-			lua_rawset(l, LUA_REGISTRYINDEX);
-			break;
-		case LUA_ERRSYNTAX:
-		case LUA_ERRMEM:
-		case LUA_ERRFILE:
-			{
-			const char* error = luaL_checklstring(l, -1, NULL);
-			luaL_error(l, error);
-			}
-	}
+	/* Move the function in stack position 2 (function arg) 
+	 * to the top of the stack before setting the table*/
+	lua_pushvalue(l, 2);
+
+	/* OK. Set the key prefabname to the loaded string,
+	 * in the table at index -3 (prefab-table).
+	 * Then, save prefab table in registry. */
+	lua_rawset(l, -3);
+	lua_pushstring(l, "geng.prefabs");
+	lua_insert(l, -2);
+	lua_rawset(l, LUA_REGISTRYINDEX);
 	return 0;
 }
 
@@ -190,14 +180,11 @@ static int lua_load_behaviour(lua_State* l)
 	if(filename == NULL) {
 		luaL_error(l, "Valid name to behaviour file required.");
 	}
+	luaL_checktype(l, 2, LUA_TFUNCTION);
 	char* tmp = strdup(filename);
 	if(tmp == NULL) {
 		luaL_error(l, "Memory allocation error");
 	}
-	char* behavname = basename(tmp);
-	char* end = strchr(behavname, '.');
-	if(end != NULL)
-		*end = '\0';
 
 	lua_pushstring(l, "geng.behaviours");
 	lua_rawget(l, LUA_REGISTRYINDEX);
@@ -206,7 +193,7 @@ static int lua_load_behaviour(lua_State* l)
 		lua_newtable(l);
 	}
 
-	lua_pushstring(l, behavname);
+	lua_pushstring(l, tmp);
 
 	// Check if we need to reload this behaviour in
 	// the entire scene
@@ -214,37 +201,27 @@ static int lua_load_behaviour(lua_State* l)
 	lua_rawget(l, -3);
 	bool reloading_function = !lua_isnil(l, -1);
 	lua_pop(l, 1);
+	
+	/* Push function-argument to the top of the stack */
+	lua_pushvalue(l, 2);
 
-	switch(luaL_loadfile(l, filename)) {
-		case 0:
-			// OK
-			if (reloading_function) {
-				// Copy values for refreshing the 
-				// scene with if needed
-				lua_pushvalue(l, -2);
-				lua_pushvalue(l, -2);
-				lua_insert(l, -5);
-				lua_insert(l, -5);
-			}
+	if (reloading_function) {
+		// Copy values for refreshing the 
+		// scene with if needed
+		lua_pushvalue(l, -2);
+		lua_pushvalue(l, -2);
+		lua_insert(l, -5);
+		lua_insert(l, -5);
+	}
 
-			lua_rawset(l, -3);
-			lua_pushstring(l, "geng.behaviours");
-			lua_insert(l, -2);
-			lua_rawset(l, LUA_REGISTRYINDEX);
+	lua_rawset(l, -3);
+	lua_pushstring(l, "geng.behaviours");
+	lua_insert(l, -2);
+	lua_rawset(l, LUA_REGISTRYINDEX);
 
-			// Reload for current scene
-			if (reloading_function) {
-				reload_behaviour(scn, behavname, l);
-			}
-
-			break;
-		case LUA_ERRSYNTAX:
-		case LUA_ERRMEM:
-		case LUA_ERRFILE:
-			{
-			const char* error = luaL_checklstring(l, -1, NULL);
-			luaL_error(l, error);
-			}
+	// Reload for current scene
+	if (reloading_function) {
+		reload_behaviour(scn, tmp, l);
 	}
 	return 0;
 }
