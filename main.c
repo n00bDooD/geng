@@ -67,16 +67,6 @@ void luaHandleResult(lua_State* state, int res, char* sorcestr)
 	}
 }
 
-#if 0
-void update_ball(object* o)
-{
-	input* in = services_get_input();
-	double x = in->get_input(in->input_data, "horizontal");
-	double y = in->get_input(in->input_data, "vertical");
-	cpBodyApplyImpulse(o->transform.rigidbody, cpv(x, y), cpvzero);
-}
-#endif
-
 char** get_files_in_dir(const char* dir, const char* file_ending, size_t* count)
 {
 	size_t num = 0;
