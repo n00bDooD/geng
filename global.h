@@ -10,7 +10,7 @@
 
 #define sdl_error(x) do { fprintf(stderr, "%s %s:%i: %s\n", x, __FILE__, __LINE__, SDL_GetError()); } while(0)
 
-#define lua_error(l, r, w) do { \
+#define plua_error(l, r, w) do { \
 	if (r != 0) { \
 		const char* lua_error_error_message = lua_tolstring(l, -1, NULL); \
 		switch (r) { \

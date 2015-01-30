@@ -115,7 +115,7 @@ int main(int argc, char** argv)
 		luaL_openlibs(l);
 		register_config_input(l, inpdat);
 		int res = luaL_dofile(l, "data/input_config.lua");
-		lua_error(l, res, "data/input_config.lua");
+		plua_error(l, res, "data/input_config.lua");
 		lua_close(l);
 	}
 
@@ -124,7 +124,7 @@ int main(int argc, char** argv)
 		luaL_openlibs(l2);
 		register_renderer(l2, sdlrend);
 		int res = luaL_dofile(l2, "data/renderer_config.lua");
-		lua_error(l2, res, "data/renderer_config.lua");
+		plua_error(l2, res, "data/renderer_config.lua");
 		lua_close(l2);
 	}
 
@@ -133,7 +133,7 @@ int main(int argc, char** argv)
 		luaL_openlibs(l);
 		register_config_audio(l, sdlaud);
 		int res = luaL_dofile(l, "data/audio_config.lua");
-		lua_error(l, res, "data/audio_config.lua");
+		plua_error(l, res, "data/audio_config.lua");
 		lua_close(l);
 	}
 	{
@@ -147,7 +147,7 @@ int main(int argc, char** argv)
 		register_input(l3, inpdat);
 		register_audio(l3, sdlaud);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
-		lua_error(l3, res, "data/scene_init.lua");
+		plua_error(l3, res, "data/scene_init.lua");
 
 	}
 

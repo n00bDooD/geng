@@ -18,7 +18,7 @@ void try_call_func(lua_State* l, cpArbiter* arb, const char* fname, phys_callbac
 		collision_pair* cp = luaG_pushcollpair(l, arb);
 		cp->current = current;
 		int res = lua_pcall(l, 1, 0, 0);
-		lua_error(l, res, "collision handler");
+		plua_error(l, res, "collision handler");
 	}
 }
 
