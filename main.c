@@ -3,10 +3,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
 #include <chipmunk/chipmunk.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
