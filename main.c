@@ -289,20 +289,6 @@ int main(int argc, char** argv)
 		SDL_RenderPresent(r);
 	}
 
-	//cpShapeFree(g);
-	//cpShapeFree(balls);
-	//cpSpaceRemoveBody(spas, o[0].transform.rigidbody);
-	//cpSpaceRemoveBody(spas, o[1].transform.rigidbody);
-	//cpBodyFree(o[0].transform.rigidbody);
-	//cpBodyFree(o[1].transform.rigidbody);
-
-	//SDL_DestroyTexture(o[0].sprite);
-	//SDL_DestroyTexture(o[1].sprite);
-	//free(o);
-
-	//cpSpaceFree(spas);
-	//physics_sim_delete(services_register_simulation(NULL));
-
 	inpdat = delete_inputaxis(services_register_input(NULL));
 	if(inpdat->axes != NULL) {
 		free(inpdat->axes);
