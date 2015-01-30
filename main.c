@@ -214,57 +214,8 @@ int main(int argc, char** argv)
 		luaHandleResult(l3, res, "data/scene_init.lua");
 
 	}
-	//create_axis(inpdat, "horizontal", default_settings());
-	//create_axis(inpdat, "vertical", default_settings());
 
-#if 0
-	/* ## Set up ground ## */
-	cpVect boxverts[4] = {
-		cpv(-110,  35),
-		cpv( 110,  35),
-		cpv( 110, -35),
-		cpv(-110, -35)
-		};
-	o[0].name = "Ground";
-	o[0].update = NULL;
-	o[0].transform.rigidbody = cpBodyNewStatic();
-	cpBodySetPos(o[0].transform.rigidbody, cpv(50, -250));
-	cpShape* g = cpPolyShapeNew(o[0].transform.rigidbody, 4, boxverts, cpvzero);
-	cpShapeSetFriction(g, 100);
-	cpSpaceAddShape(spas, g);
-
-	/*
-	int gtexfd = open("kenney/tga/Wood elements/elementWood012.tga", O_RDONLY);
-	o[0].sprite = load_tga(r, gtexfd);
-	o[0].sprite_offset_x = 0;
-	o[0].sprite_offset_y = 0;
-	close(gtexfd);
-	*/
-
-
-	
-	/* ## Set up hero-ball ## */
-	cpFloat radius = 70;
-	cpFloat mass = 0.1;
-
-	o[1].name = "Hero ball";
-	o[1].update = &update_ball;
-	//o[1].sprite_offset_x = radius * 0.5;
-//	o[1].sprite_offset_y = radius * -0.5;
-	o[1].transform.rigidbody = cpSpaceAddBody(spas, cpBodyNew(mass, cpMomentForCircle(mass, 0, radius, cpvzero)));
-	
-	cpBodySetPos(o[1].transform.rigidbody, cpv(0, 0));
-	cpShape* balls = cpSpaceAddShape(spas, cpCircleShapeNew(o[1].transform.rigidbody, radius, cpvzero));
-	cpShapeSetFriction(balls, 0.7);
-	
-	/*
-	int texfd = open("kenney/tga/Aliens/alienBlue_round.tga", O_RDONLY);
-	o[1].sprite = load_tga(r, texfd);
-	close(texfd);
-	*/
-#endif
-
-	/* )# Set up control mappings ## */
+	/* ## Set up control mappings ## */
 	mapping* control_map = (mapping*)calloc(6, sizeof(mapping));
 	if(control_map == NULL) error("Allocate control map");
 	control_map[0].key = SDLK_w;
