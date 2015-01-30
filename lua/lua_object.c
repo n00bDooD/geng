@@ -441,11 +441,7 @@ static int lua_object_send_message(lua_State* l)
 			luaG_pushobject(r, o->o);
 			luaExt_copy(l, r);
 			int result = lua_pcall(r, 2, 0, 0);
-			if(result != 0) {
-				const char* err = lua_tolstring(r, -1, NULL);
-				if(err == NULL) err = "Lua error in receive";
-				fprintf(stderr, "Receive error in %s: %s", name, err);
-			}
+			lua_error(r, result, "receive");
 			return 0;
 		}
 	}
@@ -521,11 +517,7 @@ void run_update_method(object* o, lua_State* l, const char* bname, double time_s
 	luaG_pushobject(l, o);
 	lua_pushnumber(l, time_step);
 	int result = lua_pcall(l, 2, LUA_MULTRET, 0);
-	if(result != 0) {
-		const char* err = lua_tolstring(l, -1, NULL);
-		if(err == NULL) err = "Lua error in update";
-		fprintf(stderr, "Error in update for behaviour '%s': %s\n", bname, err);
-	}
+	lua_error(l, result, bname);
 }
 
 void step_object(object* o, double time_step)
