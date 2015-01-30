@@ -115,11 +115,41 @@ static int lua_query_segment_first(lua_State* l)
 	return 3;
 }
 
+static int lua_set_drag(lua_State* l) {
+	scene* s = get_scene_registry(l);
+	cpSpaceSetDamping(s->physics_data, luaL_checknumber(l, 1));
+	return 0;
+}
+
+static int lua_get_drag(lua_State* l) {
+	scene* s = get_scene_registry(l);
+	lua_pushnumber(l, cpSpaceGetDamping(s->physics_data));
+	return 1;
+}
+
+
+static int lua_set_gravity(lua_State* l) {
+	scene* s = get_scene_registry(l);
+	cpSpaceSetGravity(s->physics_data, *(luaG_checkvect(l, 1)));
+	return 0;
+}
+
+static int lua_get_gravity(lua_State* l) {
+	scene* s = get_scene_registry(l);
+	cpVect* v = luaG_pushvect(l);
+	*v = cpSpaceGetGravity(s->physics_data);
+	return 1;
+}
+
 static const luaL_Reg methods[] = {
 	{"nearest", lua_query_nearest},
 	{"box", lua_query_aabb},
 	{"segment", lua_query_segment},
 	{"segment_first", lua_query_segment_first},
+	{"drag", lua_get_drag},
+	{"set_drag", lua_set_drag},
+	{"gravity", lua_get_gravity},
+	{"set_gravity", lua_set_gravity},
 	{NULL, NULL}
 };
 

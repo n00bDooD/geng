@@ -157,6 +157,12 @@ void enable_object_physics(object* o, double mass, double moment)
 {
 	if(cpBodyIsStatic(o->physics)) {
 		cpSpace* s = ((scene*)o->parent)->physics_data;
+		if (mass == 0) {
+			mass = INFINITY;
+		}
+		if (moment == 0) {
+			moment = INFINITY;
+		}
 		cpSpaceConvertBodyToDynamic(s, o->physics, mass, moment);
 		cpSpaceAddBody(s, o->physics);
 	}

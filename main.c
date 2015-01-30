@@ -29,6 +29,7 @@
 #include "lua/lua_colliders.h"
 #include "lua/lua_collision.h"
 #include "lua/lua_collisionpair.h"
+#include "lua/lua_physics.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -99,7 +100,6 @@ int main(int argc, char** argv)
 	/* ## Set up physics ## */
 	cpEnableSegmentToSegmentCollisions();
 	cpSpace* spas = cpSpaceNew();
-	cpSpaceSetGravity(spas, cpv(0, -98.1 * 4));
 	s->physics_data = spas;
 	setup_collision(s);
 
@@ -146,6 +146,7 @@ int main(int argc, char** argv)
 		register_collpair(l3);
 		register_input(l3, inpdat);
 		register_audio(l3, sdlaud);
+		register_physics(l3);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
 		plua_error(l3, res, "data/scene_init.lua");
 
