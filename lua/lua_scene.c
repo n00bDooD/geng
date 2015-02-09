@@ -252,11 +252,46 @@ static int lua_spawn_prefab(lua_State* l)
 	return 1;
 }
 
+static int lua_load_scene(lua_State* l)
+{
+	const char* filename = luaL_checklstring(l, 1, NULL);
+	if(filename == NULL) {
+		luaL_error(l, "Valid name required.");
+	}
+	luaL_checktype(l, 2, LUA_TFUNCTION);
+	char* tmp = strdup(filename);
+	if(tmp == NULL) {
+		luaL_error(l, "Memory allocation error");
+	}
+
+	/* Push prefab table on stack */
+	lua_pushstring(l, "geng.scenes");
+	lua_rawget(l, LUA_REGISTRYINDEX);
+	if(lua_isnil(l, -1)) {
+		lua_newtable(l);
+	}
+	lua_pushstring(l, tmp);
+
+	/* Move the function in stack position 2 (function arg) 
+	 * to the top of the stack before setting the table*/
+	lua_pushvalue(l, 2);
+
+	/* OK. Set the key prefabname to the loaded string,
+	 * in the table at index -3 (prefab-table).
+	 * Then, save prefab table in registry. */
+	lua_rawset(l, -3);
+	lua_pushstring(l, "geng.scenes");
+	lua_insert(l, -2);
+	lua_rawset(l, LUA_REGISTRYINDEX);
+	return 0;
+}
+
 static const luaL_Reg methods[] = {
 	{"newobject", lua_new_object},
 	{"spawn_prefab", lua_spawn_prefab},
 	{"load_prefab_file", lua_load_prefab},
 	{"load_behaviour_file", lua_load_behaviour},
+	{"load_scene", lua_load_scene},
 	{NULL, NULL}
 };
 

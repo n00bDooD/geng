@@ -35,16 +35,32 @@
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
 
+scene* create_new_scene(size_t pool_size, void* render_data, void* physics_data) 
+{
+	scene* s = calloc(1, sizeof(scene));
+	s->pool = calloc(pool_size, sizeof(object));
+	if(s->pool == NULL) error("Cannot allocate object pool");
+	s->num_objects = pool_size;
+	s->render_data = render_data;
+	s->physics_data = physics_data;
+
+	setup_collision(s);
+	return s;
+}
+
+int main_scene_step(scene* s)
+{
+	cpSpaceStep(s->physics_data, STATIC_TIMESTEP);
+	step_scene(s, STATIC_TIMESTEP);
+	// Delete any objects marked DELETED
+	cleanup_deleted(s);
+	return 0;
+}
+
 int main(int argc, char** argv)
 {
 	UNUSED(argc);
 	UNUSED(argv);
-
-	size_t pool_size = 10000;
-	scene* s = (scene*)calloc(1, sizeof(scene));
-	s->pool = (object*)calloc(pool_size, sizeof(object));
-	if(s->pool == NULL) error("Cannot allocate object pool");
-	s->num_objects = pool_size;
 
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 
@@ -91,13 +107,10 @@ int main(int argc, char** argv)
 	sdlrend->cam.scale = 1;
 	sdlrend->cam.x = 0;
 	sdlrend->cam.y = 0;
-	s->render_data = sdlrend;
 
 	/* ## Set up physics ## */
 	cpEnableSegmentToSegmentCollisions();
 	cpSpace* spas = cpSpaceNew();
-	s->physics_data = spas;
-	setup_collision(s);
 
 	/* ## Set up input ## */
 	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));
@@ -132,6 +145,8 @@ int main(int argc, char** argv)
 		plua_error(l, res, "data/audio_config.lua");
 		lua_close(l);
 	}
+
+	scene* s = create_new_scene(10000, sdlrend, spas);
 	{
 		lua_State* l3 = luaL_newstate();
 		luaL_openlibs(l3);
@@ -198,15 +213,7 @@ int main(int argc, char** argv)
 			reset_axis_values(inpdat);
 			apply_keyboard_input(inpdat, control_map);
 
-
-			//simulation* sim = services_get_simulation();
-			//sim->simulate_step(sim->simulation_data, STATIC_TIMESTEP);
-			cpSpaceStep(spas, STATIC_TIMESTEP);
-
-			step_scene(s, STATIC_TIMESTEP);
-
-			// Delete any objects marked DELETED
-			cleanup_deleted(s);
+			main_scene_step(s);
 
 			next_game_tick += SKIP_TICKS;
 			loops++;
