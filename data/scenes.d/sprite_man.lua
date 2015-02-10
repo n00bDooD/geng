@@ -1,3 +1,6 @@
+physics.set_drag(0.9);
+physics.set_gravity(vector.new(0, -98.1 * 4));
+
 scene.load_prefab_file("hero", loadfile("data/prefabs.d/hero.lua"))
 scene.load_prefab_file("buddy", loadfile("data/prefabs.d/buddy.lua"))
 scene.load_prefab_file("baddie", loadfile("data/prefabs.d/baddie.lua"))
@@ -21,3 +24,6 @@ for i = 0, 20 do
 	local blocker = scene.spawn_prefab('fly')
 	blocker:set_pos(51 * i, -600)
 end
+
+physics.reindex_static()
+

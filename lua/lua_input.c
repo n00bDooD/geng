@@ -22,6 +22,7 @@ inputaxis_data* get_input_registry(lua_State* L)
 	lua_pushstring(L, REGISTRY_KEY);
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	inputaxis_data* ret = (inputaxis_data*)lua_touserdata(L, -1);
+	lua_pop(L, 1);
 	if(ret == NULL) {
 		luaL_error(L, "Could not find input data");
 	}

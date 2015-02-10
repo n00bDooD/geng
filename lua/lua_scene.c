@@ -9,10 +9,13 @@
 
 #include "../global.h"
 
+#include "../game.h"
 #include "../scene.h"
 #include "globlua.h"
 #include "lua_object.h"
 #include "lua_copy.h"
+#include "lua_input.h"
+#include "lua_audio.h"
 
 #include <stdbool.h>
 #include <string.h>
@@ -277,12 +280,60 @@ static int lua_load_scene(lua_State* l)
 	return 0;
 }
 
+static int lua_set_scene(lua_State* l)
+{
+	luaG_getreg(l, "game");
+	if (lua_isnil(l, -1)) goto no_game;
+	game* g = lua_touserdata(l, -1);
+	if (g == NULL) goto no_game;
+	lua_pop(l, 1);
+
+	const char* scene_name = luaL_checklstring(l, 1, NULL);
+	if(scene_name == NULL) {
+		luaL_error(l, "Valid name required.");
+	}
+
+	luaG_getreg(l, "scenes");
+	if (lua_isnil(l, -1)) goto no_scene;
+
+	lua_pushstring(l, scene_name);
+	lua_rawget(l, -2);
+	if (lua_isnil(l, -1)) goto no_scene;
+
+	luaG_getreg(l, "physics");
+	void* physics = lua_touserdata(l, -1);
+	luaG_getreg(l, "renderer");
+	void* render = lua_touserdata(l, -1);
+	lua_pop(l, 2);
+
+	lua_State* nl = luaG_newstate(l);
+	scene* news = create_new_scene(nl, 10000, render, physics);
+
+	luaG_register_all(nl, news, get_input_registry(l), get_audio_registry(l));
+
+	luaExt_copy(l, nl);
+	int res = lua_pcall(nl, 0, 0, 0);
+	plua_error(nl, res, "set_scene");
+
+	game_add_scene(g, news);
+	game_set_current(g, news);
+
+	return 0;
+no_scene:
+	luaL_error(l, "Unknown scene");
+	return 0;
+no_game:
+	luaL_error(l, "No current game state");
+	return 0;
+}
+
 static const luaL_Reg methods[] = {
 	{"newobject", lua_new_object},
 	{"spawn_prefab", lua_spawn_prefab},
 	{"load_prefab_file", lua_load_prefab},
 	{"load_behaviour_file", lua_load_behaviour},
 	{"load_scene", lua_load_scene},
+	{"set_scene", lua_set_scene},
 	{NULL, NULL}
 };
 
@@ -292,7 +343,7 @@ static const luaL_Reg meta_methods[] = {
 
 int register_scene(lua_State *L, scene* s)
 {
-	set_scene_registry(L, s);
+	if (s != NULL) set_scene_registry(L, s);
 
 	luaL_register(L, TYPE_NAME, methods);
 	lua_pop(L, 1);

@@ -24,6 +24,9 @@ void set_scene_property(scene*, const char*, void* p);
 #define set_scene_physics(x, p) set_scene_property(x, "physics", p)
 #define set_scene_renderer(x, p) set_scene_property(x, "renderer", p)
 
+scene* create_new_scene(lua_State* l, size_t pool_size, void* render_data,
+		void* physics_data);
+
 object* get_first_unused(scene*);
 
 object* create_object(scene*);

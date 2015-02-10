@@ -27,11 +27,11 @@ void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a)
 	register_colliders(s);
 	lua_pop(s, 1);
 	register_scene(s, se);
-	lua_pop(s, 1);
+	//lua_pop(s, 1);
 	register_collpair(s);
 	lua_pop(s, 1);
 	register_physics(s);
-	lua_pop(s, 1);
+	//lua_pop(s, 1);
 	register_audio(s, a);
 	lua_pop(s, 1);
 }
@@ -110,6 +110,7 @@ void luaG_copy_state(lua_State* from, lua_State* to)
 	lua_rawset(to, LUA_REGISTRYINDEX);
 
 	/* OK */
+	lua_pop(from, 1);
 }
 
 void luaG_init_state(lua_State* l)
@@ -117,6 +118,8 @@ void luaG_init_state(lua_State* l)
 	lua_pushlightuserdata(l, (void*)&lua_registry_key);
 	lua_newtable(l);
 	lua_rawset(l, LUA_REGISTRYINDEX);
+
+	luaG_register_all(l, NULL, NULL, NULL);
 }
 
 lua_State* luaG_newstate(lua_State* l)

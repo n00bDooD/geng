@@ -16,6 +16,8 @@
 #include "services/inputaxis.h"
 #include "services/sdl_input_shim.h"
 
+#include "game.h"
+
 #include "lua/globlua.h"
 #include "lua/lua_audio.h"
 #include "lua/lua_input.h"
@@ -36,6 +38,23 @@
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
 
+refc_ptr* refcounted_ptr_create()
+{
+	refc_ptr* p = calloc(1, sizeof(refc_ptr));
+	p->next = p;
+	p->prev = p;
+	return p;
+}
+
+game* create_game()
+{
+	game* g = calloc(1, sizeof(game));
+	g->windows = refcounted_ptr_create();
+	g->render_data = refcounted_ptr_create();
+
+	return g;
+}
+
 inputaxis_data* input_config()
 {
 	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));
@@ -51,20 +70,6 @@ inputaxis_data* input_config()
 	lua_close(inputlua);
 
 	return inpdat;
-}
-
-scene* create_new_scene(lua_State* l, size_t pool_size, void* render_data, void* physics_data) 
-{
-	scene* s = calloc(1, sizeof(scene));
-	s->pool = calloc(pool_size, sizeof(object));
-	if(s->pool == NULL) error("Cannot allocate object pool");
-	s->num_objects = pool_size;
-	s->engine = l;
-	set_scene_renderer(s, render_data);
-	set_scene_physics(s, physics_data);
-
-	setup_collision(s);
-	return s;
 }
 
 int main_scene_step(scene* s)
@@ -115,7 +120,6 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	
 	inputaxis_data* inpdat = input_config();
 	services_register_input(create_inputaxis(inpdat));
 
@@ -150,12 +154,22 @@ int main(int argc, char** argv)
 	cpEnableSegmentToSegmentCollisions();
 	cpSpace* spas = cpSpaceNew();
 
-	scene* s = NULL;
+	game* g = create_game();
+	g->windows->p = w;
+	g->render_data->p = r;
 	{
 		lua_State* l3 = luaG_newstate(NULL);
-		s = create_new_scene(l3, 10000, sdlrend, spas);
+		lua_pushlightuserdata(l3, g);
+		luaG_setreg(l3, "game");
+
+		lua_pushlightuserdata(l3, spas);
+		luaG_setreg(l3, "physics");
+
+		lua_pushlightuserdata(l3, sdlrend);
+		luaG_setreg(l3, "renderer");
+
 		luaL_openlibs(l3);
-		register_scene(l3, s);
+		register_scene(l3, NULL);
 		register_object(l3);
 		register_vector(l3);
 		register_colliders(l3);
@@ -163,8 +177,8 @@ int main(int argc, char** argv)
 		register_input(l3, inpdat);
 		register_audio(l3, sdlaud);
 		register_physics(l3);
-		int res = luaL_dofile(l3, "data/scene_init.lua");
-		plua_error(l3, res, "data/scene_init.lua");
+		int res = luaL_dofile(l3, "data/init.lua");
+		plua_error(l3, res, "data/init.lua");
 	}
 
 	/* ## Set up control mappings ## */
@@ -215,7 +229,7 @@ int main(int argc, char** argv)
 			reset_axis_values(inpdat);
 			apply_keyboard_input(inpdat, control_map);
 
-			main_scene_step(s);
+			main_scene_step(g->current);
 
 			next_game_tick += SKIP_TICKS;
 			loops++;
@@ -227,7 +241,7 @@ int main(int argc, char** argv)
 
 		// Draw shit
 		//draw_objects(num_objects, o);
-		draw_objects(s);
+		draw_objects(g->current);
 		SDL_RenderPresent(r);
 	}
 

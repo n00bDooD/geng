@@ -20,10 +20,13 @@ typedef struct {
 	size_t num_scenes;
 	scene* scenes;
 
+	scene* current;
+
 	refc_ptr* render_data;
 	refc_ptr* windows;
 } game;
 
 void game_add_scene(game*, scene*);
+void game_set_current(game*, scene*);
 
 #endif

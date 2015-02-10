@@ -10,7 +10,7 @@
 #include "../services/sdl_audio.h"
 
 #define TYPE_NAME "audio"
-#define REGISTRY_KEY "geng.renderer"
+#define REGISTRY_KEY "geng.audio"
 
 sdl_audio* luaG_checkaudio(lua_State* L, int index)
 {

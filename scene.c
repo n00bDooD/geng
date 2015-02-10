@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "global.h"
 #include "lua/globlua.h"
+#include "lua/lua_collision.h"
 
 object* get_first_unused(scene* s)
 {
@@ -197,3 +198,19 @@ void set_scene_property(scene* s, const char* property, void* p)
 	lua_pushlightuserdata(s->engine, p);
 	luaG_setreg(s->engine, property);
 }
+
+
+scene* create_new_scene(lua_State* l, size_t pool_size, void* render_data, void* physics_data) 
+{
+	scene* s = calloc(1, sizeof(scene));
+	s->pool = calloc(pool_size, sizeof(object));
+	if(s->pool == NULL) error("Cannot allocate object pool");
+	s->num_objects = pool_size;
+	s->engine = l;
+	set_scene_renderer(s, render_data);
+	set_scene_physics(s, physics_data);
+
+	setup_collision(s);
+	return s;
+}
+
