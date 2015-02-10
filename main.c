@@ -36,6 +36,23 @@
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
 
+inputaxis_data* input_config()
+{
+	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));
+	if(inpdat == NULL) error("Create input data structure");
+	inpdat->num_inputaxes = 0;
+	inpdat->axes = NULL;
+
+	lua_State* inputlua = luaL_newstate();
+	luaL_openlibs(inputlua);
+	register_config_input(inputlua, inpdat);
+	int res = luaL_dofile(inputlua, "data/input_config.lua");
+	plua_error(inputlua, res, "data/input_config.lua");
+	lua_close(inputlua);
+
+	return inpdat;
+}
+
 scene* create_new_scene(lua_State* l, size_t pool_size, void* render_data, void* physics_data) 
 {
 	scene* s = calloc(1, sizeof(scene));
@@ -98,20 +115,9 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	/* ## Set up input ## */
-	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));
-	if(inpdat == NULL) error("Create input data structure");
-	inpdat->num_inputaxes = 0;
-	inpdat->axes = NULL;
+	
+	inputaxis_data* inpdat = input_config();
 	services_register_input(create_inputaxis(inpdat));
-	{
-		lua_State* l = luaL_newstate();
-		luaL_openlibs(l);
-		register_config_input(l, inpdat);
-		int res = luaL_dofile(l, "data/input_config.lua");
-		plua_error(l, res, "data/input_config.lua");
-		lua_close(l);
-	}
 
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 	sdlrend->rend = r;
