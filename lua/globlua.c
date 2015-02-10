@@ -60,7 +60,7 @@ void luaG_getreg(lua_State* l, const char* regname)
 	 * variables, using the address of a const variable.
 	 * This will allow the linker to ensure that this key
 	 * is unique to other pointers. */
-	lua_pushlightuserdata(l, (void*)lua_registry_key);
+	lua_pushlightuserdata(l, (void*)&lua_registry_key);
 	lua_rawget(l, LUA_REGISTRYINDEX);
 
 	/* Assume it's a table.
@@ -75,10 +75,10 @@ void luaG_getreg(lua_State* l, const char* regname)
 
 void luaG_setreg(lua_State* l, const char* regname)
 {
-	lua_pushlightuserdata(l, (void*)lua_registry_key);
+	lua_pushlightuserdata(l, (void*)&lua_registry_key);
 
 	/* Get value-table */
-	lua_pushlightuserdata(l, (void*)lua_registry_key);
+	lua_pushlightuserdata(l, (void*)&lua_registry_key);
 	lua_rawget(l, LUA_REGISTRYINDEX);
 
 	lua_pushstring(l, regname);
@@ -98,10 +98,10 @@ void luaG_setreg(lua_State* l, const char* regname)
 void luaG_copy_state(lua_State* from, lua_State* to)
 {
 	/* Get global-value registry table */
-	lua_pushlightuserdata(from, (void*)lua_registry_key);
+	lua_pushlightuserdata(from, (void*)&lua_registry_key);
 	lua_rawget(from, LUA_REGISTRYINDEX);
 	
-	lua_pushlightuserdata(to, (void*)lua_registry_key);
+	lua_pushlightuserdata(to, (void*)&lua_registry_key);
 
 	/* Do the copy */
 	luaExt_copy(from, to);
@@ -114,7 +114,7 @@ void luaG_copy_state(lua_State* from, lua_State* to)
 
 void luaG_init_state(lua_State* l)
 {
-	lua_pushlightuserdata(l, (void*)lua_registry_key);
+	lua_pushlightuserdata(l, (void*)&lua_registry_key);
 	lua_newtable(l);
 	lua_rawset(l, LUA_REGISTRYINDEX);
 }
