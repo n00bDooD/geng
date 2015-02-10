@@ -50,7 +50,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	obj_threads[num_behaviours].thread = NULL;
 
 	obj_threads[num_behaviours-1].name = strdup(name);
-	obj_threads[num_behaviours-1].thread = luaL_newstate();
+	obj_threads[num_behaviours-1].thread = luaG_newstate(l);
 	lua_State* t = obj_threads[num_behaviours-1].thread;
 	luaL_openlibs(t);
 	luaG_register_all(t,
@@ -59,30 +59,25 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 			get_audio_registry(l)
 			);
 
-	lua_pushstring(l, "geng.behaviours");
-	lua_rawget(l, LUA_REGISTRYINDEX);
+	luaG_getreg(l, "behaviours");
 	if(lua_isnil(l, -1)) {
 		luaL_error(l, "No behaviour table");
 	}
 
-	lua_pushstring(t, "geng.behaviours");
 	luaExt_copy(l, t);
-	lua_rawset(t, LUA_REGISTRYINDEX);
+	luaG_setreg(t, "behaviours");
 	lua_pop(l, 1);
 
-	lua_pushstring(l, "geng.prefabs");
-	lua_rawget(l, LUA_REGISTRYINDEX);
+	luaG_getreg(l, "prefabs");
 	if(lua_isnil(l, -1)) {
 		luaL_error(l, "No prefab table");
 	}
 
-	lua_pushstring(t, "geng.prefabs");
 	luaExt_copy(l, t);
-	lua_rawset(t, LUA_REGISTRYINDEX);
+	luaG_setreg(t, "prefabs");
 	lua_pop(l, 1);
 
-	lua_pushstring(t, "geng.behaviours");
-	lua_rawget(t, LUA_REGISTRYINDEX);
+	luaG_getreg(t, "behaviours");
 
 	lua_pushstring(t, name);
 	lua_rawget(t, -2);

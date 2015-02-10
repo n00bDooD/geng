@@ -1,6 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <lua.h>
 #include <SDL2/SDL.h>
 #include "object.h"
 
@@ -11,10 +12,17 @@ typedef struct {
 	size_t num_objects;
 	object* pool;
 
-	void* render_data;
-
-	void* physics_data;
+	lua_State* engine;
 } scene;
+
+void* get_scene_property(scene*, const char*);
+void set_scene_property(scene*, const char*, void* p);
+
+#define get_scene_physics(x) get_scene_property(x, "physics")
+#define get_scene_renderer(x) get_scene_property(x, "renderer")
+
+#define set_scene_physics(x, p) set_scene_property(x, "physics", p)
+#define set_scene_renderer(x, p) set_scene_property(x, "renderer", p)
 
 object* get_first_unused(scene*);
 

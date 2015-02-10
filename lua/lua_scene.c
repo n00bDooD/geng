@@ -10,6 +10,7 @@
 #include "../global.h"
 
 #include "../scene.h"
+#include "globlua.h"
 #include "lua_object.h"
 #include "lua_copy.h"
 
@@ -23,8 +24,7 @@ object* create_prefab(lua_State* l, scene* s, const char* name)
 	int num_args = lua_gettop(l);
 
 	/* Get prefab table */
-	lua_pushstring(l, "geng.prefabs");
-	lua_rawget(l, LUA_REGISTRYINDEX);
+	luaG_getreg(l, "prefabs");
 	if(lua_isnil(l, -1)) {
 		luaL_error(l, "Unknown prefab");
 	}
@@ -109,8 +109,7 @@ static int lua_load_prefab(lua_State* l)
 	}
 
 	/* Push prefab table on stack */
-	lua_pushstring(l, "geng.prefabs");
-	lua_rawget(l, LUA_REGISTRYINDEX);
+	luaG_getreg(l, "prefabs");
 	if(lua_isnil(l, -1)) {
 		lua_newtable(l);
 	}
@@ -124,9 +123,7 @@ static int lua_load_prefab(lua_State* l)
 	 * in the table at index -3 (prefab-table).
 	 * Then, save prefab table in registry. */
 	lua_rawset(l, -3);
-	lua_pushstring(l, "geng.prefabs");
-	lua_insert(l, -2);
-	lua_rawset(l, LUA_REGISTRYINDEX);
+	luaG_setreg(l, "prefabs");
 	return 0;
 }
 
@@ -186,8 +183,7 @@ static int lua_load_behaviour(lua_State* l)
 		luaL_error(l, "Memory allocation error");
 	}
 
-	lua_pushstring(l, "geng.behaviours");
-	lua_rawget(l, LUA_REGISTRYINDEX);
+	luaG_getreg(l, "behaviours");
 	if(lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
@@ -215,9 +211,7 @@ static int lua_load_behaviour(lua_State* l)
 	}
 
 	lua_rawset(l, -3);
-	lua_pushstring(l, "geng.behaviours");
-	lua_insert(l, -2);
-	lua_rawset(l, LUA_REGISTRYINDEX);
+	luaG_setreg(l, "behaviours");
 
 	// Reload for current scene
 	if (reloading_function) {
@@ -265,8 +259,7 @@ static int lua_load_scene(lua_State* l)
 	}
 
 	/* Push prefab table on stack */
-	lua_pushstring(l, "geng.scenes");
-	lua_rawget(l, LUA_REGISTRYINDEX);
+	luaG_getreg(l, "scenes");
 	if(lua_isnil(l, -1)) {
 		lua_newtable(l);
 	}
@@ -280,9 +273,7 @@ static int lua_load_scene(lua_State* l)
 	 * in the table at index -3 (prefab-table).
 	 * Then, save prefab table in registry. */
 	lua_rawset(l, -3);
-	lua_pushstring(l, "geng.scenes");
-	lua_insert(l, -2);
-	lua_rawset(l, LUA_REGISTRYINDEX);
+	luaG_setreg(l, "scenes");
 	return 0;
 }
 

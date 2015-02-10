@@ -105,7 +105,7 @@ SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 
 void draw_objects(scene* sc)
 {
-	sdl_renderer* r = sc->render_data;
+	sdl_renderer* r = get_scene_renderer(sc);
 	SDL_Rect viewport; SDL_RenderGetViewport(r->rend, &viewport);
 	if(r->background != 0) {
 		SDL_RenderCopy(r->rend, r->textures[r->background-1],

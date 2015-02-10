@@ -124,7 +124,7 @@ collider* object_add_circle(object* o, double radius, cpVect offset)
 	collider* c = (collider*)calloc(1, sizeof(collider));
 	c->type = CIRCLE;
 	c->shape = cpCircleShapeNew(o->physics, radius, offset);
-	cpSpaceAddShape(((scene*)o->parent)->physics_data, c->shape);
+	cpSpaceAddShape(get_scene_physics(o->parent), c->shape);
 	cpBodySetMoment(o->physics, cpMomentForCircle(cpBodyGetMass(o->physics), 0, radius, offset));
 	return c;
 }
@@ -134,7 +134,7 @@ collider* object_add_segment(object* o, cpVect a, cpVect b, double radius)
 	collider* c = (collider*)calloc(1, sizeof(collider));
 	c->type = LINE;
 	c->shape = cpSegmentShapeNew(o->physics, a, b, radius);
-	cpSpaceAddShape(((scene*)o->parent)->physics_data, c->shape);
+	cpSpaceAddShape(get_scene_physics(o->parent), c->shape);
 	return c;
 }
 
@@ -143,7 +143,7 @@ collider* object_add_box(object* o, double w, double h)
 	collider* c = (collider*)calloc(1, sizeof(collider));
 	c->type = POLY;
 	c->shape = cpBoxShapeNew(o->physics, w, h);
-	cpSpaceAddShape(((scene*)o->parent)->physics_data, c->shape);
+	cpSpaceAddShape(get_scene_physics(o->parent), c->shape);
 	return c;
 }
 
@@ -152,7 +152,7 @@ collider* object_add_poly(object* o, cpVect* verts, int num_verts, cpVect offset
 	collider* c = (collider*)calloc(1, sizeof(collider));
 	c->type = POLY;
 	c->shape = cpPolyShapeNew(o->physics, num_verts, verts, offset);
-	cpSpaceAddShape(((scene*)o->parent)->physics_data, c->shape);
+	cpSpaceAddShape(get_scene_physics(o->parent), c->shape);
 	return c;
 }
 

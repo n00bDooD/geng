@@ -81,7 +81,7 @@ void collision_separate(cpArbiter* arb, cpSpace* space, void* data)
 
 void setup_collision(scene* s)
 {
-	cpSpaceSetDefaultCollisionHandler(s->physics_data,
+	cpSpaceSetDefaultCollisionHandler(get_scene_physics(s),
 			collision_begin,
 			collision_preSolve,
 			collision_postSolve,

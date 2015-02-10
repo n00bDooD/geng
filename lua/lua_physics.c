@@ -15,10 +15,12 @@
 static int lua_query_nearest(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
 
 	cpNearestPointQueryInfo qi;
 	if (cpSpaceNearestPointQueryNearest(
-			s->physics_data,
+			physics_data,
 			*luaG_checkvect(l, 1),
 			luaL_checknumber(l, 2),
 			CP_ALL_LAYERS,
@@ -55,11 +57,13 @@ static int lua_query_aabb(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
 	cpBB* box = luaG_checkbox(l, 1);
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
 
 	luaL_checktype(l, 2, LUA_TFUNCTION);
 	// Func has to be at the top of the stack
 	lua_settop(l, 2);
-	cpSpaceBBQuery(s->physics_data, *box,
+	cpSpaceBBQuery(physics_data, *box,
 			CP_ALL_LAYERS,
 			CP_NO_GROUP,
 			bbqueryfunc, l);
@@ -81,10 +85,12 @@ void segmentqueryfunc(cpShape* sh, cpFloat t, cpVect n, void* data)
 static int lua_query_segment(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
 	cpVect* start = luaG_checkvect(l, 1);
 	cpVect* end = luaG_checkvect(l, 2);
 
-	cpSpaceSegmentQuery(s->physics_data,
+	cpSpaceSegmentQuery(physics_data,
 			*start, *end,
 			CP_ALL_LAYERS,
 			CP_NO_GROUP,
@@ -95,11 +101,13 @@ static int lua_query_segment(lua_State* l)
 static int lua_query_segment_first(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
 	cpVect* start = luaG_checkvect(l, 1);
 	cpVect* end = luaG_checkvect(l, 2);
 
 	cpSegmentQueryInfo i;
-	if(cpSpaceSegmentQueryFirst(s->physics_data,
+	if(cpSpaceSegmentQueryFirst(physics_data,
 				*start, *end,
 				CP_ALL_LAYERS,
 				CP_NO_GROUP,
@@ -117,27 +125,35 @@ static int lua_query_segment_first(lua_State* l)
 
 static int lua_set_drag(lua_State* l) {
 	scene* s = get_scene_registry(l);
-	cpSpaceSetDamping(s->physics_data, luaL_checknumber(l, 1));
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
+	cpSpaceSetDamping(physics_data, luaL_checknumber(l, 1));
 	return 0;
 }
 
 static int lua_get_drag(lua_State* l) {
 	scene* s = get_scene_registry(l);
-	lua_pushnumber(l, cpSpaceGetDamping(s->physics_data));
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
+	lua_pushnumber(l, cpSpaceGetDamping(physics_data));
 	return 1;
 }
 
 
 static int lua_set_gravity(lua_State* l) {
 	scene* s = get_scene_registry(l);
-	cpSpaceSetGravity(s->physics_data, *(luaG_checkvect(l, 1)));
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
+	cpSpaceSetGravity(physics_data, *(luaG_checkvect(l, 1)));
 	return 0;
 }
 
 static int lua_get_gravity(lua_State* l) {
 	scene* s = get_scene_registry(l);
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
 	cpVect* v = luaG_pushvect(l);
-	*v = cpSpaceGetGravity(s->physics_data);
+	*v = cpSpaceGetGravity(physics_data);
 	return 1;
 }
 

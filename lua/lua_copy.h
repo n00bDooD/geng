@@ -6,7 +6,7 @@
 /*
  * luaExt_copy
  *
- * Makes a copy of the value at the value at the
+ * Makes a copy of the value at the
  * highest location in the stack of a
  * and pushes it to the stack of b.
  *

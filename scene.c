@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "global.h"
+#include "lua/globlua.h"
 
 object* get_first_unused(scene* s)
 {
@@ -35,11 +36,14 @@ void cpShape_deleter(cpBody* b, cpShape* s, void* d)
 void free_physics(object* o)
 {
 	scene* s = o->parent;
+	void* scene_physics = get_scene_physics(s);
+	if (scene_physics == NULL) return;
+
 	cpBodyEachShape(o->physics,
-			&cpShape_deleter, s->physics_data);
+			&cpShape_deleter, scene_physics);
 
 	if(!cpBodyIsStatic(o->physics)) {
-		cpSpaceRemoveBody(s->physics_data, o->physics);
+		cpSpaceRemoveBody(scene_physics, o->physics);
 	}
 	cpBodyFree(o->physics);
 }
@@ -147,7 +151,7 @@ void object_reset_forces(object* o)
 void disable_object_physics(object* o)
 {
 	if(!cpBodyIsStatic(o->physics)) {
-		cpSpace* s = ((scene*)o->parent)->physics_data;
+		cpSpace* s = get_scene_physics(o->parent);
 		cpSpaceRemoveBody(s, o->physics);
 		cpSpaceConvertBodyToStatic(s, o->physics);
 	}
@@ -156,7 +160,7 @@ void disable_object_physics(object* o)
 void enable_object_physics(object* o, double mass, double moment)
 {
 	if(cpBodyIsStatic(o->physics)) {
-		cpSpace* s = ((scene*)o->parent)->physics_data;
+		cpSpace* s = get_scene_physics(o->parent);
 		if (mass == 0) {
 			mass = INFINITY;
 		}
@@ -178,3 +182,18 @@ cpVect object_convert_local2worldpos(object* o, cpVect v)
 	return cpBodyLocal2World(o->physics, v);
 }
 
+void* get_scene_property(scene* s, const char* property)
+{
+	luaG_getreg(s->engine, property);
+	if (lua_isnil(s->engine, -1)) {
+		lua_pop(s->engine, 1);
+		return NULL;
+	}
+	return lua_touserdata(s->engine, -1);
+}
+
+void set_scene_property(scene* s, const char* property, void* p)
+{
+	lua_pushlightuserdata(s->engine, p);
+	luaG_setreg(s->engine, property);
+}

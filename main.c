@@ -16,6 +16,7 @@
 #include "services/inputaxis.h"
 #include "services/sdl_input_shim.h"
 
+#include "lua/globlua.h"
 #include "lua/lua_audio.h"
 #include "lua/lua_input.h"
 #include "lua/lua_object.h"
@@ -35,14 +36,15 @@
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
 
-scene* create_new_scene(size_t pool_size, void* render_data, void* physics_data) 
+scene* create_new_scene(lua_State* l, size_t pool_size, void* render_data, void* physics_data) 
 {
 	scene* s = calloc(1, sizeof(scene));
 	s->pool = calloc(pool_size, sizeof(object));
 	if(s->pool == NULL) error("Cannot allocate object pool");
 	s->num_objects = pool_size;
-	s->render_data = render_data;
-	s->physics_data = physics_data;
+	s->engine = l;
+	set_scene_renderer(s, render_data);
+	set_scene_physics(s, physics_data);
 
 	setup_collision(s);
 	return s;
@@ -50,7 +52,8 @@ scene* create_new_scene(size_t pool_size, void* render_data, void* physics_data)
 
 int main_scene_step(scene* s)
 {
-	cpSpaceStep(s->physics_data, STATIC_TIMESTEP);
+	void* phys = get_scene_physics(s);
+	if (phys != NULL) cpSpaceStep(phys, STATIC_TIMESTEP);
 	step_scene(s, STATIC_TIMESTEP);
 	// Delete any objects marked DELETED
 	cleanup_deleted(s);
@@ -146,9 +149,10 @@ int main(int argc, char** argv)
 		lua_close(l);
 	}
 
-	scene* s = create_new_scene(10000, sdlrend, spas);
+	scene* s = NULL;
 	{
-		lua_State* l3 = luaL_newstate();
+		lua_State* l3 = luaG_newstate(NULL);
+		s = create_new_scene(l3, 10000, sdlrend, spas);
 		luaL_openlibs(l3);
 		register_scene(l3, s);
 		register_object(l3);
@@ -160,7 +164,6 @@ int main(int argc, char** argv)
 		register_physics(l3);
 		int res = luaL_dofile(l3, "data/scene_init.lua");
 		plua_error(l3, res, "data/scene_init.lua");
-
 	}
 
 	/* ## Set up control mappings ## */
