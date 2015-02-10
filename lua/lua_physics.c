@@ -148,13 +148,25 @@ static int lua_set_gravity(lua_State* l) {
 	return 0;
 }
 
-static int lua_get_gravity(lua_State* l) {
+static int lua_get_gravity(lua_State* l)
+{
 	scene* s = get_scene_registry(l);
 	void* physics_data = get_scene_physics(s);
 	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
 	cpVect* v = luaG_pushvect(l);
 	*v = cpSpaceGetGravity(physics_data);
 	return 1;
+}
+
+static int lua_reindex_static(lua_State* l)
+{
+	scene* s = get_scene_registry(l);
+	void* physics_data = get_scene_physics(s);
+	if (physics_data == NULL) luaL_error(l, "No physics for current scene");
+
+	cpSpaceReindexStatic(physics_data);
+
+	return 0;
 }
 
 static const luaL_Reg methods[] = {
@@ -166,6 +178,7 @@ static const luaL_Reg methods[] = {
 	{"set_drag", lua_set_drag},
 	{"gravity", lua_get_gravity},
 	{"set_gravity", lua_set_gravity},
+	{"reindex_static", lua_reindex_static},
 	{NULL, NULL}
 };
 

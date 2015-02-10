@@ -65,26 +65,17 @@ int main(int argc, char** argv)
 	UNUSED(argc);
 	UNUSED(argv);
 
-	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
-
-	sdl_audio* sdlaud = (sdl_audio*)calloc(1, sizeof(sdl_audio));
-	sdlaud->chunks = NULL;
-	sdlaud->musics = NULL;
-
 	/* ## Set up rendering ## */
 	if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0) {
 		sdl_error("SDL_Init");
 		return -1;
 	}
 
-	{
-		int flags = MIX_INIT_OGG;
-		if ((Mix_Init(flags) & flags) != flags) {
-    			fprintf(stderr, "Mix_Init: %s\n", Mix_GetError());
-			return -1;
-		}
+	int flags = MIX_INIT_OGG;
+	if ((Mix_Init(flags) & flags) != flags) {
+    		fprintf(stderr, "Mix_Init: %s\n", Mix_GetError());
+		return -1;
 	}
-
 
 	SDL_Window* w = SDL_CreateWindow(
 	                    "Test",
@@ -106,14 +97,6 @@ int main(int argc, char** argv)
 		sdl_error("SDL_CreateRenderer");
 		return -1;
 	}
-	sdlrend->rend = r;
-	sdlrend->cam.scale = 1;
-	sdlrend->cam.x = 0;
-	sdlrend->cam.y = 0;
-
-	/* ## Set up physics ## */
-	cpEnableSegmentToSegmentCollisions();
-	cpSpace* spas = cpSpaceNew();
 
 	/* ## Set up input ## */
 	inputaxis_data* inpdat = (inputaxis_data*)calloc(1, sizeof(inputaxis_data));
@@ -121,7 +104,6 @@ int main(int argc, char** argv)
 	inpdat->num_inputaxes = 0;
 	inpdat->axes = NULL;
 	services_register_input(create_inputaxis(inpdat));
-
 	{
 		lua_State* l = luaL_newstate();
 		luaL_openlibs(l);
@@ -131,6 +113,11 @@ int main(int argc, char** argv)
 		lua_close(l);
 	}
 
+	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
+	sdlrend->rend = r;
+	sdlrend->cam.scale = 1;
+	sdlrend->cam.x = 0;
+	sdlrend->cam.y = 0;
 	{
 		lua_State* l2 = luaL_newstate();
 		luaL_openlibs(l2);
@@ -140,6 +127,10 @@ int main(int argc, char** argv)
 		lua_close(l2);
 	}
 
+	sdl_audio* sdlaud = (sdl_audio*)calloc(1, sizeof(sdl_audio));
+	sdlaud->chunks = NULL;
+	sdlaud->musics = NULL;
+
 	{
 		lua_State* l = luaL_newstate();
 		luaL_openlibs(l);
@@ -148,6 +139,10 @@ int main(int argc, char** argv)
 		plua_error(l, res, "data/audio_config.lua");
 		lua_close(l);
 	}
+
+	/* ## Set up physics ## */
+	cpEnableSegmentToSegmentCollisions();
+	cpSpace* spas = cpSpaceNew();
 
 	scene* s = NULL;
 	{
@@ -192,8 +187,6 @@ int main(int argc, char** argv)
 	control_map[5].key = 0;
 	control_map[5].negative = false;
 	control_map[5].axis = NULL;
-
-	cpSpaceReindexStatic(spas);
 
 	int loops = 0;
 	uint32_t next_game_tick = SDL_GetTicks();
