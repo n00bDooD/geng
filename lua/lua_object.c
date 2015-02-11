@@ -255,6 +255,13 @@ static int lua_object_angvel_limit(lua_State* l)
 	return 1;
 }
 
+static int lua_object_set_angvel_limit(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	cpBodySetAngVelLimit(o->o->physics, luaL_checknumber(l, 2));
+	return 0;
+}
+
 static int lua_object_vel_limit(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -474,6 +481,7 @@ static const luaL_reg methods[] = {
 	{"set_flipv", lua_object_set_flipv},
 	{"set_fliph", lua_object_set_fliph},
 	{"send_message", lua_object_send_message},
+	{"set_ang_vel_limit", lua_object_set_angvel_limit},
 	{NULL, NULL}
 };
 
