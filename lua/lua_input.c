@@ -8,6 +8,8 @@
 #define TYPE_NAME "input"
 #define REGISTRY_KEY "geng.input"
 
+void set_input_registry(lua_State* L, inputaxis_data* d);
+
 inputaxis_data* luaG_checkinput(lua_State* L, int index)
 {
 	luaL_checktype(L, index, LUA_TUSERDATA);

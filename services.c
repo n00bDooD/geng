@@ -1,6 +1,9 @@
 #include "services.h"
 #include "global.h"
 
+double do_nothing_input(void* data, const char* inp);
+input* get_null_input(void);
+
 double do_nothing_input(void* data, const char* inp)
 {
 	UNUSED(data);
@@ -18,7 +21,7 @@ input* get_null_input()
 	return i;
 }
 
-input* cur_input = NULL;
+static input* cur_input = NULL;
 
 input* services_get_input()
 {

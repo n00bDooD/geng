@@ -7,9 +7,9 @@
 #include "services/inputaxis.h"
 
 typedef struct {
+	const char* axis;
 	SDL_Keycode key;
 	bool negative;
-	const char* axis;
 } mapping;
 
 void apply_keyboard_input(inputaxis_data* d, mapping* maps);

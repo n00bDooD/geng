@@ -7,7 +7,7 @@ typedef struct {
 	double (*get_input)(void*, const char*);
 } input;
 
-input* services_get_input();
+input* services_get_input(void);
 input* services_register_input(input*);
 
 #endif /* SERVICE_H */

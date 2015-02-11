@@ -7,6 +7,9 @@
 
 #define TOTALLY_UNUSED_NAME "__deleted__"
 
+inputaxis* find_axis(inputaxis_data* da, const char* name);
+inputaxis* get_unused_axis(inputaxis_data* d);
+
 inputaxis* find_axis(inputaxis_data* da, const char* name)
 {
 	size_t idx = 0;
@@ -130,7 +133,7 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 		axis_config* s = a->settings;
 
 		if(!s->enabled) val = 0;
-		if(val != 0) {
+		if(!(val > 0 || val < 0)) {
 			if(s->invert) val = -val;
 
 			val = fmax(val, -s->negative_maximum);
@@ -146,17 +149,17 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 		}
 	}
 
-	if(val != 0) {
-		if(a->value != 0){
-			a->value = (a->value + val) / 2.0;
-		} else {
+	if(!(val > 0 || val < 0)) {
+		if(a->value > 0 || a->value < 0){
 			a->value = val;
+		} else {
+			a->value = (a->value + val) / 2.0;
 		}
 	}
 	return 0;
 }
 
-axis_config* def_settings = NULL;
+static axis_config* def_settings = NULL;
 
 axis_config* default_settings(){
 	if (def_settings == NULL) {

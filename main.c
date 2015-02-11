@@ -38,6 +38,12 @@
 #define SKIP_TICKS (STATIC_TIMESTEP * 1000)
 #define MAX_FRAMESKIP 5
 
+refc_ptr* refcounted_ptr_create(void);
+game* create_game(void);
+inputaxis_data* input_config(void);
+int main_scene_step(scene* s);
+
+
 refc_ptr* refcounted_ptr_create()
 {
 	refc_ptr* p = calloc(1, sizeof(refc_ptr));

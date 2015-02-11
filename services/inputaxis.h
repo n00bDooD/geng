@@ -5,9 +5,6 @@
 #include <stdbool.h>
 
 typedef struct {
-	bool invert;
-	bool enabled;
-
 	/* Deadzone */
 	double negative_deadzone;
 	double positive_deadzone;
@@ -15,6 +12,9 @@ typedef struct {
 	/* Max/min */
 	double negative_maximum;
 	double positive_maximum;
+
+	bool invert;
+	bool enabled;
 } axis_config;
 
 typedef struct {
@@ -25,11 +25,11 @@ typedef struct {
 } inputaxis;
 
 typedef struct {
-	size_t num_inputaxes;
 	inputaxis* axes;
+	size_t num_inputaxes;
 } inputaxis_data;
 
-axis_config* default_settings();
+axis_config* default_settings(void);
 
 double get_input_for_axis(void*, const char*);
 int update_axis_value(inputaxis_data*, const char* name, double val);
@@ -41,7 +41,7 @@ int delete_axis(inputaxis_data*, const char* name, axis_config**);
 axis_config* get_axis_settings(inputaxis_data*, const char* name);
 int set_axis_settings(inputaxis_data*, const char* name, axis_config* settings);
 
-input* create_inputaxis();
+input* create_inputaxis(inputaxis_data*);
 inputaxis_data* delete_inputaxis(input*);
 
 #endif /* INPUT_AXIS_H */

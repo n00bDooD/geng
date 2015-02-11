@@ -11,6 +11,11 @@
 
 typedef struct {
 	char* name;
+	void* tag;
+	void* parent;
+	cpBody* physics;
+
+	size_t sprite;
 
 	/* Flag values
 	 * bit 1: active-flag
@@ -19,14 +24,6 @@ typedef struct {
 	 * bit 4: flip-vert-flag
 	 */ 
 	uint8_t flags;
-
-	cpBody* physics;
-
-	size_t sprite;
-
-	void* tag;
-
-	void* parent;
 } object;
 
 #endif /* OBJECT_H */

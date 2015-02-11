@@ -21,6 +21,11 @@
 #include <string.h>
 #include <libgen.h>
 
+void set_scene_registry(lua_State* l, scene* s);
+void reload_obj_behaviour(object* o, const char* name, lua_State* l);
+void reload_behaviour(scene* s, const char* name, lua_State* l);
+object* create_prefab(lua_State* l, scene* s, const char* name);
+
 object* create_prefab(lua_State* l, scene* s, const char* name)
 {
 	UNUSED(s);
@@ -337,9 +342,11 @@ static const luaL_Reg methods[] = {
 	{NULL, NULL}
 };
 
+/*
 static const luaL_Reg meta_methods[] = {
 	{NULL, NULL}
 };
+*/
 
 int register_scene(lua_State *L, scene* s)
 {

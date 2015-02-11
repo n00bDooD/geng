@@ -24,6 +24,9 @@
 
 #define TYPE_NAME "object"
 
+void add_behaviour(lua_State* l, object* o, const char* name);
+void run_update_method(object* o, lua_State* l, const char* bname, double time_step);
+
 void add_behaviour(lua_State* l, object* o, const char* name)
 {
 	behaviour* obj_threads = (behaviour*)o->tag;
@@ -88,9 +91,9 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	}
 
 	// Argument copying
-	size_t num_args = lua_gettop(l);
+	int num_args = lua_gettop(l);
 	lua_createtable(t, num_args, 0);
-	for(size_t argi = num_args; argi > 0; argi--) {
+	for(int argi = num_args; argi > 0; argi--) {
 		luaExt_copy(l, t);
 		lua_pop(l, 1);
 		lua_rawseti(t, -2, argi);
@@ -287,9 +290,10 @@ static int lua_object_setangle(lua_State* l)
 static int lua_object_setsprite(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
-	size_t s = luaL_checkinteger(l, 2);
+	lua_Integer s = luaL_checkinteger(l, 2);
+	if (s < 0) luaL_error(l, "Sprite cannot be negative");
 
-	o->o->sprite = s;
+	o->o->sprite = (size_t)s;
 	return 0;
 }
 

@@ -3,6 +3,9 @@
 #include "lua/globlua.h"
 #include "lua/lua_collision.h"
 
+void cpShape_deleter(cpBody* b, cpShape* s, void* d);
+void free_physics(object* o);
+
 object* get_first_unused(scene* s)
 {
 	size_t i = 0;
@@ -162,10 +165,10 @@ void enable_object_physics(object* o, double mass, double moment)
 {
 	if(cpBodyIsStatic(o->physics)) {
 		cpSpace* s = get_scene_physics(o->parent);
-		if (mass == 0) {
+		if (!mass > 0) {
 			mass = INFINITY;
 		}
-		if (moment == 0) {
+		if (!moment > 0) {
 			moment = INFINITY;
 		}
 		cpSpaceConvertBodyToDynamic(s, o->physics, mass, moment);

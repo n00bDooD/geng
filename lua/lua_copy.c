@@ -9,6 +9,10 @@
 
 #define UNUSED(x) (void)(x)
 
+int dumpwriter(lua_State* l, const void* p, size_t sz, void* ud);
+const char* dumpreader(lua_State* l, void* data, size_t* sz);
+int copy_lua_value(lua_State* a, lua_State* b);
+
 /*
  * Copies a lua table, adding it to the
  * seen state of both states.
@@ -29,7 +33,7 @@ void get_seen_table(lua_State*, size_t);
  * Returns the index of an already seen
  * value.
  */
-int is_table_seen(lua_State*);
+size_t is_table_seen(lua_State*);
 /*
  * Adds the value at the top of the stack
  * to the list of seen objects.
@@ -57,7 +61,7 @@ void get_seen_table(lua_State* l, size_t idx)
 		lua_pushnil(l);
 		return;
 	}
-	lua_rawgeti(l, -1, idx);
+	lua_rawgeti(l, -1, (int)idx);
 	lua_remove(l, -2);
 }
 
@@ -69,7 +73,7 @@ void reset_seen_state(lua_State* l)
 	lua_setfield(l, LUA_REGISTRYINDEX, SEEN_LIST_KEY);
 }
 
-int is_table_seen(lua_State* l)
+size_t is_table_seen(lua_State* l)
 {
 	lua_getfield(l, LUA_REGISTRYINDEX, SEEN_LIST_KEY);
 	if(lua_isnil(l, -1)) {
@@ -81,7 +85,7 @@ int is_table_seen(lua_State* l)
 	size_t table_size = lua_objlen(l, -1);
 	// Lua tables begin at one
 	for(size_t i = table_size; i > 0; --i) {
-		lua_rawgeti(l, -1, i);
+		lua_rawgeti(l, -1, (int)i);
 		int is_equal = lua_rawequal(l, -3, -1);
 		lua_pop(l, 1);
 		if(is_equal) {
@@ -109,7 +113,7 @@ void see_table(lua_State* l)
 	size_t table_size = lua_objlen(l, -1);
 	lua_insert(l, -2);
 	// Lua tables begin at 1
-	lua_rawseti(l, -2, table_size + 1);
+	lua_rawseti(l, -2, (int)++table_size);
 	lua_setfield(l, LUA_REGISTRYINDEX, SEEN_LIST_KEY);
 }
 
@@ -179,7 +183,7 @@ int copy_lua_value(lua_State* a, lua_State* b)
 			lua_pushstring(b, lua_tolstring(a, -1, NULL));
 			break;
 		case LUA_TTABLE: // Pass-by-reference
-			{int seeidx = is_table_seen(a);
+			{size_t seeidx = is_table_seen(a);
 			if(seeidx == 0) {
 				see_table(a);
 				copy_lua_table(a, b);
@@ -189,7 +193,7 @@ int copy_lua_value(lua_State* a, lua_State* b)
 			}
 			break;}
 		case LUA_TFUNCTION: // Pass-by-reference
-			{int seeidx = is_table_seen(a);
+			{size_t seeidx = is_table_seen(a);
 			if(seeidx == 0) {
 				see_table(a);
 				int res = copy_lua_function(a, b);

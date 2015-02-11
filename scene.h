@@ -9,10 +9,10 @@ typedef size_t texhandle;
 typedef size_t spritehandle;
 
 typedef struct {
-	size_t num_objects;
 	object* pool;
-
 	lua_State* engine;
+
+	size_t num_objects;
 } scene;
 
 void* get_scene_property(scene*, const char*);

@@ -38,8 +38,8 @@ void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a)
 
 void dbg_printstack(lua_State* l)
 {
-	size_t sz = lua_gettop(l);
-	for(size_t i = sz; i > 0; --i) {
+	int sz = lua_gettop(l);
+	for(int i = sz; i > 0; --i) {
 		const char* t = lua_typename(l, lua_type(l, i));
 		fprintf(stderr, "%i:[%s]\n", (int)i, t);
 	}
