@@ -17,22 +17,33 @@ local max_hold_jump_time = 0.25
 local left_ground = 0
 local cur_tick = 0
 
+local last_vertical = 0
+
 function scene_update(obj, step)
 	cur_tick = cur_tick + step
 
 	local horinp = input.get('horizontal') * xacc
 	local vertinp = input.get('vertical')
+	
+	local vertj = 0
+	if last_vertical == 0 then
+		if vertinp < 0 then
+			vertj = -1
+		elseif vertinp > 0 then
+			vertj = 1
+		end
+	end
 
 	obj:set_angle(0)
 
 	if is_grounded(obj) then
 		left_ground = 0
 		obj:apply_impulse(vector.new(horinp, 0))
-		if vertinp > 0 then
+		if vertj > 0 then
 			audio.play(2)
 			obj:apply_impulse(vector.new(0, jump_strength))
 			left_ground = cur_tick
-		elseif vertinp < 0 then
+		elseif vertj < 0 then
 			if not ducked then audio.play(1) end
 			ducked = true
 			-- Set duck
@@ -60,5 +71,6 @@ function scene_update(obj, step)
 			obj:send_message('character_anim', 'jump')
 		end
 	end
+	last_vertical = vertinp
 end
 
