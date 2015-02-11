@@ -114,7 +114,7 @@ int main(int argc, char** argv)
 	                      w,
 	                      -1,
 	                      SDL_RENDERER_ACCELERATED
-	                      || SDL_RENDERER_PRESENTVSYNC);
+	                      | SDL_RENDERER_PRESENTVSYNC);
 	if(r == NULL) {
 		sdl_error("SDL_CreateRenderer");
 		return -1;
