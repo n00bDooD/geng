@@ -133,7 +133,7 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 		axis_config* s = a->settings;
 
 		if(!s->enabled) val = 0;
-		if(!(val > 0 || val < 0)) {
+		if(val > 0 || val < 0) {
 			if(s->invert) val = -val;
 
 			val = fmax(val, -s->negative_maximum);
@@ -149,7 +149,7 @@ int update_axis_value(inputaxis_data* d, const char* name, double val)
 		}
 	}
 
-	if(!(val > 0 || val < 0)) {
+	if(val > 0 || val < 0) {
 		if(a->value > 0 || a->value < 0){
 			a->value = val;
 		} else {
