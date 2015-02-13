@@ -36,12 +36,14 @@ function scene_update(obj, step)
 
 	obj:set_angle(0)
 
+	local total_force = vector.zero()
+
 	if is_grounded(obj) then
 		left_ground = 0
-		obj:apply_impulse(vector.new(horinp, 0))
+		total_force = total_force + vector.new(horinp, 0)
 		if vertj > 0 then
 			audio.play(2)
-			obj:apply_impulse(vector.new(0, jump_strength))
+			total_force = total_force + vector.new(0, jump_strength)
 			left_ground = cur_tick
 		elseif vertj < 0 then
 			if not ducked then audio.play(1) end
@@ -60,9 +62,9 @@ function scene_update(obj, step)
 	else
 		if cur_tick - left_ground < max_hold_jump_time then
 			if vertinp < 0 then vertinp = 0 end
-			obj:apply_impulse(vector.new(0, vertinp * air_speed))
+			total_force = total_force + vector.new(0, vertinp * air_speed)
 		end
-		obj:apply_impulse(vector.new(horinp * air_speed, 0))
+		total_force = total_force + vector.new(horinp * air_speed, 0)
 		if horinp > 0.01 then
 			obj:send_message('character_anim', {state='jump',direction='right'})
 		elseif horinp < -0.01 then
@@ -71,6 +73,7 @@ function scene_update(obj, step)
 			obj:send_message('character_anim', 'jump')
 		end
 	end
+	obj:apply_impulse(total_force)
 	last_vertical = vertinp
 end
 
