@@ -43,7 +43,7 @@ function scene_update(obj, step)
 		total_force = total_force + vector.new(horinp, 0)
 		if vertj > 0 then
 			audio.play(2)
-			total_force = total_force + vector.new(0, jump_strength)
+			obj:apply_impulse(vector.new(0, jump_strength))
 			left_ground = cur_tick
 		elseif vertj < 0 then
 			if not ducked then audio.play(1) end
