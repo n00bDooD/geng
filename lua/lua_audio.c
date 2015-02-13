@@ -44,11 +44,11 @@ static void set_audio_registry(lua_State* l, sdl_audio* s)
 static int lua_openaudio(lua_State* l)
 {
 	// Frequecy default 44100khz
-	int freq = luaL_optinteger(l, 1, 44100);
+	int freq = luaL_optint(l, 1, 44100);
 	// Default two channels
-	int channels = luaL_optinteger(l, 2, 2);
+	int channels = luaL_optint(l, 2, 2);
 	// Default 2048 byte chunks
-	int chunksize = luaL_optinteger(l, 3, 2048);
+	int chunksize = luaL_optint(l, 3, 2048);
 
 	Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, channels, chunksize);
 	return 0;
@@ -92,9 +92,9 @@ static int lua_get_chunk_volume(lua_State* l)
 {
 	sdl_audio* a = get_audio_registry(l);
 
-	int id = luaL_checkinteger(l, 1);
+	int id = luaL_checkint(l, 1);
 	int vol = Mix_VolumeChunk(a->chunks[id-1],
-			luaL_optinteger(l, 2, -1));
+			luaL_optint(l, 2, -1));
 	lua_pushnumber(l, vol);
 	return 1;
 }
@@ -104,16 +104,16 @@ static int lua_play_chunk(lua_State* l)
 	sdl_audio* a = get_audio_registry(l);
 
 	// -1 plays on first free channel
-	int channel = luaL_optinteger(l, 2, -1);
+	int channel = luaL_optint(l, 2, -1);
 	// The chunk to play
-	int idx = luaL_checkinteger(l, 1);
+	int idx = luaL_checkint(l, 1);
 	Mix_Chunk* c = a->chunks[idx-1];
 	// Number of loops. -1 means infinite
-	int loops = luaL_optinteger(l, 3, 0);
+	int loops = luaL_optint(l, 3, 0);
 	// Number of milliseconds to play,
 	// -1 means infinite
-	int ms = luaL_optinteger(l, 3, -1);
-	int fade = luaL_optinteger(l, 4, -1);
+	int ms = luaL_optint(l, 3, -1);
+	int fade = luaL_optint(l, 4, -1);
 	int res = 0;
 	if (fade == -1) {
 		res = Mix_PlayChannelTimed(
@@ -140,7 +140,7 @@ static int lua_channels(lua_State* l)
 {
 	lua_pushnumber(l,
 		Mix_AllocateChannels(
-			luaL_optinteger(l, 1, -1)
+			luaL_optint(l, 1, -1)
 			)
 		);
 	return 1;
@@ -151,8 +151,8 @@ static int lua_channel_volume(lua_State* l)
 
 	lua_pushnumber(l,
 		Mix_Volume(
-			luaL_optinteger(l, 1, -1),
-			luaL_optinteger(l, 2, -1)
+			luaL_optint(l, 1, -1),
+			luaL_optint(l, 2, -1)
 			)
 		);
 	return 1;
@@ -160,13 +160,13 @@ static int lua_channel_volume(lua_State* l)
 
 static int lua_pause_channel(lua_State* l)
 {
-	Mix_Pause(luaL_optinteger(l, 1, -1));
+	Mix_Pause(luaL_optint(l, 1, -1));
 	return 0;
 }
 
 static int lua_resume_channel(lua_State* l)
 {
-	Mix_Resume(luaL_optinteger(l, 1, -1));
+	Mix_Resume(luaL_optint(l, 1, -1));
 	return 0;
 }
 
@@ -174,8 +174,8 @@ static int lua_resume_channel(lua_State* l)
 {
 	lua_pushnumber(l, 
 		Mix_FadeOutChannel(
-			luaL_checkinteger(l, 1),
-			luaL_checkinteger(l, 2)
+			luaL_checkint(l, 1),
+			luaL_checkint(l, 2)
 			)
 	);
 	return 1;
@@ -193,7 +193,7 @@ static int lua_loadmusic(lua_State* l)
 		luaL_error(l, Mix_GetError());
 	}
 
-	int idx = 0;
+	size_t idx = 0;
 	if (a->musics == NULL) {
 		idx = 1;
 	} else {
@@ -213,11 +213,11 @@ static int lua_loadmusic(lua_State* l)
 static int lua_play_music(lua_State* l)
 {
 	sdl_audio* a = get_audio_registry(l);
-	int idx = luaL_checknumber(l, 1);
+	int idx = luaL_checkint(l, 1);
 
 	Mix_Music* m = a->musics[idx-1];
-	int loops = luaL_optinteger(l, 2, -1);
-	int ms = luaL_optinteger(l, 3, -1);
+	int loops = luaL_optint(l, 2, -1);
+	int ms = luaL_optint(l, 3, -1);
 	if (ms < 0) {
 		Mix_PlayMusic(
 			m,
@@ -239,7 +239,7 @@ static int lua_fade_out_music(lua_State* l)
 	lua_pushnumber(
 			l,
 			Mix_FadeOutMusic(
-				luaL_checkinteger(l, 1)
+				luaL_checkint(l, 1)
 			)
 		    );
 	return 1;
