@@ -41,7 +41,7 @@
 refc_ptr* refcounted_ptr_create(void);
 game* create_game(void);
 inputaxis_data* input_config(void);
-int main_scene_step(scene* s);
+int main_scene_step(game* g);
 
 
 refc_ptr* refcounted_ptr_create()
@@ -78,8 +78,9 @@ inputaxis_data* input_config()
 	return inpdat;
 }
 
-int main_scene_step(scene* s)
+int main_scene_step(game* g)
 {
+	scene* s = g->current;
 	void* phys = get_scene_physics(s);
 	if (phys != NULL) cpSpaceStep(phys, STATIC_TIMESTEP);
 	step_scene(s, STATIC_TIMESTEP);
@@ -235,7 +236,7 @@ int main(int argc, char** argv)
 			reset_axis_values(inpdat);
 			apply_keyboard_input(inpdat, control_map);
 
-			main_scene_step(g->current);
+			main_scene_step(g);
 
 			next_game_tick += SKIP_TICKS;
 			loops++;
