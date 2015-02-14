@@ -5,6 +5,9 @@
 #include "tga.h"
 #include <stdio.h>
 
+
+void flip_tga_vertical(targa_file* tga);
+
 texhandle sdl_renderer_add_texture(sdl_renderer* r, SDL_Texture* tex)
 {
 	void* n = realloc(r->textures, (++r->num_textures) * sizeof(SDL_Texture*));
@@ -132,9 +135,16 @@ void draw_objects(scene* sc)
 			double a = get_object_angle(o) * (180/M_PI);
 			double x = get_object_posx(o) * r->cam.scale;
 			double y = get_object_posy(o) * r->cam.scale;
+			double camx = x + r->cam.x;
+			double camy = -y + r->cam.y;
+			if (camx > viewport.w || camx < 0
+			    || camy > viewport.h || camy < 0) {
+				continue;
+			}
+
 			SDL_Rect dst;
-			dst.x = floor(x + r->cam.x);
-			dst.y = floor(-y + r->cam.y);
+			dst.x = (int)lrint(camx);
+			dst.y = (int)lrint(camy);
 			dst.w = src.w;
 			dst.h = src.h;
 			dst.w *= r->cam.scale;
