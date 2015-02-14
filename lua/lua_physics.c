@@ -12,6 +12,9 @@
 
 #define TYPE_NAME "physics"
 
+void segmentqueryfunc(cpShape* sh, cpFloat t, cpVect n, void* data);
+void bbqueryfunc(cpShape* sh, void* data);
+
 static int lua_query_nearest(lua_State* l)
 {
 	scene* s = get_scene_registry(l);
@@ -182,9 +185,11 @@ static const luaL_Reg methods[] = {
 	{NULL, NULL}
 };
 
+#if 0
 static const luaL_Reg meta_methods[] = {
 	{NULL, NULL}
 };
+#endif
 
 int register_physics(lua_State *L)
 {
