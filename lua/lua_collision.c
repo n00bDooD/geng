@@ -9,6 +9,15 @@
 #include "../scene.h"
 
 #include <chipmunk/chipmunk.h>
+
+
+void try_call_func(lua_State* l, cpArbiter* arb, const char* fname, phys_callback current);
+int collision_begin(cpArbiter* arb, cpSpace* space, void* data);
+int collision_preSolve(cpArbiter* arb, cpSpace* space, void* data);
+void collision_postSolve(cpArbiter* arb, cpSpace* space, void* data);
+void collision_separate(cpArbiter* arb, cpSpace* space, void* data);
+void setup_collision(scene* s);
+
 void try_call_func(lua_State* l, cpArbiter* arb, const char* fname, phys_callback current)
 {
 	lua_getglobal(l, fname);
