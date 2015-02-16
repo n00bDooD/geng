@@ -12,7 +12,12 @@ void game_add_scene(game* g, scene* s)
 		return;
 	}
 	g->scenes = sn;
-	memcpy(&(g->scenes[g->num_scenes]), s, sizeof(scene));
+
+	g->scenes[g->num_scenes].pool = s->pool;
+	g->scenes[g->num_scenes].engine = s->engine;
+	g->scenes[g->num_scenes].num_objects = s->num_objects;
+	g->scenes[g->num_scenes].flags = s->flags;
+
 	g->num_scenes++;
 }
 
