@@ -13,6 +13,8 @@ typedef struct {
 	lua_State* engine;
 
 	size_t num_objects;
+
+	uint8_t flags;
 } scene;
 
 void* get_scene_property(scene*, const char*);
