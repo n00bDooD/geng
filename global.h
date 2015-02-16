@@ -6,6 +6,8 @@
 
 #define UNUSED(x) (void)(x)
 
+#define printerr(x) do { fprintf(stderr, " %s:%i: %s\n", __FILE__, __LINE__, x); } while(0)
+
 #define error(x) do { fprintf(stderr, "%s %s:%i: %s\n", x, __FILE__, __LINE__, strerror(errno)); } while(0)
 
 #define sdl_error(x) do { fprintf(stderr, "%s %s:%i: %s\n", x, __FILE__, __LINE__, SDL_GetError()); } while(0)

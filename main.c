@@ -47,6 +47,7 @@ int main_scene_step(game* g);
 refc_ptr* refcounted_ptr_create()
 {
 	refc_ptr* p = calloc(1, sizeof(refc_ptr));
+	if (p == NULL) error("Create a reference-counted pointer");
 	p->next = p;
 	p->prev = p;
 	return p;
@@ -55,6 +56,10 @@ refc_ptr* refcounted_ptr_create()
 game* create_game()
 {
 	game* g = calloc(1, sizeof(game));
+	if (g == NULL) {
+		error("Create game structure");
+		return NULL;
+	}
 	g->windows = refcounted_ptr_create();
 	g->render_data = refcounted_ptr_create();
 
@@ -69,6 +74,10 @@ inputaxis_data* input_config()
 	inpdat->axes = NULL;
 
 	lua_State* inputlua = luaL_newstate();
+	if (inputlua == NULL) {
+		printerr("Create lua state for input_config");
+		return NULL;
+	}
 	luaL_openlibs(inputlua);
 	register_config_input(inputlua, inpdat);
 	int res = luaL_dofile(inputlua, "data/input_config.lua");
@@ -128,15 +137,21 @@ int main(int argc, char** argv)
 	}
 
 	inputaxis_data* inpdat = input_config();
+	if (inpdat == NULL) return -1;
 	services_register_input(create_inputaxis(inpdat));
 
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
+	if (sdlrend == NULL) { error("Create sdl_renderer"); return -1; }
 	sdlrend->rend = r;
 	sdlrend->cam.scale = 1;
 	sdlrend->cam.x = 0;
 	sdlrend->cam.y = 0;
 	{
 		lua_State* l2 = luaL_newstate();
+		if (l2 == NULL) {
+			printerr("Create lua state for renderer_config");
+			return -1;
+		}
 		luaL_openlibs(l2);
 		register_renderer(l2, sdlrend);
 		int res = luaL_dofile(l2, "data/renderer_config.lua");
@@ -150,6 +165,10 @@ int main(int argc, char** argv)
 
 	{
 		lua_State* l = luaL_newstate();
+		if (l == NULL) {
+			printerr("Create lua state for audio_config");
+			return -1;
+		}
 		luaL_openlibs(l);
 		register_config_audio(l, sdlaud);
 		int res = luaL_dofile(l, "data/audio_config.lua");
@@ -162,6 +181,7 @@ int main(int argc, char** argv)
 	cpSpace* spas = cpSpaceNew();
 
 	game* g = create_game();
+	if (g == NULL) return -1;
 	g->windows->p = w;
 	g->render_data->p = r;
 	{
