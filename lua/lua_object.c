@@ -374,6 +374,7 @@ static int lua_object_add_circlecoll(lua_State* l)
 	collider* c = object_add_circle(o->o, radius, *offset);
 	collider* ret = luaG_pushcoll(l);
 	memcpy(ret, c, sizeof(collider));
+	free(c);
 	return 1;
 }
 
@@ -385,6 +386,7 @@ static int lua_object_add_boxcoll(lua_State* l)
 	collider* c = object_add_box(o->o, w, h);
 	collider* ret = luaG_pushcoll(l);
 	memcpy(ret, c, sizeof(collider));
+	free(c);
 	return 1;
 }
 

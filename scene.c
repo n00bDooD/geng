@@ -2,6 +2,7 @@
 #include "global.h"
 #include "lua/globlua.h"
 #include "lua/lua_collision.h"
+#include "lua/lua_object.h"
 
 void cpShape_deleter(cpBody* b, cpShape* s, void* d);
 void free_physics(object* o);
@@ -55,7 +56,18 @@ void free_physics(object* o)
 void delete_object(scene* s, object* o)
 {
 	UNUSED(s);
+
 	free_physics(o);
+
+	behaviour* obj_threads = (behaviour*)o->tag;
+	size_t num_behaviours = 0;
+	if(obj_threads != NULL) {
+		while(obj_threads[num_behaviours].name != NULL) {
+			lua_close(obj_threads[num_behaviours++].thread);
+		}
+	}
+	free(obj_threads);
+
 	bzero(o, sizeof(object));
 }
 

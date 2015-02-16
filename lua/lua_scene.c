@@ -122,6 +122,7 @@ static int lua_load_prefab(lua_State* l)
 		lua_newtable(l);
 	}
 	lua_pushstring(l, tmp);
+	free(tmp);
 
 	/* Move the function in stack position 2 (function arg) 
 	 * to the top of the stack before setting the table*/
@@ -198,6 +199,7 @@ static int lua_load_behaviour(lua_State* l)
 	}
 
 	lua_pushstring(l, tmp);
+	free(tmp);
 
 	// Check if we need to reload this behaviour in
 	// the entire scene
@@ -273,6 +275,7 @@ static int lua_load_scene(lua_State* l)
 		lua_newtable(l);
 	}
 	lua_pushstring(l, tmp);
+	free(tmp);
 
 	/* Move the function in stack position 2 (function arg) 
 	 * to the top of the stack before setting the table*/

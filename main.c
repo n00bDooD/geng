@@ -273,6 +273,16 @@ int main(int argc, char** argv)
 		SDL_RenderPresent(r);
 	}
 
+	for(size_t i = 0; i < g->num_scenes; ++i) {
+		for(size_t j = 0; j < g->scenes[i].num_objects; ++j) {
+			if((g->scenes[i].pool[j].flags & OBJ_ACTIVE) != 0) {
+				delete_object(&(g->scenes[i]), &(g->scenes[i].pool[j]));
+			}
+		}
+
+		lua_close(g->scenes[i].engine);
+	}
+
 	free(control_map);
 	inpdat = delete_inputaxis(services_register_input(NULL));
 	if(inpdat->axes != NULL) {
@@ -284,7 +294,7 @@ int main(int argc, char** argv)
 	SDL_DestroyRenderer(r);
 	SDL_DestroyWindow(w);
 	int count = Mix_QuerySpec(NULL, NULL, NULL);
-	while(count-- > 0) {
+	while(--count > 0) {
 		Mix_CloseAudio();
 	}
 	Mix_Quit();
