@@ -75,7 +75,7 @@ static int lua_loadchunk(lua_State* l)
 	} else {
 		while(a->chunks[idx++] != NULL);
 	}
-	Mix_Chunk** e = realloc(a->chunks, idx * sizeof(Mix_Chunk*));
+	Mix_Chunk** e = realloc(a->chunks, (idx+1) * sizeof(Mix_Chunk*));
 	if (e == NULL) {
 		luaL_error(l, "realloc");
 	}
@@ -199,7 +199,7 @@ static int lua_loadmusic(lua_State* l)
 	} else {
 		while(a->musics[idx++] != NULL);
 	}
-	Mix_Music** mu = realloc(a->musics, idx * sizeof(Mix_Music**));
+	Mix_Music** mu = realloc(a->musics, (idx+1) * sizeof(Mix_Music**));
 	if (mu == NULL) luaL_error(l, "realloc");
 
 	a->musics = mu;
