@@ -137,8 +137,9 @@ void draw_objects(scene* sc)
 			double y = get_object_posy(o) * r->cam.scale;
 			double camx = x + r->cam.x;
 			double camy = -y + r->cam.y;
-			if (camx > viewport.w || camx < 0
-			    || camy > viewport.h || camy < 0) {
+			/* Avoid overflowing the integer coordinates */
+			if (camx > INT_MAX || camx < INT_MIN
+			    || camy > INT_MAX || camy < INT_MIN) {
 				continue;
 			}
 
