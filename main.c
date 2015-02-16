@@ -76,6 +76,7 @@ inputaxis_data* input_config()
 	lua_State* inputlua = luaL_newstate();
 	if (inputlua == NULL) {
 		printerr("Create lua state for input_config");
+		free(inpdat);
 		return NULL;
 	}
 	luaL_openlibs(inputlua);
@@ -272,13 +273,13 @@ int main(int argc, char** argv)
 		SDL_RenderPresent(r);
 	}
 
+	free(control_map);
 	inpdat = delete_inputaxis(services_register_input(NULL));
 	if(inpdat->axes != NULL) {
 		free(inpdat->axes);
 		inpdat->axes = NULL;
 	}
 	free(inpdat);
-	free(control_map);
 
 	SDL_DestroyRenderer(r);
 	SDL_DestroyWindow(w);

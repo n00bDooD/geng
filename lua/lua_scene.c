@@ -269,6 +269,7 @@ static int lua_load_scene(lua_State* l)
 	/* Push prefab table on stack */
 	luaG_getreg(l, "scenes");
 	if(lua_isnil(l, -1)) {
+		lua_pop(l, 1);
 		lua_newtable(l);
 	}
 	lua_pushstring(l, tmp);
@@ -321,7 +322,7 @@ static int lua_set_scene(lua_State* l)
 	plua_error(nl, res, "set_scene");
 
 	game_add_scene(g, news);
-	game_set_current(g, news);
+	game_set_current(g, g->scenes + g->num_scenes-1);
 
 	return 0;
 no_scene:

@@ -193,7 +193,9 @@ void* get_scene_property(scene* s, const char* property)
 		lua_pop(s->engine, 1);
 		return NULL;
 	}
-	return lua_touserdata(s->engine, -1);
+	void* ret = lua_touserdata(s->engine, -1);
+	lua_pop(s->engine, 1);
+	return ret;
 }
 
 void set_scene_property(scene* s, const char* property, void* p)
