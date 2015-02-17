@@ -322,6 +322,8 @@ int main(int argc, char** argv)
 	}
 	free(sdlaud);
 
+	free(g->windows);
+	free(g->render_data);
 	free(g->scenes);
 	free(g);
 
@@ -340,7 +342,7 @@ int main(int argc, char** argv)
 	SDL_DestroyRenderer(r);
 	SDL_DestroyWindow(w);
 	int count = Mix_QuerySpec(NULL, NULL, NULL);
-	while(--count > 0) {
+	while(count-- > 0) {
 		Mix_CloseAudio();
 	}
 	Mix_Quit();
