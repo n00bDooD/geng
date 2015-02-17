@@ -322,8 +322,10 @@ int main(int argc, char** argv)
 	}
 	free(sdlaud);
 
+	/* These are actually lists... fix it */
 	free(g->windows);
 	free(g->render_data);
+
 	free(g->scenes);
 	free(g);
 
