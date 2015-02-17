@@ -63,7 +63,8 @@ void delete_object(scene* s, object* o)
 	size_t num_behaviours = 0;
 	if(obj_threads != NULL) {
 		while(obj_threads[num_behaviours].name != NULL) {
-			lua_close(obj_threads[num_behaviours++].thread);
+			lua_close(obj_threads[num_behaviours].thread);
+			free((char*)obj_threads[num_behaviours++].name);
 		}
 	}
 	free(obj_threads);

@@ -207,6 +207,7 @@ int main(int argc, char** argv)
 		register_physics(l3);
 		int res = luaL_dofile(l3, "data/init.lua");
 		plua_error(l3, res, "data/init.lua");
+		lua_close(l3);
 	}
 
 	/* ## Set up control mappings ## */
