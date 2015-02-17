@@ -39,6 +39,7 @@
 #define MAX_FRAMESKIP 5
 
 refc_ptr* refcounted_ptr_create(void);
+void* refcounted_ptr_pop(refc_ptr*);
 game* create_game(void);
 inputaxis_data* input_config(void);
 int main_scene_step(game* g);
@@ -51,6 +52,19 @@ refc_ptr* refcounted_ptr_create()
 	p->next = p;
 	p->prev = p;
 	return p;
+}
+
+void* refcounted_ptr_pop(refc_ptr* p)
+{
+	void* ret = p->p;
+	p->next->prev = p->prev;
+	p->prev->next = p->next;
+	if (p->prev == p && p->next == p) {
+		p->p = NULL;
+	} else {
+		free(p);
+	}
+	return ret;
 }
 
 game* create_game()
@@ -282,7 +296,34 @@ int main(int argc, char** argv)
 		}
 
 		lua_close(g->scenes[i].engine);
+		free(g->scenes[i].pool);
 	}
+	cpSpaceFree(spas);
+
+	free(sdlrend->textures);
+	free(sdlrend->sprites);
+	free(sdlrend);
+
+	{
+		Mix_Chunk* c = NULL;
+		size_t i = 0;
+		while((c = sdlaud->chunks[i++]) != NULL) {
+			Mix_FreeChunk(c);
+		}
+		free(sdlaud->chunks);
+	}
+	{
+		Mix_Music* c = NULL;
+		size_t i = 0;
+		while((c = sdlaud->musics[i++]) != NULL) {
+			Mix_FreeMusic(c);
+		}
+		free(sdlaud->musics);
+	}
+	free(sdlaud);
+
+	free(g->scenes);
+	free(g);
 
 	free(control_map);
 	inpdat = delete_inputaxis(services_register_input(NULL));

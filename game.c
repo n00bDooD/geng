@@ -20,7 +20,7 @@ void game_add_scene(game* g, scene* s)
 	g->num_scenes++;
 }
 
-void game_set_current(game* g, scene* s)
+void game_set_current(game* g, size_t s)
 {
-	g->current = s;
+	g->current = &(g->scenes[s-1]);
 }

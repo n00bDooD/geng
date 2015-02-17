@@ -27,6 +27,6 @@ typedef struct {
 } game;
 
 void game_add_scene(game*, scene*);
-void game_set_current(game*, scene*);
+void game_set_current(game*, size_t);
 
 #endif

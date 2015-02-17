@@ -318,14 +318,17 @@ static int lua_set_scene(lua_State* l)
 	lua_State* nl = luaG_newstate(l);
 	scene* news = create_new_scene(nl, 10000, render, physics);
 
+	game_add_scene(g, news);
+	free(news);
+	news = &(g->scenes[g->num_scenes-1]);
+
 	luaG_register_all(nl, news, get_input_registry(l), get_audio_registry(l));
 
 	luaExt_copy(l, nl);
 	int res = lua_pcall(nl, 0, 0, 0);
 	plua_error(nl, res, "set_scene");
 
-	game_add_scene(g, news);
-	game_set_current(g, g->scenes + g->num_scenes-1);
+	game_set_current(g, g->num_scenes);
 
 	return 0;
 no_scene:

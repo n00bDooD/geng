@@ -69,6 +69,10 @@ void delete_object(scene* s, object* o)
 	}
 	free(obj_threads);
 
+	if (o->name != NULL) {
+		free(o->name);
+	}
+
 	bzero(o, sizeof(object));
 }
 
