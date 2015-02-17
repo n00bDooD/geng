@@ -287,6 +287,10 @@ int main(int argc, char** argv)
 	free(control_map);
 	inpdat = delete_inputaxis(services_register_input(NULL));
 	if(inpdat->axes != NULL) {
+		for(size_t i = 0; i < inpdat->num_inputaxes; ++i) {
+			free((char*)inpdat->axes[i].name);
+			free(inpdat->axes[i].settings);
+		}
 		free(inpdat->axes);
 		inpdat->axes = NULL;
 	}
