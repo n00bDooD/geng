@@ -407,8 +407,6 @@ static int lua_vect_mul(lua_State* l)
 		return 1;
 
 	}
-
-	return 0;
 }
 
 static const luaL_reg meta_methods[] = {
