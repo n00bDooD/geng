@@ -132,6 +132,36 @@ static int lua_collpair_get_shapes(lua_State* l)
 	return 2;
 }
 
+static int lua_collpair_get_contact_count(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	lua_pushnumber(l, cpArbiterGetCount(p->data));
+	return 1;
+}
+
+static int lua_collpair_get_point(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	cpVect* v = luaG_pushvect(l);
+	*v = cpArbiterGetNormal(p->data, luaL_optint(l, 2, 0));
+	return 1;
+}
+
+static int lua_collpair_get_normal(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	cpVect* v = luaG_pushvect(l);
+	*v = cpArbiterGetPoint(p->data, luaL_optint(l, 2, 0));
+	return 1;
+}
+
+static int lua_collpair_get_depth(lua_State* l)
+{
+	collision_pair* p = luaG_checkcollpair(l, 1);
+	lua_pushnumber(l, cpArbiterGetDepth(p->data, luaL_optint(l, 2, 0)));
+	return 1;
+}
+
 static const luaL_reg methods [] = {
 	{"get_elasticity", lua_collpair_get_elasticity},
 	{"get_friction", lua_collpair_get_friction},
@@ -144,6 +174,10 @@ static const luaL_reg methods [] = {
 	{"get_ke", lua_collpair_get_ke},
 	{"get_objects", lua_collpair_get_objects},
 	{"get_colliders", lua_collpair_get_shapes},
+	{"contact_count", lua_collpair_get_contact_count},
+	{"contact_point", lua_collpair_get_point},
+	{"contact_normal", lua_collpair_get_normal},
+	{"contact_depth", lua_collpair_get_depth},
 	{NULL, NULL}
 };
 
