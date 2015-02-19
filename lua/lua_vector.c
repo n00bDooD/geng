@@ -394,11 +394,21 @@ static int lua_vect_sub(lua_State* l)
 static int lua_vect_mul(lua_State* l)
 {
 	cpVect* v1 = luaG_checkvect(l, 1);
-	cpFloat f = luaL_checknumber(l, 2);
+	if (lua_type(l, 2) != LUA_TUSERDATA) {
+		cpFloat f = luaL_checknumber(l, 2);
+		cpVect* sum = luaG_pushvect(l);
+		*sum = cpvmult(*v1, f);
+		return 1;
+	} else {
+		cpVect* v2 = luaG_checkvect(l, 1);
+		cpVect* sum = luaG_pushvect(l);
+		sum->x = v1->x * v2->x;
+		sum->y = v1->y * v2->y;
+		return 1;
 
-	cpVect* sum = luaG_pushvect(l);
-	*sum = cpvmult(*v1, f);
-	return 1;
+	}
+
+	return 0;
 }
 
 static const luaL_reg meta_methods[] = {
