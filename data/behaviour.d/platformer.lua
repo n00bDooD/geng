@@ -1,11 +1,12 @@
 local air_speed = 0.6
 local xacc = 0.8
 local jump_strength = 35
-local feet_offset = args[1]
+local feet_offset_x = args[1]
+local feet_offset = args[2]
 
 function is_grounded(obj)
-	return physics.segment_first(obj:pos() + vector.new(0, feet_offset - 0.1),
-		obj:pos() + vector.new(0, feet_offset - 0.2)) ~= nil
+	return physics.segment_first(obj:pos() + vector.new(feet_offset_x, feet_offset - 0.1),
+		obj:pos() + vector.new(feet_offset_x, feet_offset - 0.2)) ~= nil
 end
 
 local next_step = 0
@@ -18,6 +19,7 @@ local left_ground = 0
 local cur_tick = 0
 
 local last_vertical = 0
+local contact_list = {}
 
 function scene_update(obj, step)
 	cur_tick = cur_tick + step
@@ -73,7 +75,20 @@ function scene_update(obj, step)
 			obj:send_message('character_anim', 'jump')
 		end
 	end
+	for i = 0, #contact_list do
+		local a = contact_list[i]
+		if a ~= nil then
+			total_force = total_force - (total_force * a)
+		end
+	end
 	obj:apply_impulse(total_force)
 	last_vertical = vertinp
+	contact_list = {}
 end
 
+function collision_preSolve(collision)
+	for i = 0, collision:contact_count() -1 do
+		local normal = collision:contact_normal(i);
+		contact_list[#contact_list+1] = normal
+	end
+end
