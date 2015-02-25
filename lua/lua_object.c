@@ -15,6 +15,7 @@
 
 #include "lua_vector.h"
 #include "lua_colliders.h"
+#include "lua_collisionpair.h"
 #include "lua_scene.h"
 #include "lua_input.h"
 #include "lua_audio.h"
@@ -26,6 +27,11 @@
 
 void add_behaviour(lua_State* l, object* o, const char* name);
 void run_update_method(object* o, lua_State* l, const char* bname, double time_step);
+
+
+void body_foreach_shape(cpBody* b, cpShape* s, void* data);
+void body_foreach_collisionpair(cpBody* b, cpArbiter* a, void* data);
+//void body_foreach_constraint(cpBody* b, cpConstraint* s, void* data);
 
 void add_behaviour(lua_State* l, object* o, const char* name)
 {
@@ -456,6 +462,26 @@ static int lua_object_send_message(lua_State* l)
 	return 0;
 }
 
+static int lua_object_foreach_shape(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_remove(l, 1);
+	luaL_checktype(l, 1, LUA_TFUNCTION);
+
+	cpBodyEachShape(o->o->physics, &body_foreach_shape, l);
+	return 0;
+}
+
+static int lua_object_foreach_collisionpair(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	lua_remove(l, 1);
+	luaL_checktype(l, 1, LUA_TFUNCTION);
+
+	cpBodyEachArbiter(o->o->physics, &body_foreach_collisionpair, l);
+	return 0;
+}
+
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
@@ -488,6 +514,9 @@ static const luaL_reg methods[] = {
 	{"set_fliph", lua_object_set_fliph},
 	{"send_message", lua_object_send_message},
 	{"set_ang_vel_limit", lua_object_set_angvel_limit},
+
+	{"foreach_collider", lua_object_foreach_shape},
+	{"foreach_collision", lua_object_foreach_collisionpair},
 	{NULL, NULL}
 };
 
@@ -541,3 +570,56 @@ void step_object(object* o, double time_step)
 	}
 }
 
+void body_foreach_shape(cpBody* b, cpShape* s, void* data)
+{
+	lua_State* l = data;
+
+	/* Duplicate function */
+	lua_pushvalue(l, 1);
+
+	// Move it to just below the args
+	lua_insert(l, 2);
+
+	// Drag up object and collider 
+	// and move them just above the
+	// function.
+	luaG_pushobject(l, cpBodyGetUserData(b));
+
+	collider* c = luaG_pushcoll(l);
+	c->shape = s;
+	c->type = UNKNOWN;
+
+	lua_insert(l, 3);
+	lua_insert(l, 3);
+
+	// Call it. Number of arguments = stack position
+	// minus the original function & the function to
+	// be called.
+	int result = lua_pcall(l, lua_gettop(l) -2, 0, 0);
+	plua_error(l, result, "foreach_collider");
+}
+
+void body_foreach_collisionpair(cpBody* b, cpArbiter* a, void* data)
+{
+	UNUSED(b);
+	lua_State* l = data;
+
+	/* Duplicate function */
+	lua_pushvalue(l, 1);
+
+	// Move it to just below the args
+	lua_insert(l, 2);
+
+	// Drag up collision pair and move it just above the
+	// function.
+	collision_pair* p = luaG_pushcollpair(l, a);
+	p->current = COLL_NONE;
+
+	lua_insert(l, 3);
+
+	// Call it. Number of arguments = stack position
+	// minus the original function & the function to
+	// be called.
+	int result = lua_pcall(l, lua_gettop(l) -2, 0, 0);
+	plua_error(l, result, "foreach_collisionpair");
+}

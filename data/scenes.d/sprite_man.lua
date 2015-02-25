@@ -22,7 +22,7 @@ baddie:set_pos(400, -200)
 
 for i = 0, 20 do
 	local blocker = scene.spawn_prefab('fly')
-	blocker:set_pos(51 * i, (-600) + (i*5))
+	blocker:set_pos(51 * i, (-600) + (i*0))
 end
 
 physics.reindex_static()

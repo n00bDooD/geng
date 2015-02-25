@@ -6,7 +6,7 @@
 
 #include "../object.h"
 
-typedef enum { NONE, CIRCLE, LINE, POLY } collider_type;
+typedef enum { NONE, UNKNOWN, CIRCLE, LINE, POLY } collider_type;
 
 typedef struct {
 	cpShape* shape;

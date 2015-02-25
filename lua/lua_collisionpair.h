@@ -3,6 +3,7 @@
 #include <lua.h>
 
 typedef enum {
+	COLL_NONE,
 	COLL_BEGIN,
 	COLL_PRESOLVE,
 	COLL_POSTSOLVE,
