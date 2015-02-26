@@ -304,7 +304,7 @@ int main(int argc, char** argv)
 	free(sdlrend->sprites);
 	free(sdlrend);
 
-	{
+	if (sdlaud->chunks != NULL) {
 		Mix_Chunk* c = NULL;
 		size_t i = 0;
 		while((c = sdlaud->chunks[i++]) != NULL) {
@@ -312,7 +312,7 @@ int main(int argc, char** argv)
 		}
 		free(sdlaud->chunks);
 	}
-	{
+	if (sdlaud->musics != NULL) {
 		Mix_Music* c = NULL;
 		size_t i = 0;
 		while((c = sdlaud->musics[i++]) != NULL) {
