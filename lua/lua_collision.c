@@ -39,6 +39,7 @@ do { \
 			if(b[idx].script_behaviour) { \
 				try_call_func(b[idx++].content.thread, a, f, c);\
 			} else { \
+				idx++;\
 			} \
 		} \
 	} \

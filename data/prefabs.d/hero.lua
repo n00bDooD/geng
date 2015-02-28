@@ -11,5 +11,6 @@ c:set_friction(friction)
 c:set_elasticity(elasticity)
 o:add_behaviour("character_anim", 1, 2, 3, 4, {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16})
 o:add_behaviour("platformer", 15, -45)
+o:add_behaviour("cfunctest")
 o:set_ang_vel_limit(0)
 return o

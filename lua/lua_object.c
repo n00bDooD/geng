@@ -11,6 +11,8 @@
 #include "../scene.h"
 #include "../global.h"
 
+#include "../cbehaviour.h"
+
 #include "globlua.h"
 
 #include "lua_vector.h"
@@ -58,68 +60,90 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	obj_threads[num_behaviours].name = NULL;
 	obj_threads[num_behaviours].content.thread = NULL;
 
-	obj_threads[num_behaviours-1].name = strdup(name);
-	obj_threads[num_behaviours-1].script_behaviour = true;
-	obj_threads[num_behaviours-1].content.thread = luaG_newstate(l);
-	lua_State* t = obj_threads[num_behaviours-1].content.thread;
-	luaL_openlibs(t);
-	luaG_register_all(t,
-			get_scene_registry(l),
-			get_input_registry(l),
-			get_audio_registry(l)
-			);
-
+	// See if we are adding a cbehaviour
 	luaG_getreg(l, "behaviours");
-	if(lua_isnil(l, -1)) {
-		luaL_error(l, "No behaviour table");
-	}
+	lua_pushstring(l, name);
+	lua_rawget(l, -2);
+	int type = lua_type(l, -1);
 
-	luaExt_copy(l, t);
-	luaG_setreg(t, "behaviours");
-	lua_pop(l, 1);
 
-	luaG_getreg(l, "prefabs");
-	if(lua_isnil(l, -1)) {
-		luaL_error(l, "No prefab table");
-	}
-
-	luaExt_copy(l, t);
-	luaG_setreg(t, "prefabs");
-	lua_pop(l, 1);
-
-	luaG_getreg(t, "behaviours");
-
-	lua_pushstring(t, name);
-	lua_rawget(t, -2);
-	if(lua_isnil(t, -1)) {
-		// Reset thread state
-		lua_pop(t, 2);
+	if (type == LUA_TNIL) {
+		lua_pop(l, 2);
 		luaL_error(l, "Unknown behaviour.");
-	}
-
-	// Argument copying
-	int num_args = lua_gettop(l);
-	lua_createtable(t, num_args, 0);
-	for(int argi = num_args; argi > 0; argi--) {
-		luaExt_copy(l, t);
+	} else if (type == LUA_TLIGHTUSERDATA) {
+		obj_threads[num_behaviours-1].name = strdup(name);
+		obj_threads[num_behaviours-1].script_behaviour = false;
+		obj_threads[num_behaviours-1].content.beh = lua_touserdata(l, 2);
+		if(obj_threads[num_behaviours-1].content.beh == NULL) {
+			luaL_error(l, "NULL cbehaviour!!");
+		}
+		call_create(obj_threads[num_behaviours-1].content.beh, o);
 		lua_pop(l, 1);
-		lua_rawseti(t, -2, argi);
-	}
-	lua_setglobal(t, "args");
+	} else {
+		lua_pop(l, 2);
+		obj_threads[num_behaviours-1].name = strdup(name);
+		obj_threads[num_behaviours-1].script_behaviour = true;
+		obj_threads[num_behaviours-1].content.thread = luaG_newstate(l);
+		lua_State* t = obj_threads[num_behaviours-1].content.thread;
+		luaL_openlibs(t);
+		luaG_register_all(t,
+				get_scene_registry(l),
+				get_input_registry(l),
+				get_audio_registry(l)
+				);
 
-	int run_result = lua_pcall(t, 0, 0, 0);
-	switch(run_result) {
-		case 0:
-		case LUA_YIELD: {
-			// OK
-			return;
-			}
-		case LUA_ERRRUN:
-		case LUA_ERRMEM:
-		case LUA_ERRERR:{
-			const char* error = lua_tolstring(t, -1, NULL);
-			luaL_error(l, error);
-			}
+		luaG_getreg(l, "behaviours");
+		if(lua_isnil(l, -1)) {
+			luaL_error(l, "No behaviour table");
+		}
+
+		luaExt_copy(l, t);
+		luaG_setreg(t, "behaviours");
+		lua_pop(l, 1);
+
+		luaG_getreg(l, "prefabs");
+		if(lua_isnil(l, -1)) {
+			luaL_error(l, "No prefab table");
+		}
+
+		luaExt_copy(l, t);
+		luaG_setreg(t, "prefabs");
+		lua_pop(l, 1);
+
+		luaG_getreg(t, "behaviours");
+
+		lua_pushstring(t, name);
+		lua_rawget(t, -2);
+		if(lua_isnil(t, -1)) {
+			// Reset thread state
+			lua_pop(t, 2);
+			luaL_error(l, "Unknown behaviour.");
+		}
+
+		// Argument copying
+		int num_args = lua_gettop(l);
+		lua_createtable(t, num_args, 0);
+		for(int argi = num_args; argi > 0; argi--) {
+			luaExt_copy(l, t);
+			lua_pop(l, 1);
+			lua_rawseti(t, -2, argi);
+		}
+		lua_setglobal(t, "args");
+
+		int run_result = lua_pcall(t, 0, 0, 0);
+		switch(run_result) {
+			case 0:
+			case LUA_YIELD: {
+				// OK
+				return;
+				}
+			case LUA_ERRRUN:
+			case LUA_ERRMEM:
+			case LUA_ERRERR:{
+				const char* error = lua_tolstring(t, -1, NULL);
+				luaL_error(l, error);
+				}
+		}
 	}
 	return;
 }
@@ -571,6 +595,7 @@ void step_object(object* o, double time_step)
 			run_update_method(o, t, bs[i-1].name, time_step);
 		} else {
 			// Call C behaviour
+			call_update(bs[i-1].content.beh, o, time_step);
 		}
 	}
 }

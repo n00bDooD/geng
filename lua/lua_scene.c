@@ -21,6 +21,8 @@
 #include <string.h>
 #include <libgen.h>
 
+#include "../cbehaviours/call_logger.h"
+
 void set_scene_registry(lua_State* l, scene* s);
 void reload_obj_behaviour(object* o, const char* name, lua_State* l);
 void reload_behaviour(scene* s, const char* name, lua_State* l);
@@ -189,7 +191,15 @@ static int lua_load_behaviour(lua_State* l)
 	if(filename == NULL) {
 		luaL_error(l, "Valid name to behaviour file required.");
 	}
-	luaL_checktype(l, 2, LUA_TFUNCTION);
+	if (lua_type(l, 2) == LUA_TLIGHTUSERDATA) {
+		// CBehaviour
+		// Nothing needs to be done, as this method is
+		// completely agnostic.
+		// cfunction or no cfunction will be handled per-object
+	} else {
+		// Regular behaviour
+		luaL_checktype(l, 2, LUA_TFUNCTION);
+	}
 	char* tmp = strdup(filename);
 	if(tmp == NULL) {
 		luaL_error(l, "Memory allocation error");
@@ -208,7 +218,8 @@ static int lua_load_behaviour(lua_State* l)
 	// the entire scene
 	lua_pushvalue(l, -1);
 	lua_rawget(l, -3);
-	bool reloading_function = !lua_isnil(l, -1);
+	// Cbehaviours are not reloaded
+	bool reloading_function = !lua_isnil(l, -1) && lua_type(l, -1) != LUA_TLIGHTUSERDATA;
 	lua_pop(l, 1);
 	
 	/* Push function-argument to the top of the stack */
@@ -326,6 +337,7 @@ static int lua_set_scene(lua_State* l)
 	news = &(g->scenes[g->num_scenes-1]);
 
 	luaG_register_all(nl, news, get_input_registry(l), get_audio_registry(l));
+	register_call_logger(nl);
 
 	luaExt_copy(l, nl);
 	int res = lua_pcall(nl, 0, 0, 0);
