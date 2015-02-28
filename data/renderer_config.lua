@@ -135,3 +135,5 @@ add_sprites(
 		{x=67,  y=87,  w=57, h=31 }
 	}
 )
+
+renderer.set_background(renderer.add_texture('kenney/tga/Backgrounds/colored_grass.tga'))
