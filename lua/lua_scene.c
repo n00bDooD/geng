@@ -345,8 +345,8 @@ no_game:
 static const luaL_Reg methods[] = {
 	{"newobject", lua_new_object},
 	{"spawn_prefab", lua_spawn_prefab},
-	{"load_prefab_file", lua_load_prefab},
-	{"load_behaviour_file", lua_load_behaviour},
+	{"load_prefab", lua_load_prefab},
+	{"load_behaviour", lua_load_behaviour},
 	{"load_scene", lua_load_scene},
 	{"set_scene", lua_set_scene},
 	{NULL, NULL}
