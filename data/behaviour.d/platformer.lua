@@ -78,7 +78,7 @@ function scene_update(obj, step)
 		end
 	end
 
-	obj:foreach_collision(function(c)  total_force = total_force + total_force:project(c:contact_normal(0):normalize()) end)
+	--obj:foreach_collision(function(c)  total_force = total_force + total_force:project(c:contact_normal(0):normalize()) end)
 
 	obj:apply_impulse(total_force)
 	last_vertical = vertinp
