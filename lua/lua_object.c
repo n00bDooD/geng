@@ -56,11 +56,12 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	}
 	o->tag = n; obj_threads = n;
 	obj_threads[num_behaviours].name = NULL;
-	obj_threads[num_behaviours].thread = NULL;
+	obj_threads[num_behaviours].content.thread = NULL;
 
 	obj_threads[num_behaviours-1].name = strdup(name);
-	obj_threads[num_behaviours-1].thread = luaG_newstate(l);
-	lua_State* t = obj_threads[num_behaviours-1].thread;
+	obj_threads[num_behaviours-1].script_behaviour = true;
+	obj_threads[num_behaviours-1].content.thread = luaG_newstate(l);
+	lua_State* t = obj_threads[num_behaviours-1].content.thread;
 	luaL_openlibs(t);
 	luaG_register_all(t,
 			get_scene_registry(l),
@@ -446,7 +447,7 @@ static int lua_object_send_message(lua_State* l)
 	while(obj_threads[num_behaviours].name != NULL) {
 		const char* behn = obj_threads[num_behaviours++].name;
 		if(strcmp(behn, name) == 0) {
-			lua_State* r = obj_threads[num_behaviours-1].thread;
+			lua_State* r = obj_threads[num_behaviours-1].content.thread;
 			lua_getglobal(r, "receive");
 			if (lua_isnil(r, -1)) {
 				lua_pop(r, 1);
@@ -564,9 +565,13 @@ void step_object(object* o, double time_step)
 	behaviour* bs = (behaviour*)o->tag;
 	if(bs == NULL) return;
 	while(bs[i++].name != NULL) {
-		lua_State* t = bs[i-1].thread;
+		if (bs[i-1].script_behaviour) {
+			lua_State* t = bs[i-1].content.thread;
 
-		run_update_method(o, t, bs[i-1].name, time_step);
+			run_update_method(o, t, bs[i-1].name, time_step);
+		} else {
+			// Call C behaviour
+		}
 	}
 }
 

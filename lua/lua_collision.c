@@ -36,7 +36,10 @@ do { \
 	if(b != NULL) {\
 		size_t idx = 0; \
 		while(b[idx].name != NULL) { \
-			try_call_func(b[idx++].thread, a, f, c);\
+			if(b[idx].script_behaviour) { \
+				try_call_func(b[idx++].content.thread, a, f, c);\
+			} else { \
+			} \
 		} \
 	} \
 } while(0);

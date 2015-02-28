@@ -142,9 +142,12 @@ void reload_obj_behaviour(object* o, const char* name, lua_State* l)
 	if (obj_threads == NULL) return;
 	size_t num_behaviours = 0;
 	while(obj_threads[num_behaviours].name != NULL) {
+		if(!obj_threads[num_behaviours].script_behaviour) {
+			continue;
+		}
 		const char* behn = obj_threads[num_behaviours++].name;
 		if(strcmp(behn, name) == 0) {
-			lua_State* r = obj_threads[num_behaviours-1].thread;
+			lua_State* r = obj_threads[num_behaviours-1].content.thread;
 
 			// This behaviour needs to be reloaded
 			luaExt_copy(l, r);
