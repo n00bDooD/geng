@@ -12,6 +12,7 @@
 
 
 void try_call_func(lua_State* l, cpArbiter* arb, const char* fname, phys_callback current);
+void try_call_cfunc(cbehaviour* b, cpArbiter* arb, phys_callback current);
 int collision_begin(cpArbiter* arb, cpSpace* space, void* data);
 int collision_preSolve(cpArbiter* arb, cpSpace* space, void* data);
 void collision_postSolve(cpArbiter* arb, cpSpace* space, void* data);
@@ -31,6 +32,34 @@ void try_call_func(lua_State* l, cpArbiter* arb, const char* fname, phys_callbac
 	}
 }
 
+void try_call_cfunc(cbehaviour* b, cpArbiter* arb, phys_callback current)
+{
+	switch(current) {
+		case COLL_BEGIN:
+			if (b->coll_begin != NULL) {
+				b->coll_begin(arb, b->data);
+			}
+			break;
+		case COLL_PRESOLVE:
+			if (b->coll_presolve != NULL) {
+				b->coll_presolve(arb, b->data);
+			}
+			break;
+		case COLL_POSTSOLVE:
+			if (b->coll_postsolve != NULL) {
+				b->coll_postsolve(arb, b->data);
+			}
+			break;
+		case COLL_SEP:
+			if (b->coll_separate != NULL) {
+				b->coll_separate(arb, b->data);
+			}
+			break;
+		case COLL_NONE:
+			break;
+	}
+}
+
 #define CALL_EACH(b, a, f, c) \
 do { \
 	if(b != NULL) {\
@@ -39,7 +68,7 @@ do { \
 			if(b[idx].script_behaviour) { \
 				try_call_func(b[idx++].content.thread, a, f, c);\
 			} else { \
-				idx++;\
+				try_call_cfunc(b[idx++].content.beh, a, c);\
 			} \
 		} \
 	} \
