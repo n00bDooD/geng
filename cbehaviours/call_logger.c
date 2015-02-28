@@ -24,13 +24,13 @@ void delete_call_logger(object* o, void* data)
 {
 	UNUSED(o);
 	UNUSED(data);
-	printf("delete_call_logger.\n");
+	//printf("delete_call_logger.\n");
 }
 
 void* create_call_logger(object* o)
 {
 	UNUSED(o);
-	printf("create_call_logger.\n");
+	//printf("create_call_logger.\n");
 	return NULL;
 }
 
@@ -38,28 +38,28 @@ void coll_begin_call_logger(cpArbiter* arb, void* data)
 {
 	UNUSED(arb);
 	UNUSED(data);
-	printf("coll_begin.\n");
+	//printf("coll_begin.\n");
 }
 
 void coll_presolve_call_logger(cpArbiter* arb, void* data)
 {
 	UNUSED(arb);
 	UNUSED(data);
-	printf("coll_presolve.\n");
+	//printf("coll_presolve.\n");
 }
 
 void coll_postsolve_call_logger(cpArbiter* arb, void* data)
 {
 	UNUSED(arb);
 	UNUSED(data);
-	printf("coll_postsolve.\n");
+	//printf("coll_postsolve.\n");
 }
 
 void coll_separate_call_logger(cpArbiter* arb, void* data)
 {
 	UNUSED(arb);
 	UNUSED(data);
-	printf("coll_separate.\n");
+	//printf("coll_separate.\n");
 }
 
 
