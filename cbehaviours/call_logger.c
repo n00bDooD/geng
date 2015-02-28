@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include "../global.h"
 #include <lauxlib.h>
+#include "../lua/globlua.h"
 
 void update_call_logger(object* o, double time_step, void* data);
 void delete_call_logger(object* o, void* data);
-void* create_call_logger(object* o);
+void* create_call_logger(object* o, lua_State* l);
 
 void coll_begin_call_logger(cpArbiter* arb, void* data);
 void coll_presolve_call_logger(cpArbiter* arb, void* data);
@@ -27,9 +28,12 @@ void delete_call_logger(object* o, void* data)
 	//printf("delete_call_logger.\n");
 }
 
-void* create_call_logger(object* o)
+void* create_call_logger(object* o, lua_State* l)
 {
 	UNUSED(o);
+	int val = luaL_checkint(l, 1);
+	UNUSED(val);
+	//printf("Supplied value %i\n", val);
 	//printf("create_call_logger.\n");
 	return NULL;
 }

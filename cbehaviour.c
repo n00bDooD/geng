@@ -7,10 +7,10 @@ void call_update(cbehaviour* b, object* o, double time_step)
 	}
 }
 
-void call_create(cbehaviour* b, object* o)
+void call_create(cbehaviour* b, object* o, lua_State* l)
 {
 	if(b->update != NULL) {
-		b->data = b->create(o);
+		b->data = b->create(o, l);
 	}
 }
 

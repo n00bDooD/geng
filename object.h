@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <chipmunk/chipmunk.h>
+#include <lua.h>
 
 #define OBJ_ACTIVE 1
 #define OBJ_DELETED 2

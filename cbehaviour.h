@@ -5,7 +5,7 @@
 
 typedef void (*obj_update_func)(object* o, double time_step, void* data);
 typedef void (*obj_delete_func)(object* o, void* data);
-typedef void* (*obj_create_func)(object* o);
+typedef void* (*obj_create_func)(object* o, lua_State* l);
 typedef void (*obj_coll_func)(cpArbiter* arb, void *data);
 
 typedef struct {
@@ -22,7 +22,7 @@ typedef struct {
 } cbehaviour;
 
 void call_update(cbehaviour*, object*, double);
-void call_create(cbehaviour*, object*);
+void call_create(cbehaviour*, object*, lua_State*);
 void call_delete(cbehaviour*, object*);
 
 cbehaviour* create_behaviour(cbehaviour* template);
