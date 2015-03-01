@@ -14,6 +14,13 @@ void call_create(cbehaviour* b, object* o, lua_State* l)
 	}
 }
 
+void call_receive(cbehaviour* b, object* o, lua_State* l)
+{
+	if(b->receive != NULL) {
+		b->receive(o, l, b->data);
+	}
+}
+
 cbehaviour* create_behaviour(cbehaviour* template) {
 	cbehaviour* ret = calloc(sizeof(cbehaviour), 1);
 	if (ret == NULL) return NULL;

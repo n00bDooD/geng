@@ -48,7 +48,10 @@ function scene_update(obj, step)
 			obj:apply_impulse(vector.new(0, jump_strength))
 			left_ground = cur_tick
 		elseif vertj < 0 then
-			if not ducked then audio.play(1) end
+			if not ducked then 
+				audio.play(1)
+				obj:send_message('cfunctest', 'FooTheBarBro')
+			end
 			ducked = true
 			-- Set duck
 		else

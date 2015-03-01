@@ -471,17 +471,21 @@ static int lua_object_send_message(lua_State* l)
 	while(obj_threads[num_behaviours].name != NULL) {
 		const char* behn = obj_threads[num_behaviours++].name;
 		if(strcmp(behn, name) == 0) {
-			lua_State* r = obj_threads[num_behaviours-1].content.thread;
-			lua_getglobal(r, "receive");
-			if (lua_isnil(r, -1)) {
-				lua_pop(r, 1);
+			if (obj_threads[num_behaviours-1].script_behaviour) {
+				lua_State* r = obj_threads[num_behaviours-1].content.thread;
+				lua_getglobal(r, "receive");
+				if (lua_isnil(r, -1)) {
+					lua_pop(r, 1);
+					return 0;
+				}
+				luaG_pushobject(r, o->o);
+				luaExt_copy(l, r);
+				int result = lua_pcall(r, 2, 0, 0);
+				plua_error(r, result, "receive");
 				return 0;
+			} else {
+				call_receive(obj_threads[num_behaviours-1].content.beh, o->o, l);
 			}
-			luaG_pushobject(r, o->o);
-			luaExt_copy(l, r);
-			int result = lua_pcall(r, 2, 0, 0);
-			plua_error(r, result, "receive");
-			return 0;
 		}
 	}
 	return 0;

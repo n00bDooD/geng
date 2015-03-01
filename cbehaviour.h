@@ -7,12 +7,14 @@ typedef void (*obj_update_func)(object* o, double time_step, void* data);
 typedef void (*obj_delete_func)(object* o, void* data);
 typedef void* (*obj_create_func)(object* o, lua_State* l);
 typedef void (*obj_coll_func)(cpArbiter* arb, void *data);
+typedef void (*obj_receive_func)(object* o, lua_State* l, void* data);
 
 typedef struct {
 	void* data;
 	obj_update_func update;
 	obj_delete_func delete;
 	obj_create_func create;
+	obj_receive_func receive;
 
 	// Collision callbacks
 	obj_coll_func coll_begin;
@@ -24,6 +26,7 @@ typedef struct {
 void call_update(cbehaviour*, object*, double);
 void call_create(cbehaviour*, object*, lua_State*);
 void call_delete(cbehaviour*, object*);
+void call_receive(cbehaviour*, object*, lua_State*);
 
 cbehaviour* create_behaviour(cbehaviour* template);
 
