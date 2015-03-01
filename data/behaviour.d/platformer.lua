@@ -56,12 +56,12 @@ function scene_update(obj, step)
 		end
 		if horinp > 0.01 then
 			obj:foreach_collider(function(o, c) c:set_friction(0) end)
-			obj:send_message('character_anim', {state='walk',direction='right'})
+			obj:send_message('animation', 'walk_right')
 		elseif horinp < -0.01 then
 			obj:foreach_collider(function(o, c) c:set_friction(0) end)
-			obj:send_message('character_anim', {state='walk',direction='left'})
+			obj:send_message('animation', 'walk_left')
 		else
-			obj:send_message('character_anim', 'idle')
+			obj:send_message('animation', 'idle')
 		end
 	else
 		if cur_tick - left_ground < max_hold_jump_time then
@@ -70,11 +70,11 @@ function scene_update(obj, step)
 		end
 		total_force = total_force + vector.new(horinp * air_speed, 0)
 		if horinp > 0.01 then
-			obj:send_message('character_anim', {state='jump',direction='right'})
+			obj:send_message('animation', 'jump_right')
 		elseif horinp < -0.01 then
-			obj:send_message('character_anim', {state='jump',direction='left'})
+			obj:send_message('animation', 'jump_left')
 		else
-			obj:send_message('character_anim', 'jump')
+			obj:send_message('animation', 'jump')
 		end
 	end
 

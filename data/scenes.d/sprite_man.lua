@@ -10,6 +10,7 @@ scene.load_behaviour("controllable", loadfile("data/behaviour.d/controllable.lua
 scene.load_behaviour("platformer", loadfile("data/behaviour.d/platformer.lua"))
 scene.load_behaviour("boolet", loadfile("data/behaviour.d/boolet.lua"))
 scene.load_behaviour("character_anim", loadfile("data/behaviour.d/character_anim.lua"))
+scene.load_behaviour("animation", loadfile("data/behaviour.d/animation.lua"))
 scene.load_behaviour("cfunctest", call_logger.load())
 
 local hero = scene.spawn_prefab("hero")
