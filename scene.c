@@ -6,6 +6,7 @@
 
 void cpShape_deleter(cpBody* b, cpShape* s, void* d);
 void free_physics(object* o);
+void run_delete_method(object*, lua_State*, const char*);
 
 object* get_first_unused(scene* s)
 {
@@ -53,18 +54,30 @@ void free_physics(object* o)
 	cpBodyFree(o->physics);
 }
 
+void run_delete_method(object* o, lua_State* l, const char* bname)
+{
+	lua_getglobal(l, "scene_delete");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		return;
+	}
+	luaG_pushobject(l, o);
+	int result = lua_pcall(l, 1, 0, 0);
+	plua_error(l, result, bname);
+}
+
 void delete_object(scene* s, object* o)
 {
 	UNUSED(s);
-
-	free_physics(o);
 
 	behaviour* obj_threads = (behaviour*)o->tag;
 	size_t num_behaviours = 0;
 	if(obj_threads != NULL) {
 		while(obj_threads[num_behaviours].name != NULL) {
 			if(obj_threads[num_behaviours].script_behaviour) {
-				lua_close(obj_threads[num_behaviours].content.thread);
+				lua_State* l = obj_threads[num_behaviours].content.thread;
+				run_delete_method(o, l, obj_threads[num_behaviours].name);
+				lua_close(l);
 			} else {
 				call_delete(obj_threads[num_behaviours].content.beh, o);
 				free(obj_threads[num_behaviours].content.beh);
@@ -73,6 +86,8 @@ void delete_object(scene* s, object* o)
 		}
 	}
 	free(obj_threads);
+
+	free_physics(o);
 
 	if (o->name != NULL) {
 		free(o->name);
