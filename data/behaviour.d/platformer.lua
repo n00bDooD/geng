@@ -20,7 +20,7 @@ local cur_tick = 0
 
 local last_vertical = 0
 
-function scene_update(obj, step)
+function update(obj, step)
 	cur_tick = cur_tick + step
 
 	local horinp = input.get('horizontal') * xacc

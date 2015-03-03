@@ -4,13 +4,10 @@ physics.set_gravity(vector.new(0, -98.1 * 4));
 scene.load_prefab("hero", loadfile("data/prefabs.d/hero.lua"))
 scene.load_prefab("buddy", loadfile("data/prefabs.d/buddy.lua"))
 scene.load_prefab("baddie", loadfile("data/prefabs.d/baddie.lua"))
-scene.load_prefab("fly", loadfile("data/prefabs.d/fly.lua"))
+scene.load_prefab("mad_block", loadfile("data/prefabs.d/mad_block.lua"))
 
 scene.load_behaviour("controllable", loadfile("data/behaviour.d/controllable.lua"))
 scene.load_behaviour("platformer", loadfile("data/behaviour.d/platformer.lua"))
-scene.load_behaviour("boolet", loadfile("data/behaviour.d/boolet.lua"))
-scene.load_behaviour("character_anim", loadfile("data/behaviour.d/character_anim.lua"))
---scene.load_behaviour("animation", loadfile("data/behaviour.d/animation.lua"))
 scene.load_behaviour("animation", animation.load())
 scene.load_behaviour("cfunctest", call_logger.load())
 
@@ -25,7 +22,7 @@ baddie:set_pos(400, -200)
 
 local b = 0
 for i = 0, 20 do
-	local blocker = scene.spawn_prefab('fly')
+	local blocker = scene.spawn_prefab('mad_block')
 	b = b + 0.25
 	
 	blocker:set_pos(51 * i, (-600) + (51 * math.floor(b)))
