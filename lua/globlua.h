@@ -16,5 +16,6 @@ void luaG_init_state(lua_State*);
 lua_State* luaG_newstate(lua_State*);
 
 void dbg_printstack(lua_State*);
+void dbg_printtable(lua_State*, int);
 
 #endif /* GLOBLUA_H */

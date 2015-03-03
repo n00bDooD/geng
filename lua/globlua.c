@@ -45,6 +45,19 @@ void dbg_printstack(lua_State* l)
 	}
 }
 
+void dbg_printtable(lua_State* L, int t)
+{
+	lua_pushnil(L);  /* first key */
+	while (lua_next(L, t) != 0) {
+  		/* uses 'key' (at index -2) and 'value' (at index -1) */
+  		printf("%s - %s\n",
+	                  	lua_typename(L, lua_type(L, -2)),
+		                lua_typename(L, lua_type(L, -1)));
+  		/* removes 'value'; keeps 'key' for next iteration */
+  		lua_pop(L, 1);
+	}
+}
+
 
 /* 
  * Registry key for the engine-specific global state-table.

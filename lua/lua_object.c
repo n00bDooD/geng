@@ -484,6 +484,8 @@ static int lua_object_send_message(lua_State* l)
 				plua_error(r, result, "receive");
 				return 0;
 			} else {
+				lua_remove(l, 1);
+				lua_remove(l, 1);
 				call_receive(obj_threads[num_behaviours-1].content.beh, o->o, l);
 			}
 		}

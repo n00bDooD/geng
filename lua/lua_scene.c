@@ -22,6 +22,7 @@
 #include <libgen.h>
 
 #include "../cbehaviours/call_logger.h"
+#include "../cbehaviours/animation.h"
 
 void set_scene_registry(lua_State* l, scene* s);
 void reload_obj_behaviour(object* o, const char* name, lua_State* l);
@@ -338,6 +339,7 @@ static int lua_set_scene(lua_State* l)
 
 	luaG_register_all(nl, news, get_input_registry(l), get_audio_registry(l));
 	register_call_logger(nl);
+	register_animation(nl);
 
 	luaExt_copy(l, nl);
 	int res = lua_pcall(nl, 0, 0, 0);

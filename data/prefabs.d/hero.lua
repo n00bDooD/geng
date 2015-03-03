@@ -33,7 +33,7 @@ anim.hurt  = new_anim('hurt' , {3})
 
 anim.jump_left  = {name='jump_left', frames={{sprite=4, fliph=true, speed=1}}, speed=1}
 anim.jump_right  = {name='jump_right', frames={{sprite=4, fliph=false, speed=1}}, speed=1}
-anim.jump_right  = {name='jump', frames={{sprite=4, speed=1}}, speed=1}
+anim.jump = {name='jump', frames={{sprite=4, speed=1}}, speed=1}
 
 anim.walk_left = new_anim('walk_left', {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16})
 anim.walk_right = new_anim('walk_right', {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16})
