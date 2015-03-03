@@ -578,7 +578,7 @@ int register_object(lua_State *L)
 
 void run_update_method(object* o, lua_State* l, const char* bname, double time_step)
 {
-	lua_getglobal(l, "scene_update");
+	lua_getglobal(l, BEHAVIOUR_UPDATE_MNAME);
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		return;

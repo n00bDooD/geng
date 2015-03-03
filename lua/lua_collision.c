@@ -3,6 +3,7 @@
 #include <lua.h>
 #include "../global.h"
 
+#include "globlua.h"
 #include "lua_colliders.h"
 #include "lua_collisionpair.h"
 #include "lua_object.h"
@@ -88,8 +89,8 @@ int collision_begin(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_begin", COLL_BEGIN);
-	CALL_EACH(be2, arb, "collision_begin", COLL_BEGIN);
+	CALL_EACH(be1, arb, BEHAVIOUR_COLL_BEGIN_MNAME, COLL_BEGIN);
+	CALL_EACH(be2, arb, BEHAVIOUR_COLL_BEGIN_MNAME, COLL_BEGIN);
 	return true;
 }
 
@@ -98,8 +99,8 @@ int collision_preSolve(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_preSolve", COLL_PRESOLVE);
-	CALL_EACH(be2, arb, "collision_preSolve", COLL_PRESOLVE);
+	CALL_EACH(be1, arb, BEHAVIOUR_COLL_PRESOLVE_MNAME, COLL_PRESOLVE);
+	CALL_EACH(be2, arb, BEHAVIOUR_COLL_PRESOLVE_MNAME, COLL_PRESOLVE);
 	return true;
 }
 
@@ -108,8 +109,8 @@ void collision_postSolve(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_postSolve", COLL_POSTSOLVE);
-	CALL_EACH(be2, arb, "collision_postSolve", COLL_POSTSOLVE);
+	CALL_EACH(be1, arb, BEHAVIOUR_COLL_POSTSOLVE_MNAME, COLL_POSTSOLVE);
+	CALL_EACH(be2, arb, BEHAVIOUR_COLL_POSTSOLVE_MNAME, COLL_POSTSOLVE);
 }
 
 void collision_separate(cpArbiter* arb, cpSpace* space, void* data)
@@ -117,8 +118,8 @@ void collision_separate(cpArbiter* arb, cpSpace* space, void* data)
 	UNUSED(data); UNUSED(space);
 	GET_BEHAVLISTS(arb, be1, be2);
 
-	CALL_EACH(be1, arb, "collision_separate", COLL_SEP);
-	CALL_EACH(be2, arb, "collision_separate", COLL_SEP);
+	CALL_EACH(be1, arb, BEHAVIOUR_COLL_SEPARATE_MNAME, COLL_SEP);
+	CALL_EACH(be2, arb, BEHAVIOUR_COLL_SEPARATE_MNAME, COLL_SEP);
 }
 
 void setup_collision(scene* s)

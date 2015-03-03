@@ -56,7 +56,7 @@ void free_physics(object* o)
 
 void run_delete_method(object* o, lua_State* l, const char* bname)
 {
-	lua_getglobal(l, "scene_delete");
+	lua_getglobal(l, BEHAVIOUR_DELETE_MNAME);
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		return;
