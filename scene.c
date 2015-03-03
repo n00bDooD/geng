@@ -62,7 +62,7 @@ void run_delete_method(object* o, lua_State* l, const char* bname)
 		return;
 	}
 	luaG_pushobject(l, o);
-	int result = lua_pcall(l, 1, 0, 0);
+	int result = luaG_pcall(l, 1, 0);
 	plua_error(l, result, bname);
 }
 

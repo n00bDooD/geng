@@ -14,6 +14,7 @@ scene.load_behaviour("cfunctest", call_logger.load())
 local hero = scene.spawn_prefab("hero")
 hero:set_pos(200, -200)
 
+
 local buddy = scene.spawn_prefab("buddy")
 buddy:set_pos(300, -200)
 

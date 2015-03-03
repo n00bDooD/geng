@@ -57,7 +57,7 @@ object* create_prefab(lua_State* l, scene* s, const char* name)
 		lua_rawseti(l, 3, num_args - i);
 	}
 	lua_setglobal(l, "prefab_args");
-	int run_result = lua_pcall(l, 0, 1, 0);
+	int run_result = luaG_pcall(l, 0, 1);
 	switch(run_result) {
 		case 0: {
 			// OK
@@ -154,7 +154,7 @@ void reload_obj_behaviour(object* o, const char* name, lua_State* l)
 
 			// This behaviour needs to be reloaded
 			luaExt_copy(l, r);
-			int run_result = lua_pcall(r, 0, 0, 0);
+			int run_result = luaG_pcall(r, 0, 0);
 			switch(run_result) {
 				case 0:
 				case LUA_YIELD: {
@@ -342,7 +342,7 @@ static int lua_set_scene(lua_State* l)
 	register_animation(nl);
 
 	luaExt_copy(l, nl);
-	int res = lua_pcall(nl, 0, 0, 0);
+	int res = luaG_pcall(nl, 0, 0);
 	plua_error(nl, res, "set_scene");
 
 	game_set_current(g, g->num_scenes);

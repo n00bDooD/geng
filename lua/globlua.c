@@ -58,6 +58,29 @@ void dbg_printtable(lua_State* L, int t)
 	}
 }
 
+static int lua_error_handler(lua_State* l)
+{
+	const char* errmesg = lua_tolstring(l, -1, NULL);
+	luaL_dostring(l, "debug.debug()");
+
+	lua_settop(l, 0);
+	if (errmesg != NULL) {
+		lua_pushstring(l, errmesg);
+	} else {
+		lua_pushnil(l);
+	}
+	return 1;
+}
+
+int luaG_pcall(lua_State* l, int nargs, int nresults)
+{
+	lua_pushcfunction(l, &lua_error_handler);
+	lua_insert(l, 1);
+	int ret = lua_pcall(l, nargs, nresults, 1);
+	lua_remove(l, 1);
+	return ret;
+}
+
 
 /* 
  * Registry key for the engine-specific global state-table.

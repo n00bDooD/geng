@@ -53,7 +53,7 @@ void bbqueryfunc(cpShape* sh, void* data)
 	lua_pushvalue(l, -1);
 	collider* c = luaG_pushcoll(l);
 	c->shape = sh;
-	lua_pcall(l, 1, 0, 0);
+	luaG_pcall(l, 1, 0);
 }
 
 static int lua_query_aabb(lua_State* l)
@@ -82,7 +82,7 @@ void segmentqueryfunc(cpShape* sh, cpFloat t, cpVect n, void* data)
 	lua_pushnumber(l, t);
 	cpVect* v = luaG_pushvect(l);
 	*v = n;
-	lua_pcall(l, 3, 0, 0);
+	luaG_pcall(l, 3, 0);
 }
 
 static int lua_query_segment(lua_State* l)

@@ -130,7 +130,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 		}
 		lua_setglobal(t, "args");
 
-		int run_result = lua_pcall(t, 0, 0, 0);
+		int run_result = luaG_pcall(t, 0, 0);
 		switch(run_result) {
 			case 0:
 			case LUA_YIELD: {
@@ -480,7 +480,7 @@ static int lua_object_send_message(lua_State* l)
 				}
 				luaG_pushobject(r, o->o);
 				luaExt_copy(l, r);
-				int result = lua_pcall(r, 2, 0, 0);
+				int result = luaG_pcall(r, 2, 0);
 				plua_error(r, result, "receive");
 				return 0;
 			} else {
@@ -585,7 +585,7 @@ void run_update_method(object* o, lua_State* l, const char* bname, double time_s
 	}
 	luaG_pushobject(l, o);
 	lua_pushnumber(l, time_step);
-	int result = lua_pcall(l, 2, LUA_MULTRET, 0);
+	int result = luaG_pcall(l, 2, LUA_MULTRET);
 	plua_error(l, result, bname);
 }
 
@@ -631,7 +631,7 @@ void body_foreach_shape(cpBody* b, cpShape* s, void* data)
 	// Call it. Number of arguments = stack position
 	// minus the original function & the function to
 	// be called.
-	int result = lua_pcall(l, lua_gettop(l) -2, 0, 0);
+	int result = luaG_pcall(l, lua_gettop(l) -2, 0);
 	plua_error(l, result, "foreach_collider");
 }
 
@@ -656,6 +656,6 @@ void body_foreach_collisionpair(cpBody* b, cpArbiter* a, void* data)
 	// Call it. Number of arguments = stack position
 	// minus the original function & the function to
 	// be called.
-	int result = lua_pcall(l, lua_gettop(l) -2, 0, 0);
+	int result = luaG_pcall(l, lua_gettop(l) -2, 0);
 	plua_error(l, result, "foreach_collisionpair");
 }

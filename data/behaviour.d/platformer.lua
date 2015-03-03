@@ -50,7 +50,7 @@ function update(obj, step)
 		elseif vertj < 0 then
 			if not ducked then 
 				audio.play(1)
-				obj:send_message('cfunctest', 'FooTheBarBro')
+				null_call_it()
 			end
 			ducked = true
 			-- Set duck
