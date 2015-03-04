@@ -5,6 +5,7 @@ scene.load_prefab("hero", loadfile("data/prefabs.d/hero.lua"))
 scene.load_prefab("buddy", loadfile("data/prefabs.d/buddy.lua"))
 scene.load_prefab("baddie", loadfile("data/prefabs.d/baddie.lua"))
 scene.load_prefab("mad_block", loadfile("data/prefabs.d/mad_block.lua"))
+scene.load_prefab("bomb", loadfile("data/prefabs.d/bomb.lua"))
 
 scene.load_behaviour("controllable", loadfile("data/behaviour.d/controllable.lua"))
 scene.load_behaviour("platformer", loadfile("data/behaviour.d/platformer.lua"))
@@ -20,6 +21,9 @@ buddy:set_pos(300, -200)
 
 local baddie = scene.spawn_prefab("baddie")
 baddie:set_pos(400, -200)
+
+local bomb = scene.spawn_prefab("bomb")
+bomb:set_pos(500, -200)
 
 local b = 0
 for i = 0, 20 do
