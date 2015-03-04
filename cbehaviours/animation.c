@@ -155,6 +155,7 @@ int get_animation(lua_State* l, animation* a, const char* name)
 		if (name == NULL) {
 			return -1;
 		}
+		lua_pop(l, 1);
 	}
 
 	lua_pushliteral(l, "frames");

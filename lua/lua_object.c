@@ -73,7 +73,8 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 	} else if (type == LUA_TLIGHTUSERDATA) {
 		obj_threads[num_behaviours-1].name = strdup(name);
 		obj_threads[num_behaviours-1].script_behaviour = false;
-		obj_threads[num_behaviours-1].content.beh = lua_touserdata(l, -1);
+		cbehaviour* template = lua_touserdata(l, -1);
+		obj_threads[num_behaviours-1].content.beh = create_behaviour(template);
 		if(obj_threads[num_behaviours-1].content.beh == NULL) {
 			luaL_error(l, "NULL cbehaviour!!");
 		}
