@@ -16,4 +16,4 @@ local func = loadfile('data/textures/sheets/items.lua'); func()
 local func = loadfile('data/textures/sheets/tiles.lua'); func()
 local func = loadfile('data/textures/sheets/hud.lua'); func()
 
-renderer.set_background(renderer.add_texture('data/textures/bg_castle.tga')
+renderer.set_background(renderer.add_texture('data/textures/bg_castle.tga'))
