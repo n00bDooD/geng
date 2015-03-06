@@ -2,7 +2,7 @@ function add_sprites(thandle, sprites)
 	for k, s in ipairs(sprites) do
 		local spritehandle = renderer.add_sprite(thandle, s.w * 0.5, s.h* 0.5, s.x, s.y, s.w, s.h)
 		if s.name ~= nil then
-			io.write(spritehandle .. ':\t' .. s.name .. '\n')
+			--io.write(spritehandle .. ':\t' .. s.name .. '\n')
 		end
 	end
 end

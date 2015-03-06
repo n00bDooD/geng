@@ -6,6 +6,7 @@
 #include "../scene.h"
 #include "../services/inputaxis.h"
 #include "../services/sdl_audio.h"
+#include "../services/sdl_renderer.h"
 
 #define BEHAVIOUR_RECEIVE_MNAME "receive"
 #define BEHAVIOUR_UPDATE_MNAME "update"
@@ -17,7 +18,7 @@
 #define BEHAVIOUR_COLL_POSTSOLVE_MNAME "collision_postSolve"
 #define BEHAVIOUR_COLL_SEPARATE_MNAME "collision_separate"
 
-void luaG_register_all(lua_State*, scene*, inputaxis_data*,sdl_audio*);
+void luaG_register_all(lua_State*, scene*, inputaxis_data*,sdl_audio*,sdl_renderer*);
 
 void luaG_getreg(lua_State*, const char*);
 void luaG_setreg(lua_State*, const char*);

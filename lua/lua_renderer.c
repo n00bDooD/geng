@@ -6,7 +6,6 @@
 #define TYPE_NAME "renderer"
 #define REGISTRY_KEY "geng.renderer"
 
-sdl_renderer* get_renderer_registry(lua_State* l);
 
 sdl_renderer* luaG_checkrenderer(lua_State* L, int index)
 {

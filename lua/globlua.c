@@ -14,12 +14,13 @@
 #include <stdio.h>
 #include <lualib.h>
 
-void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a)
+void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a, sdl_renderer* r)
 {
 	register_object(s);
 	lua_pop(s, 1);
 	register_input(s, i);
 	lua_pop(s, 1);
+	register_renderer(s, r);
 	register_vector(s);
 	lua_pop(s, 1);
 	register_box(s);
@@ -155,7 +156,7 @@ void luaG_init_state(lua_State* l)
 	lua_newtable(l);
 	lua_rawset(l, LUA_REGISTRYINDEX);
 
-	luaG_register_all(l, NULL, NULL, NULL);
+	luaG_register_all(l, NULL, NULL, NULL, NULL);
 }
 
 lua_State* luaG_newstate(lua_State* l)

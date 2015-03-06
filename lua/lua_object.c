@@ -21,6 +21,7 @@
 #include "lua_scene.h"
 #include "lua_input.h"
 #include "lua_audio.h"
+#include "lua_renderer.h"
 
 // lua tools
 #include "lua_copy.h"
@@ -90,7 +91,8 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 		luaG_register_all(t,
 				get_scene_registry(l),
 				get_input_registry(l),
-				get_audio_registry(l)
+				get_audio_registry(l),
+				get_renderer_registry(l)
 				);
 
 		luaG_getreg(l, "behaviours");

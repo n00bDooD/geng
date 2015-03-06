@@ -2,11 +2,11 @@
 -- Resolve a tile data-value to the name of a brefab
 function resolve_gid(map, gid)
 	for _, tileset in ipairs(map.tilesets) do
-		local idx = (gid - tileset.firstgid)+1
+		local idx = gid - tileset.firstgid +1
 
 		if idx < 1 then
 			-- Not this one
-		elseif idx > #tileset.tiles then
+		elseif idx <= #tileset.tiles then
 			-- woo, this one
 			return tileset.name .. '_' .. tileset.tiles[idx].id
 		end
@@ -17,12 +17,12 @@ end
 function add_tilelayer(map, layer)
 	if layer.type ~= 'tilelayer' then return end
 
-	for col = 1, layer.width do
-		for row = 1, layer.height do
-			local tileid = layer.data[col + row]
-			if tileid > 0 then
+	for col = 0, layer.width -1 do
+		for row = 0, layer.height -1 do
+			local tileid = layer.data[(row*layer.height) + col +1]
+			if tileid ~= nil and tileid > 0 then
 				local x = col * map.tilewidth
-				local y = row * map.tileheight
+				local y = 200 - row * map.tileheight
 
 				local newtile = scene.spawn_prefab(resolve_gid(map, tileid))
 				if layer.visible == false then newtile:set_sprite(0) end
@@ -47,7 +47,7 @@ end
 function transform_tile(t)
 	local tex = renderer.add_texture(t.image);
 	local sprite = renderer.add_sprite(tex, t.width * 0.5, t.height * 0.5, 0, 0, t.width, t.height)
-	return (function() local o = scene.new_object(); o:set_sprite(sprite); return o end)
+	return (function() local o = scene.newobject(); o:set_sprite(sprite); return o end)
 end
 
 

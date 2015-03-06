@@ -220,6 +220,7 @@ int main(int argc, char** argv)
 		register_input(l3, inpdat);
 		register_audio(l3, sdlaud);
 		register_physics(l3);
+		register_renderer(l3, sdlrend);
 		int res = luaL_dofile(l3, "data/init.lua");
 		plua_error(l3, res, "data/init.lua");
 		lua_close(l3);
