@@ -39,6 +39,14 @@ size_t is_table_seen(lua_State*);
  * to the list of seen objects.
  */
 void see_table(lua_State*);
+
+/*
+ * Copies a lua functions upvalues from l1 to l2.
+ * Requires that the lua function has been copied over
+ * and is at the top of both l1 and l2.
+ * copy_lua_function calls this.
+ */
+int transfer_upvalues(lua_State* l1, lua_State* l2);
 /*
  * Copies a lua function, i.e. a block of lua
  * code from l1 to l2
@@ -139,6 +147,22 @@ const char* dumpreader(lua_State* l, void* data, size_t* sz)
         return d->data;
 }
 
+int transfer_upvalues(lua_State* l1, lua_State* l2)
+{
+	int i = 1;
+	while(lua_getupvalue(l1, -1, i++) != NULL) {
+		int res = copy_lua_value(l1, l2);
+		lua_pop(l1, 1);
+		if (res == 0) {
+			if (lua_setupvalue(l2, -2, i-1) == NULL) {
+				// Upvalue setting failed. Pop it
+				lua_pop(l2, 1);
+			}
+		}
+	}
+	return 0;
+}
+
 int copy_lua_function(lua_State* l1, lua_State* l2)
 {
 	struct cdata dat = { 0, NULL };
@@ -150,7 +174,12 @@ int copy_lua_function(lua_State* l1, lua_State* l2)
 	if(loadres != 0) {
 		return -loadres;
 	}
+	// Transfer the function upvalues too
+	int transres = transfer_upvalues(l1, l2);
         free(dat.data);
+	if(transres != 0) {
+		return transres;
+	}
 	return 0;
 }
 
