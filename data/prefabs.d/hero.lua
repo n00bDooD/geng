@@ -51,6 +51,5 @@ end
 o:add_behaviour('animation', anim, 'idle')
 
 o:add_behaviour("platformer", 15, -45)
-o:add_behaviour("cfunctest", 50)
 o:set_ang_vel_limit(0)
 return o

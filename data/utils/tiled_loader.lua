@@ -17,16 +17,36 @@ end
 function add_tilelayer(map, layer)
 	if layer.type ~= 'tilelayer' then return end
 
+	local col = 0
+	local row = 0
+	for i, b in ipairs(layer.data) do
+		col = i - (row * layer.width)
+		if col > layer.width then
+			row = row + 1
+			col = 1
+		end
+		
+		if b > 0 then
+			local x = (col-1) * map.tilewidth
+			local y = (row-1) * map.tileheight
+
+			local newtile = scene.spawn_prefab(resolve_gid(map, b))
+			if layer.visible == false then newtile:set_sprite(0) end
+			newtile:set_pos(x, 200 - y)
+		end
+	end
+
+	do return end
 	for col = 0, layer.width -1 do
 		for row = 0, layer.height -1 do
 			local tileid = layer.data[(row*layer.height) + col +1]
 			if tileid ~= nil and tileid > 0 then
 				local x = col * map.tilewidth
-				local y = 200 - row * map.tileheight
+				local y = row * map.tileheight
 
 				local newtile = scene.spawn_prefab(resolve_gid(map, tileid))
 				if layer.visible == false then newtile:set_sprite(0) end
-				newtile:set_pos(x, y)
+				newtile:set_pos(x, 600 - y)
 			end
 		end
 	end
@@ -47,7 +67,18 @@ end
 function transform_tile(t)
 	local tex = renderer.add_texture(t.image);
 	local sprite = renderer.add_sprite(tex, t.width * 0.5, t.height * 0.5, 0, 0, t.width, t.height)
-	return (function() local o = scene.newobject(); o:set_sprite(sprite); return o end)
+	if t.properties == nil then t.properties = {} end
+
+	local collider = function(o) return nil end
+	if t.properties.collider ~= nil and t.properties.collider == 'true' then
+		collider = function(o) o:add_box_collider(t.width, t.height) end
+	end
+	return (function() 
+			local o = scene.newobject()
+		 	o:set_sprite(sprite)
+			collider(o)
+		 	return o
+	 	end)
 end
 
 

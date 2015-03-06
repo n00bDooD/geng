@@ -28,52 +28,155 @@ return {
           id = 0,
           image = "data/textures/maptiles/grass/grassHalf.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 70.1818,
+                height = 39.6364,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 1,
           image = "data/textures/maptiles/grass/grassHalfLeft.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 70,
+                height = 40,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 2,
           image = "data/textures/maptiles/grass/grassHalfMid.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0.181818,
+                y = 0.181818,
+                width = 69.8182,
+                height = 40,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 3,
           image = "data/textures/maptiles/grass/grassHalfRight.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = -0.363636,
+                y = 0.181818,
+                width = 70.7273,
+                height = 39.6364,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 4,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice01_01.tga",
           width = 70,
           height = 70
         },
         {
           id = 5,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice02_02.tga",
           width = 70,
           height = 70
         },
         {
           id = 6,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice03_03.tga",
           width = 70,
           height = 70
         },
         {
           id = 7,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice04_04.tga",
           width = 70,
           height = 70
         },
         {
           id = 8,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice05_05.tga",
           width = 70,
           height = 70
@@ -116,54 +219,81 @@ return {
         },
         {
           id = 15,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice16_16.tga",
           width = 70,
           height = 70
         },
         {
           id = 16,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice17_17.tga",
           width = 70,
           height = 70
         },
         {
           id = 17,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice18_18.tga",
           width = 70,
           height = 70
         },
         {
           id = 18,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice19_19.tga",
           width = 70,
           height = 70
         },
         {
           id = 19,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice20_20.tga",
           width = 70,
           height = 70
         },
         {
           id = 20,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice21_21.tga",
           width = 70,
           height = 70
         },
         {
           id = 21,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice22_22.tga",
           width = 70,
           height = 70
         },
         {
           id = 22,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice23_23.tga",
           width = 70,
           height = 70
         },
         {
           id = 23,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice24_24.tga",
           width = 70,
           height = 70
@@ -182,42 +312,63 @@ return {
         },
         {
           id = 26,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice27_27.tga",
           width = 70,
           height = 70
         },
         {
           id = 27,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice28_28.tga",
           width = 70,
           height = 70
         },
         {
           id = 28,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice29_29.tga",
           width = 70,
           height = 70
         },
         {
           id = 29,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice30_30.tga",
           width = 70,
           height = 70
         },
         {
           id = 30,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice31_31.tga",
           width = 70,
           height = 70
         },
         {
           id = 31,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice32_32.tga",
           width = 70,
           height = 70
         },
         {
           id = 32,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice33_33.tga",
           width = 70,
           height = 70
@@ -236,6 +387,9 @@ return {
         },
         {
           id = 35,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/grass/slice36_36.tga",
           width = 70,
           height = 70
@@ -260,52 +414,155 @@ return {
           id = 0,
           image = "data/textures/maptiles/sand/sandHalf.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 69.6364,
+                height = 40,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 1,
           image = "data/textures/maptiles/sand/sandHalfLeft.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0.181818,
+                y = 0,
+                width = 70,
+                height = 39.8182,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 2,
           image = "data/textures/maptiles/sand/sandHalfMid.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = -0.181818,
+                y = 0,
+                width = 69.2727,
+                height = 40.1818,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 3,
           image = "data/textures/maptiles/sand/sandHalfRight.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0.363636,
+                y = 0.545455,
+                width = 69.2727,
+                height = 40,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 4,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice01_01.tga",
           width = 70,
           height = 70
         },
         {
           id = 5,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice02_02.tga",
           width = 70,
           height = 70
         },
         {
           id = 6,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice03_03.tga",
           width = 70,
           height = 70
         },
         {
           id = 7,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice04_04.tga",
           width = 70,
           height = 70
         },
         {
           id = 8,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice05_05.tga",
           width = 70,
           height = 70
@@ -348,54 +605,81 @@ return {
         },
         {
           id = 15,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice16_16.tga",
           width = 70,
           height = 70
         },
         {
           id = 16,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice17_17.tga",
           width = 70,
           height = 70
         },
         {
           id = 17,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice18_18.tga",
           width = 70,
           height = 70
         },
         {
           id = 18,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice19_19.tga",
           width = 70,
           height = 70
         },
         {
           id = 19,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice20_20.tga",
           width = 70,
           height = 70
         },
         {
           id = 20,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice21_21.tga",
           width = 70,
           height = 70
         },
         {
           id = 21,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice22_22.tga",
           width = 70,
           height = 70
         },
         {
           id = 22,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice23_23.tga",
           width = 70,
           height = 70
         },
         {
           id = 23,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice24_24.tga",
           width = 70,
           height = 70
@@ -414,42 +698,63 @@ return {
         },
         {
           id = 26,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice27_27.tga",
           width = 70,
           height = 70
         },
         {
           id = 27,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice28_28.tga",
           width = 70,
           height = 70
         },
         {
           id = 28,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice29_29.tga",
           width = 70,
           height = 70
         },
         {
           id = 29,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice30_30.tga",
           width = 70,
           height = 70
         },
         {
           id = 30,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice31_31.tga",
           width = 70,
           height = 70
         },
         {
           id = 31,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice32_32.tga",
           width = 70,
           height = 70
         },
         {
           id = 32,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice33_33.tga",
           width = 70,
           height = 70
@@ -468,6 +773,9 @@ return {
         },
         {
           id = 35,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/sand/slice36_36.tga",
           width = 70,
           height = 70
@@ -490,30 +798,45 @@ return {
       tiles = {
         {
           id = 0,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice01_01.tga",
           width = 70,
           height = 70
         },
         {
           id = 1,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice02_02.tga",
           width = 70,
           height = 70
         },
         {
           id = 2,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice03_03.tga",
           width = 70,
           height = 70
         },
         {
           id = 3,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice04_04.tga",
           width = 70,
           height = 70
         },
         {
           id = 4,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice05_05.tga",
           width = 70,
           height = 70
@@ -556,54 +879,81 @@ return {
         },
         {
           id = 11,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice16_16.tga",
           width = 70,
           height = 70
         },
         {
           id = 12,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice17_17.tga",
           width = 70,
           height = 70
         },
         {
           id = 13,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice18_18.tga",
           width = 70,
           height = 70
         },
         {
           id = 14,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice19_19.tga",
           width = 70,
           height = 70
         },
         {
           id = 15,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice20_20.tga",
           width = 70,
           height = 70
         },
         {
           id = 16,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice21_21.tga",
           width = 70,
           height = 70
         },
         {
           id = 17,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice22_22.tga",
           width = 70,
           height = 70
         },
         {
           id = 18,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice23_23.tga",
           width = 70,
           height = 70
         },
         {
           id = 19,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice24_24.tga",
           width = 70,
           height = 70
@@ -622,42 +972,63 @@ return {
         },
         {
           id = 22,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice27_27.tga",
           width = 70,
           height = 70
         },
         {
           id = 23,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice28_28.tga",
           width = 70,
           height = 70
         },
         {
           id = 24,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice29_29.tga",
           width = 70,
           height = 70
         },
         {
           id = 25,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice30_30.tga",
           width = 70,
           height = 70
         },
         {
           id = 26,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice31_31.tga",
           width = 70,
           height = 70
         },
         {
           id = 27,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice32_32.tga",
           width = 70,
           height = 70
         },
         {
           id = 28,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice33_33.tga",
           width = 70,
           height = 70
@@ -676,6 +1047,9 @@ return {
         },
         {
           id = 31,
+          properties = {
+            ["collider"] = "true"
+          },
           image = "data/textures/maptiles/purple/slice36_36.tga",
           width = 70,
           height = 70
@@ -684,25 +1058,113 @@ return {
           id = 32,
           image = "data/textures/maptiles/purple/strip_purple_01.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0.181818,
+                y = 0,
+                width = 70.1818,
+                height = 40.1818,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 33,
           image = "data/textures/maptiles/purple/strip_purple_02.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0.545455,
+                y = 0.363636,
+                width = 69.4545,
+                height = 39.6364,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 34,
           image = "data/textures/maptiles/purple/strip_purple_03.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0.363636,
+                y = 1.09091,
+                width = 69.2727,
+                height = 38.5455,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         },
         {
           id = 35,
           image = "data/textures/maptiles/purple/strip_purple_04.tga",
           width = 70,
-          height = 70
+          height = 70,
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            properties = {},
+            objects = {
+              {
+                id = 0,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = -0.181818,
+                y = 0.181818,
+                width = 69.8182,
+                height = 39.8182,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
         }
       }
     }
