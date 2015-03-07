@@ -29,6 +29,12 @@ cbehaviour* create_behaviour(cbehaviour* template) {
 	ret->update = template->update;
 	ret->delete = template->delete;
 	ret->create = template->create;
+	ret->receive = template->receive;
+
+	ret->coll_begin = template->coll_begin;
+	ret->coll_presolve = template->coll_presolve;
+	ret->coll_postsolve = template->coll_postsolve;
+	ret->coll_separate = template->coll_separate;
 
 	return ret;
 }
