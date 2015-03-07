@@ -22,12 +22,8 @@ cpVect* luaG_checkvect(lua_State* L, int index)
 cpVect* luaG_optvect(lua_State* L, int index, cpVect* nil)
 {
 	if (lua_type(L, index) == LUA_TUSERDATA) {
-		const char* n = luaL_typename(L, index);
-		if (strcmp(n, TYPE_NAME) == 0) {
-			cpVect* o = (cpVect*)luaL_checkudata(L, index, TYPE_NAME);
-			if (o == NULL) luaL_typerror(L, index, TYPE_NAME);
-			return o;
-		}
+		cpVect* o = (cpVect*)luaL_checkudata(L, index, TYPE_NAME);
+		if (o != NULL) return o;
 	}
 	return nil;
 }

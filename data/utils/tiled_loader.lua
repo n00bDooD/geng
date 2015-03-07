@@ -72,6 +72,20 @@ function transform_tile(t)
 	local collider = function(o) return nil end
 	if t.properties.collider ~= nil and t.properties.collider == 'true' then
 		collider = function(o) o:add_box_collider(t.width, t.height) end
+	elseif t.objectGroup ~= nil then
+		for _, o in ipairs(t.objectGroup.objects) do
+			if o.shape == 'rectangle' then
+				local xpos = o.x
+				local ypos = o.y
+				local edges = {
+					      vector.new(xpos, ypos),
+					      vector.new(xpos + o.width, ypos),
+					      vector.new(xpos + o.width, ypos - o.height),
+					      vector.new(xpos, ypos - o.height),
+					      }
+				collider = function(o) o:add_poly_collider(edges, vector.new(xpos, (t.height*0.5) - ypos)) end
+			end
+		end
 	end
 	return (function() 
 			local o = scene.newobject()
