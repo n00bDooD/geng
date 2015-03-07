@@ -6,6 +6,7 @@
 #include <lauxlib.h>
 
 #include <chipmunk/chipmunk.h>
+#include <string.h>
 
 #define TYPE_NAME "vector"
 
@@ -16,6 +17,19 @@ cpVect* luaG_checkvect(lua_State* L, int index)
 	o = (cpVect*)luaL_checkudata(L, index, TYPE_NAME);
 	if (o == NULL) luaL_typerror(L, index, TYPE_NAME);
 	return o;
+}
+
+cpVect* luaG_optvect(lua_State* L, int index, cpVect* nil)
+{
+	if (lua_type(L, index) == LUA_TUSERDATA) {
+		const char* n = luaL_typename(L, index);
+		if (strcmp(n, TYPE_NAME) == 0) {
+			cpVect* o = (cpVect*)luaL_checkudata(L, index, TYPE_NAME);
+			if (o == NULL) luaL_typerror(L, index, TYPE_NAME);
+			return o;
+		}
+	}
+	return nil;
 }
 
 cpVect* luaG_pushvect(lua_State* L)

@@ -424,6 +424,31 @@ static int lua_object_add_boxcoll(lua_State* l)
 	return 1;
 }
 
+static int lua_object_add_polycoll(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	luaL_checktype(l, 2, LUA_TTABLE);
+
+	size_t len = lua_objlen(l, 2);
+	cpVect* verts = calloc(sizeof(cpVect), len);
+	if (verts == NULL) luaL_error(l, "calloc");
+	for(size_t i = 1; i <= len; ++i) {
+		lua_rawgeti(l, 2, (int)i);
+
+		verts[i-1] = *luaG_checkvect(l, -1);
+		lua_pop(l, 1);
+	}
+	
+	cpVect offset = cpvzero;
+	offset = *luaG_optvect(l, 3, &offset);
+
+	collider* c = object_add_poly(o->o, verts, (int)len, offset);
+	collider* ret = luaG_pushcoll(l);
+	memcpy(ret, c, sizeof(collider));
+	free(c);
+	return 0;
+}
+
 static int lua_object_set_fliph(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -519,38 +544,60 @@ static int lua_object_foreach_collisionpair(lua_State* l)
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
+
 	{"angle", lua_object_angle},
 	{"set_angle", lua_object_setangle},
-	{"set_sprite", lua_object_setsprite},
+
+	{"velocity", lua_object_velocity},
+
+	{"ang_vel", lua_object_angvel},
+	{"vel_limit", lua_object_vel_limit},
+
+	{"angular_vel_limit", lua_object_angvel_limit},
+	{"set_ang_vel_limit", lua_object_set_angvel_limit},
+
 	{"disable_physics", lua_object_set_static},
 	{"enable_physics", lua_object_set_physics},
+
 	{"apply_force", lua_object_apply_force},
 	{"apply_impulse", lua_object_apply_impulse},
 	{"reset_forces", lua_object_reset_forces},
+
 	{"local2worldpos", lua_object_localpos2world},
 	{"world2localpos", lua_object_worldpos2local},
+
 	{"torque", lua_object_torque},
+
 	{"mass", lua_object_mass},
+
 	{"moment", lua_object_moment},
-	{"velocity", lua_object_velocity},
-	{"ang_vel", lua_object_angvel},
-	{"vel_limit", lua_object_vel_limit},
-	{"angular_vel_limit", lua_object_angvel_limit},
+
+
+	{"delete", lua_object_delete},
+
 	{"add_behaviour", lua_add_behaviour},
+	{"send_message", lua_object_send_message},
+
 	{"add_circle_collider", lua_object_add_circlecoll},
 	{"add_box_collider", lua_object_add_boxcoll},
-	{"delete", lua_object_delete},
+	{"add_poly_collider", lua_object_add_polycoll},
+
+
 	{"set_name", lua_object_set_name},
 	{"name", lua_object_tostring},
+	
+
 	{"flipv", lua_object_get_flipv},
 	{"fliph", lua_object_get_fliph},
 	{"set_flipv", lua_object_set_flipv},
 	{"set_fliph", lua_object_set_fliph},
-	{"send_message", lua_object_send_message},
-	{"set_ang_vel_limit", lua_object_set_angvel_limit},
+
+	{"set_sprite", lua_object_setsprite},
+
 
 	{"foreach_collider", lua_object_foreach_shape},
 	{"foreach_collision", lua_object_foreach_collisionpair},
+
 	{NULL, NULL}
 };
 

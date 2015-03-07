@@ -7,6 +7,7 @@
 #include "lua_colliders.h"
 #include "lua_vector.h"
 #include "lua_box.h"
+#include "globlua.h"
 
 #include <chipmunk/chipmunk.h>
 
