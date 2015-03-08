@@ -3,3 +3,5 @@ geng - GameENGine.
 Lua game engine using SDL2, SDL2_mixer and chipmunk2D
 
 Uses lua 5.1.
+Because the current focus is actual development, the repository
+contains placeholder assets from http://www.kenney.nl/
