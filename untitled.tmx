@@ -1,0 +1,3614 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="70" tileheight="70" nextobjectid="1">
+ <tileset firstgid="1" name="base" tilewidth="70" tileheight="146">
+  <tile id="0">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/box.png"/>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxAlt.png"/>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxCoin_disabled.png"/>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxCoin.png"/>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxCoinAlt_disabled.png"/>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxCoinAlt.png"/>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxEmpty.png"/>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxExplosive_disabled.png"/>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxExplosive.png"/>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxExplosiveAlt.png"/>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxItem_disabled.png"/>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxItem.png"/>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxItemAlt_disabled.png"/>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxItemAlt.png"/>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/boxWarning.png"/>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/brickWall.png"/>
+  </tile>
+  <tile id="16">
+   <image width="70" height="70" source="data/textures/maptiles/base/bridge.png"/>
+  </tile>
+  <tile id="17">
+   <image width="70" height="70" source="data/textures/maptiles/base/bridgeLogs.png"/>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castle.png"/>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleCenter_rounded.png"/>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleCenter.png"/>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleCliffLeft.png"/>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleCliffLeftAlt.png"/>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleCliffRight.png"/>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleCliffRightAlt.png"/>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHalf.png"/>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHalfLeft.png"/>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHalfMid.png"/>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHalfRight.png"/>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHillLeft.png"/>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHillLeft2.png"/>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHillRight.png"/>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleHillRight2.png"/>
+  </tile>
+  <tile id="33">
+   <image width="5" height="22" source="data/textures/maptiles/base/castleLedgeLeft.png"/>
+  </tile>
+  <tile id="34">
+   <image width="5" height="22" source="data/textures/maptiles/base/castleLedgeRight.png"/>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleLeft.png"/>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleMid.png"/>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/castleRight.png"/>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirt.png"/>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtCenter_rounded.png"/>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtCenter.png"/>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtCliffLeft.png"/>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtCliffLeftAlt.png"/>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtCliffRight.png"/>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtCliffRightAlt.png"/>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHalf.png"/>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHalfLeft.png"/>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHalfMid.png"/>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHalfRight.png"/>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHillLeft.png"/>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHillLeft2.png"/>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHillRight.png"/>
+  </tile>
+  <tile id="52">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtHillRight2.png"/>
+  </tile>
+  <tile id="53">
+   <image width="5" height="18" source="data/textures/maptiles/base/dirtLedgeLeft.png"/>
+  </tile>
+  <tile id="54">
+   <image width="5" height="18" source="data/textures/maptiles/base/dirtLedgeRight.png"/>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtLeft.png"/>
+  </tile>
+  <tile id="56">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtMid.png"/>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/dirtRight.png"/>
+  </tile>
+  <tile id="58">
+   <image width="70" height="70" source="data/textures/maptiles/base/door_closedMid.png"/>
+  </tile>
+  <tile id="59">
+   <image width="70" height="70" source="data/textures/maptiles/base/door_closedTop.png"/>
+  </tile>
+  <tile id="60">
+   <image width="70" height="70" source="data/textures/maptiles/base/door_openMid.png"/>
+  </tile>
+  <tile id="61">
+   <image width="70" height="70" source="data/textures/maptiles/base/door_openTop.png"/>
+  </tile>
+  <tile id="62">
+   <image width="70" height="70" source="data/textures/maptiles/base/fence.png"/>
+  </tile>
+  <tile id="63">
+   <image width="70" height="70" source="data/textures/maptiles/base/fenceBroken.png"/>
+  </tile>
+  <tile id="64">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grass.png"/>
+  </tile>
+  <tile id="65">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassCenter_rounded.png"/>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassCenter.png"/>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassCliffLeft.png"/>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassCliffLeftAlt.png"/>
+  </tile>
+  <tile id="69">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassCliffRight.png"/>
+  </tile>
+  <tile id="70">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassCliffRightAlt.png"/>
+  </tile>
+  <tile id="71">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHalf.png"/>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHalfLeft.png"/>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHalfMid.png"/>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHalfRight.png"/>
+  </tile>
+  <tile id="75">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHillLeft.png"/>
+  </tile>
+  <tile id="76">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHillLeft2.png"/>
+  </tile>
+  <tile id="77">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHillRight.png"/>
+  </tile>
+  <tile id="78">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassHillRight2.png"/>
+  </tile>
+  <tile id="79">
+   <image width="5" height="24" source="data/textures/maptiles/base/grassLedgeLeft.png"/>
+  </tile>
+  <tile id="80">
+   <image width="5" height="24" source="data/textures/maptiles/base/grassLedgeRight.png"/>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassLeft.png"/>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassMid.png"/>
+  </tile>
+  <tile id="83">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/grassRight.png"/>
+  </tile>
+  <tile id="84">
+   <image width="48" height="146" source="data/textures/maptiles/base/hill_large.png"/>
+  </tile>
+  <tile id="85">
+   <image width="48" height="146" source="data/textures/maptiles/base/hill_largeAlt.png"/>
+  </tile>
+  <tile id="86">
+   <image width="48" height="106" source="data/textures/maptiles/base/hill_small.png"/>
+  </tile>
+  <tile id="87">
+   <image width="48" height="106" source="data/textures/maptiles/base/hill_smallAlt.png"/>
+  </tile>
+  <tile id="88">
+   <image width="70" height="70" source="data/textures/maptiles/base/ladder_mid.png"/>
+  </tile>
+  <tile id="89">
+   <image width="70" height="70" source="data/textures/maptiles/base/ladder_top.png"/>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/liquidLava.png"/>
+  </tile>
+  <tile id="91">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/liquidLavaTop_mid.png"/>
+  </tile>
+  <tile id="92">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/liquidLavaTop.png"/>
+  </tile>
+  <tile id="93">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/liquidWater.png"/>
+  </tile>
+  <tile id="94">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/liquidWaterTop_mid.png"/>
+  </tile>
+  <tile id="95">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/liquidWaterTop.png"/>
+  </tile>
+  <tile id="96">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/lock_blue.png"/>
+  </tile>
+  <tile id="97">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/lock_green.png"/>
+  </tile>
+  <tile id="98">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/lock_red.png"/>
+  </tile>
+  <tile id="99">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/lock_yellow.png"/>
+  </tile>
+  <tile id="100">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/rockHillLeft.png"/>
+  </tile>
+  <tile id="101">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/rockHillRight.png"/>
+  </tile>
+  <tile id="102">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/ropeAttached.png"/>
+  </tile>
+  <tile id="103">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/ropeHorizontal.png"/>
+  </tile>
+  <tile id="104">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/ropeVertical.png"/>
+  </tile>
+  <tile id="105">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sand.png"/>
+  </tile>
+  <tile id="106">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandCenter_rounded.png"/>
+  </tile>
+  <tile id="107">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandCenter.png"/>
+  </tile>
+  <tile id="108">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandCliffLeft.png"/>
+  </tile>
+  <tile id="109">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandCliffLeftAlt.png"/>
+  </tile>
+  <tile id="110">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandCliffRight.png"/>
+  </tile>
+  <tile id="111">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandCliffRightAlt.png"/>
+  </tile>
+  <tile id="112">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHalf.png"/>
+  </tile>
+  <tile id="113">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHalfLeft.png"/>
+  </tile>
+  <tile id="114">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHalfMid.png"/>
+  </tile>
+  <tile id="115">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHalfRight.png"/>
+  </tile>
+  <tile id="116">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHillLeft.png"/>
+  </tile>
+  <tile id="117">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHillLeft2.png"/>
+  </tile>
+  <tile id="118">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHillRight.png"/>
+  </tile>
+  <tile id="119">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandHillRight2.png"/>
+  </tile>
+  <tile id="120">
+   <image width="5" height="18" source="data/textures/maptiles/base/sandLedgeLeft.png"/>
+  </tile>
+  <tile id="121">
+   <image width="5" height="18" source="data/textures/maptiles/base/sandLedgeRight.png"/>
+  </tile>
+  <tile id="122">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandLeft.png"/>
+  </tile>
+  <tile id="123">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandMid.png"/>
+  </tile>
+  <tile id="124">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/sandRight.png"/>
+  </tile>
+  <tile id="125">
+   <image width="70" height="70" source="data/textures/maptiles/base/sign.png"/>
+  </tile>
+  <tile id="126">
+   <image width="70" height="70" source="data/textures/maptiles/base/signExit.png"/>
+  </tile>
+  <tile id="127">
+   <image width="70" height="70" source="data/textures/maptiles/base/signLeft.png"/>
+  </tile>
+  <tile id="128">
+   <image width="70" height="70" source="data/textures/maptiles/base/signRight.png"/>
+  </tile>
+  <tile id="129">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snow.png"/>
+  </tile>
+  <tile id="130">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowCenter_rounded.png"/>
+  </tile>
+  <tile id="131">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowCenter.png"/>
+  </tile>
+  <tile id="132">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowCliffLeft.png"/>
+  </tile>
+  <tile id="133">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowCliffLeftAlt.png"/>
+  </tile>
+  <tile id="134">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowCliffRight.png"/>
+  </tile>
+  <tile id="135">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowCliffRightAlt.png"/>
+  </tile>
+  <tile id="136">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHalf.png"/>
+  </tile>
+  <tile id="137">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHalfLeft.png"/>
+  </tile>
+  <tile id="138">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHalfMid.png"/>
+  </tile>
+  <tile id="139">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHalfRight.png"/>
+  </tile>
+  <tile id="140">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHillLeft.png"/>
+  </tile>
+  <tile id="141">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHillLeft2.png"/>
+  </tile>
+  <tile id="142">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHillRight.png"/>
+  </tile>
+  <tile id="143">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowHillRight2.png"/>
+  </tile>
+  <tile id="144">
+   <image width="5" height="18" source="data/textures/maptiles/base/snowLedgeLeft.png"/>
+  </tile>
+  <tile id="145">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="5" height="18" source="data/textures/maptiles/base/snowLedgeRight.png"/>
+  </tile>
+  <tile id="146">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowLeft.png"/>
+  </tile>
+  <tile id="147">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowMid.png"/>
+  </tile>
+  <tile id="148">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/snowRight.png"/>
+  </tile>
+  <tile id="149">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stone.png"/>
+  </tile>
+  <tile id="150">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneCenter_rounded.png"/>
+  </tile>
+  <tile id="151">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneCenter.png"/>
+  </tile>
+  <tile id="152">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneCliffLeft.png"/>
+  </tile>
+  <tile id="153">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneCliffLeftAlt.png"/>
+  </tile>
+  <tile id="154">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneCliffRight.png"/>
+  </tile>
+  <tile id="155">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneCliffRightAlt.png"/>
+  </tile>
+  <tile id="156">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneHalf.png"/>
+  </tile>
+  <tile id="157">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneHalfLeft.png"/>
+  </tile>
+  <tile id="158">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneHalfMid.png"/>
+  </tile>
+  <tile id="159">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneHalfRight.png"/>
+  </tile>
+  <tile id="160">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneHillLeft2.png"/>
+  </tile>
+  <tile id="161">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneHillRight2.png"/>
+  </tile>
+  <tile id="162">
+   <image width="5" height="24" source="data/textures/maptiles/base/stoneLedgeLeft.png"/>
+  </tile>
+  <tile id="163">
+   <image width="5" height="24" source="data/textures/maptiles/base/stoneLedgeRight.png"/>
+  </tile>
+  <tile id="164">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneLeft.png"/>
+  </tile>
+  <tile id="165">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneMid.png"/>
+  </tile>
+  <tile id="166">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneRight.png"/>
+  </tile>
+  <tile id="167">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/base/stoneWall.png"/>
+  </tile>
+  <tile id="168">
+   <image width="70" height="70" source="data/textures/maptiles/base/tochLit.png"/>
+  </tile>
+  <tile id="169">
+   <image width="70" height="70" source="data/textures/maptiles/base/tochLit2.png"/>
+  </tile>
+  <tile id="170">
+   <image width="70" height="70" source="data/textures/maptiles/base/torch.png"/>
+  </tile>
+  <tile id="171">
+   <image width="70" height="70" source="data/textures/maptiles/base/window.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="173" name="buildings" tilewidth="70" tileheight="70">
+  <tile id="0">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/anemometer.png"/>
+  </tile>
+  <tile id="1">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/awningGreen.png"/>
+  </tile>
+  <tile id="2">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/awningGreenRed.png"/>
+  </tile>
+  <tile id="3">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/awningRed.png"/>
+  </tile>
+  <tile id="4">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/chimney.png"/>
+  </tile>
+  <tile id="5">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/chimneyLow.png"/>
+  </tile>
+  <tile id="6">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/chimneyThin.png"/>
+  </tile>
+  <tile id="7">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/clock.png"/>
+  </tile>
+  <tile id="8">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorKnob.png"/>
+  </tile>
+  <tile id="9">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorKnobAlt.png"/>
+  </tile>
+  <tile id="10">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorLock.png"/>
+  </tile>
+  <tile id="11">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorOpen.png"/>
+  </tile>
+  <tile id="12">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorOpenTop.png"/>
+  </tile>
+  <tile id="13">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorPlateTop.png"/>
+  </tile>
+  <tile id="14">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorTop.png"/>
+  </tile>
+  <tile id="15">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/doorWindowTop.png"/>
+  </tile>
+  <tile id="16">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/fenceGate.png"/>
+  </tile>
+  <tile id="17">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/fenceLong.png"/>
+  </tile>
+  <tile id="18">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/fenceLow.png"/>
+  </tile>
+  <tile id="19">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeige.png"/>
+  </tile>
+  <tile id="20">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeAlt.png"/>
+  </tile>
+  <tile id="21">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeAlt2.png"/>
+  </tile>
+  <tile id="22">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeBottomLeft.png"/>
+  </tile>
+  <tile id="23">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeBottomMid.png"/>
+  </tile>
+  <tile id="24">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeBottomRight.png"/>
+  </tile>
+  <tile id="25">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeMidLeft.png"/>
+  </tile>
+  <tile id="26">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeMidRight.png"/>
+  </tile>
+  <tile id="27">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeTopLeft.png"/>
+  </tile>
+  <tile id="28">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeTopMid.png"/>
+  </tile>
+  <tile id="29">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseBeigeTopRight.png"/>
+  </tile>
+  <tile id="30">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDark.png"/>
+  </tile>
+  <tile id="31">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkAlt.png"/>
+  </tile>
+  <tile id="32">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkAlt2.png"/>
+  </tile>
+  <tile id="33">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkBottomLeft.png"/>
+  </tile>
+  <tile id="34">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkBottomMid.png"/>
+  </tile>
+  <tile id="35">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkBottomRight.png"/>
+  </tile>
+  <tile id="36">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkMidLeft.png"/>
+  </tile>
+  <tile id="37">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkMidRight.png"/>
+  </tile>
+  <tile id="38">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkTopLeft.png"/>
+  </tile>
+  <tile id="39">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkTopMid.png"/>
+  </tile>
+  <tile id="40">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseDarkTopRight.png"/>
+  </tile>
+  <tile id="41">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGray.png"/>
+  </tile>
+  <tile id="42">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayAlt.png"/>
+  </tile>
+  <tile id="43">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayAlt2.png"/>
+  </tile>
+  <tile id="44">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayBottomLeft.png"/>
+  </tile>
+  <tile id="45">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayBottomMid.png"/>
+  </tile>
+  <tile id="46">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayBottomRight.png"/>
+  </tile>
+  <tile id="47">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayMidLeft.png"/>
+  </tile>
+  <tile id="48">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayMidRight.png"/>
+  </tile>
+  <tile id="49">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayTopLeft.png"/>
+  </tile>
+  <tile id="50">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayTopMid.png"/>
+  </tile>
+  <tile id="51">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/houseGrayTopRight.png"/>
+  </tile>
+  <tile id="52">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/rockMoss.png"/>
+  </tile>
+  <tile id="53">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/rockMossAlt.png"/>
+  </tile>
+  <tile id="54">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofGreyLeft.png"/>
+  </tile>
+  <tile id="55">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofGreyMid.png"/>
+  </tile>
+  <tile id="56">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofGreyRight.png"/>
+  </tile>
+  <tile id="57">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofGreyTopLeft.png"/>
+  </tile>
+  <tile id="58">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofGreyTopMid.png"/>
+  </tile>
+  <tile id="59">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofGreyTopRight.png"/>
+  </tile>
+  <tile id="60">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofRedLeft.png"/>
+  </tile>
+  <tile id="61">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofRedMid.png"/>
+  </tile>
+  <tile id="62">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofRedRight.png"/>
+  </tile>
+  <tile id="63">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofRedTopLeft.png"/>
+  </tile>
+  <tile id="64">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofRedTopMid.png"/>
+  </tile>
+  <tile id="65">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofRedTopRight.png"/>
+  </tile>
+  <tile id="66">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofYellowLeft.png"/>
+  </tile>
+  <tile id="67">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofYellowMid.png"/>
+  </tile>
+  <tile id="68">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofYellowRight.png"/>
+  </tile>
+  <tile id="69">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofYellowTopLeft.png"/>
+  </tile>
+  <tile id="70">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofYellowTopMid.png"/>
+  </tile>
+  <tile id="71">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/roofYellowTopRight.png"/>
+  </tile>
+  <tile id="72">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/signBed.png"/>
+  </tile>
+  <tile id="73">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/signCoin.png"/>
+  </tile>
+  <tile id="74">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/signCup.png"/>
+  </tile>
+  <tile id="75">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/signHangingBed.png"/>
+  </tile>
+  <tile id="76">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/signHangingCoin.png"/>
+  </tile>
+  <tile id="77">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/signHangingCup.png"/>
+  </tile>
+  <tile id="78">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/window.png"/>
+  </tile>
+  <tile id="79">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowCheckered.png"/>
+  </tile>
+  <tile id="80">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighBottom.png"/>
+  </tile>
+  <tile id="81">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighCheckeredBottom.png"/>
+  </tile>
+  <tile id="82">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighCheckeredMid.png"/>
+  </tile>
+  <tile id="83">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighCheckeredTop.png"/>
+  </tile>
+  <tile id="84">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighLeadlightBottom.png"/>
+  </tile>
+  <tile id="85">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighLeadlightMid.png"/>
+  </tile>
+  <tile id="86">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighLeadlightTop.png"/>
+  </tile>
+  <tile id="87">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighMid.png"/>
+  </tile>
+  <tile id="88">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighOpenBottom.png"/>
+  </tile>
+  <tile id="89">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighOpenMid.png"/>
+  </tile>
+  <tile id="90">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighOpenTop.png"/>
+  </tile>
+  <tile id="91">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowHighTop.png"/>
+  </tile>
+  <tile id="92">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowLeadlight.png"/>
+  </tile>
+  <tile id="93">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowLow.png"/>
+  </tile>
+  <tile id="94">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowLowCheckered.png"/>
+  </tile>
+  <tile id="95">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowLowLeadlight.png"/>
+  </tile>
+  <tile id="96">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowLowOpen.png"/>
+  </tile>
+  <tile id="97">
+   <image width="70" height="70" source="data/textures/maptiles/buildings/windowOpen.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="271" name="candy" tilewidth="70" tileheight="70">
+  <tile id="0">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cake.png"/>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeCenter_rounded.png"/>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeCenter.png"/>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeCliffLeft.png"/>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeCliffLeftAlt.png"/>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeCliffRight.png"/>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeCliffRightAlt.png"/>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalf.png"/>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalfAlt.png"/>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalfAltLeft.png"/>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalfAltMid.png"/>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalfAltRight.png"/>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalfLeft.png"/>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalfMid.png"/>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHalfRight.png"/>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHillLeft.png"/>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHillLeft2.png"/>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHillRight.png"/>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeHillRight2.png"/>
+  </tile>
+  <tile id="19">
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeLedgeLeft.png"/>
+  </tile>
+  <tile id="20">
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeLedgeRight.png"/>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeLeft.png"/>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeMid.png"/>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cakeRight.png"/>
+  </tile>
+  <tile id="24">
+   <image width="70" height="70" source="data/textures/maptiles/candy/candyBlue.png"/>
+  </tile>
+  <tile id="25">
+   <image width="70" height="70" source="data/textures/maptiles/candy/candyGreen.png"/>
+  </tile>
+  <tile id="26">
+   <image width="70" height="70" source="data/textures/maptiles/candy/candyRed.png"/>
+  </tile>
+  <tile id="27">
+   <image width="70" height="70" source="data/textures/maptiles/candy/candyYellow.png"/>
+  </tile>
+  <tile id="28">
+   <image width="70" height="70" source="data/textures/maptiles/candy/canePink.png"/>
+  </tile>
+  <tile id="29">
+   <image width="70" height="70" source="data/textures/maptiles/candy/canePinkSmall.png"/>
+  </tile>
+  <tile id="30">
+   <image width="70" height="70" source="data/textures/maptiles/candy/canePinkTop.png"/>
+  </tile>
+  <tile id="31">
+   <image width="70" height="70" source="data/textures/maptiles/candy/canePinkTopAlt.png"/>
+  </tile>
+  <tile id="32">
+   <image width="70" height="70" source="data/textures/maptiles/candy/cherry.png"/>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/choco.png"/>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoCenter_rounded.png"/>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoCenter.png"/>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoCliffLeft.png"/>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoCliffLeftAlt.png"/>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoCliffRight.png"/>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoCliffRightAlt.png"/>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalf.png"/>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalfAlt.png"/>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalfAltLeft.png"/>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalfAltMid.png"/>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalfAltRight.png"/>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalfLeft.png"/>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalfMid.png"/>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHalfRight.png"/>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHillLeft.png"/>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHillLeft2.png"/>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHillRight.png"/>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoHillRight2.png"/>
+  </tile>
+  <tile id="52">
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoLedgeLeft.png"/>
+  </tile>
+  <tile id="53">
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoLedgeRight.png"/>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoLeft.png"/>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoMid.png"/>
+  </tile>
+  <tile id="56">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/chocoRight.png"/>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cookieBrown.png"/>
+  </tile>
+  <tile id="58">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cookieChoco.png"/>
+  </tile>
+  <tile id="59">
+   <properties>
+    <property name="collider" value="true"/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/candy/cookiePink.png"/>
+  </tile>
+  <tile id="60">
+   <image width="70" height="70" source="data/textures/maptiles/candy/creamChoco.png"/>
+  </tile>
+  <tile id="61">
+   <image width="70" height="70" source="data/textures/maptiles/candy/creamMocca.png"/>
+  </tile>
+  <tile id="62">
+   <image width="70" height="70" source="data/textures/maptiles/candy/creamPink.png"/>
+  </tile>
+  <tile id="63">
+   <image width="70" height="70" source="data/textures/maptiles/candy/creamVanilla.png"/>
+  </tile>
+  <tile id="64">
+   <image width="70" height="70" source="data/textures/maptiles/candy/cupCake.png"/>
+  </tile>
+  <tile id="65">
+   <image width="70" height="70" source="data/textures/maptiles/candy/gummyWormGreenEnd.png"/>
+  </tile>
+  <tile id="66">
+   <image width="70" height="70" source="data/textures/maptiles/candy/gummyWormGreenHead.png"/>
+  </tile>
+  <tile id="67">
+   <image width="70" height="70" source="data/textures/maptiles/candy/gummyWormGreenMid.png"/>
+  </tile>
+  <tile id="68">
+   <image width="70" height="70" source="data/textures/maptiles/candy/gummyWormRedEnd.png"/>
+  </tile>
+  <tile id="69">
+   <image width="70" height="70" source="data/textures/maptiles/candy/gummyWormRedHead.png"/>
+  </tile>
+  <tile id="70">
+   <image width="70" height="70" source="data/textures/maptiles/candy/gummyWormRedMid.png"/>
+  </tile>
+  <tile id="71">
+   <image width="70" height="70" source="data/textures/maptiles/candy/heart.png"/>
+  </tile>
+  <tile id="72">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCaneChoco.png"/>
+  </tile>
+  <tile id="73">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCaneChocoTop.png"/>
+  </tile>
+  <tile id="74">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCaneGreen.png"/>
+  </tile>
+  <tile id="75">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCaneGreenTop.png"/>
+  </tile>
+  <tile id="76">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCanePink.png"/>
+  </tile>
+  <tile id="77">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCanePinkTop.png"/>
+  </tile>
+  <tile id="78">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCaneRed.png"/>
+  </tile>
+  <tile id="79">
+   <image width="70" height="70" source="data/textures/maptiles/candy/hillCaneRedTop.png"/>
+  </tile>
+  <tile id="80">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopBase.png"/>
+  </tile>
+  <tile id="81">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopBaseBeige.png"/>
+  </tile>
+  <tile id="82">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopBaseBrown.png"/>
+  </tile>
+  <tile id="83">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopBaseCake.png"/>
+  </tile>
+  <tile id="84">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopBasePink.png"/>
+  </tile>
+  <tile id="85">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopFruitGreen.png"/>
+  </tile>
+  <tile id="86">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopFruitRed.png"/>
+  </tile>
+  <tile id="87">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopFruitYellow.png"/>
+  </tile>
+  <tile id="88">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopGreen.png"/>
+  </tile>
+  <tile id="89">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopRed.png"/>
+  </tile>
+  <tile id="90">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopWhiteGreen.png"/>
+  </tile>
+  <tile id="91">
+   <image width="70" height="70" source="data/textures/maptiles/candy/lollipopWhiteRed.png"/>
+  </tile>
+  <tile id="92">
+   <image width="70" height="70" source="data/textures/maptiles/candy/waffleChoco.png"/>
+  </tile>
+  <tile id="93">
+   <image width="70" height="70" source="data/textures/maptiles/candy/wafflePink.png"/>
+  </tile>
+  <tile id="94">
+   <image width="70" height="70" source="data/textures/maptiles/candy/waffleWhite.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="366" name="ice" tilewidth="70" tileheight="70">
+  <tile id="0">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneGreen.png"/>
+  </tile>
+  <tile id="1">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneGreenSmall.png"/>
+  </tile>
+  <tile id="2">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneGreenTop.png"/>
+  </tile>
+  <tile id="3">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneGreenTopAlt.png"/>
+  </tile>
+  <tile id="4">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneRed.png"/>
+  </tile>
+  <tile id="5">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneRedSmall.png"/>
+  </tile>
+  <tile id="6">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneRedTop.png"/>
+  </tile>
+  <tile id="7">
+   <image width="70" height="70" source="data/textures/maptiles/ice/caneRedTopAlt.png"/>
+  </tile>
+  <tile id="8">
+   <image width="70" height="70" source="data/textures/maptiles/ice/deadTree.png"/>
+  </tile>
+  <tile id="9">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceBlock.png"/>
+  </tile>
+  <tile id="10">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceBlockAlt.png"/>
+  </tile>
+  <tile id="11">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceBlockHalf.png"/>
+  </tile>
+  <tile id="12">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceBlockHalfAlt.png"/>
+  </tile>
+  <tile id="13">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWater.png"/>
+  </tile>
+  <tile id="14">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWaterAlt.png"/>
+  </tile>
+  <tile id="15">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWaterDeep.png"/>
+  </tile>
+  <tile id="16">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWaterDeepAlt.png"/>
+  </tile>
+  <tile id="17">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWaterDeepStars.png"/>
+  </tile>
+  <tile id="18">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWaterDeepStarsAlt.png"/>
+  </tile>
+  <tile id="19">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWaterMid.png"/>
+  </tile>
+  <tile id="20">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iceWaterMidAlt.png"/>
+  </tile>
+  <tile id="21">
+   <image width="70" height="70" source="data/textures/maptiles/ice/igloo.png"/>
+  </tile>
+  <tile id="22">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iglooAlt.png"/>
+  </tile>
+  <tile id="23">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iglooDoor.png"/>
+  </tile>
+  <tile id="24">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iglooRoof.png"/>
+  </tile>
+  <tile id="25">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iglooRoofLeft.png"/>
+  </tile>
+  <tile id="26">
+   <image width="70" height="70" source="data/textures/maptiles/ice/iglooRoofRight.png"/>
+  </tile>
+  <tile id="27">
+   <image width="70" height="70" source="data/textures/maptiles/ice/pineSapling.png"/>
+  </tile>
+  <tile id="28">
+   <image width="70" height="70" source="data/textures/maptiles/ice/pineSaplingAlt.png"/>
+  </tile>
+  <tile id="29">
+   <image width="70" height="70" source="data/textures/maptiles/ice/plant.png"/>
+  </tile>
+  <tile id="30">
+   <image width="70" height="70" source="data/textures/maptiles/ice/plantAlt.png"/>
+  </tile>
+  <tile id="31">
+   <image width="70" height="70" source="data/textures/maptiles/ice/rock.png"/>
+  </tile>
+  <tile id="32">
+   <image width="70" height="70" source="data/textures/maptiles/ice/rockAlt.png"/>
+  </tile>
+  <tile id="33">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowBall.png"/>
+  </tile>
+  <tile id="34">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowBallBig.png"/>
+  </tile>
+  <tile id="35">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowBallBigGround.png"/>
+  </tile>
+  <tile id="36">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowBallGround.png"/>
+  </tile>
+  <tile id="37">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowGroundLeft.png"/>
+  </tile>
+  <tile id="38">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowGroundRight.png"/>
+  </tile>
+  <tile id="39">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowHill.png"/>
+  </tile>
+  <tile id="40">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowHillLow.png"/>
+  </tile>
+  <tile id="41">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowLeft.png"/>
+  </tile>
+  <tile id="42">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowMid.png"/>
+  </tile>
+  <tile id="43">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowRight.png"/>
+  </tile>
+  <tile id="44">
+   <image width="70" height="70" source="data/textures/maptiles/ice/snowWave.png"/>
+  </tile>
+  <tile id="45">
+   <image width="70" height="70" source="data/textures/maptiles/ice/spikesBottom.png"/>
+  </tile>
+  <tile id="46">
+   <image width="70" height="70" source="data/textures/maptiles/ice/spikesBottomAlt.png"/>
+  </tile>
+  <tile id="47">
+   <image width="70" height="70" source="data/textures/maptiles/ice/spikesBottomAlt2.png"/>
+  </tile>
+  <tile id="48">
+   <image width="70" height="70" source="data/textures/maptiles/ice/spikesTop.png"/>
+  </tile>
+  <tile id="49">
+   <image width="70" height="70" source="data/textures/maptiles/ice/spikesTopAlt.png"/>
+  </tile>
+  <tile id="50">
+   <image width="70" height="70" source="data/textures/maptiles/ice/spikesTopAlt2.png"/>
+  </tile>
+  <tile id="51">
+   <image width="70" height="70" source="data/textures/maptiles/ice/spikeTop.png"/>
+  </tile>
+  <tile id="52">
+   <image width="70" height="70" source="data/textures/maptiles/ice/tree.png"/>
+  </tile>
+  <tile id="53">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesLeft.png"/>
+  </tile>
+  <tile id="54">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesLeftAlt.png"/>
+  </tile>
+  <tile id="55">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesLeftSnowAlt.png"/>
+  </tile>
+  <tile id="56">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesRight.png"/>
+  </tile>
+  <tile id="57">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesSnowLeft.png"/>
+  </tile>
+  <tile id="58">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesSnowRight.png"/>
+  </tile>
+  <tile id="59">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesSnowRightAlt.png"/>
+  </tile>
+  <tile id="60">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeBranchesSnowRightSnowAlt.png"/>
+  </tile>
+  <tile id="61">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTop.png"/>
+  </tile>
+  <tile id="62">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTopSnow.png"/>
+  </tile>
+  <tile id="63">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunk.png"/>
+  </tile>
+  <tile id="64">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBottom.png"/>
+  </tile>
+  <tile id="65">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBottomAlt.png"/>
+  </tile>
+  <tile id="66">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBottomAlt2.png"/>
+  </tile>
+  <tile id="67">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBottomAlt3.png"/>
+  </tile>
+  <tile id="68">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBranch.png"/>
+  </tile>
+  <tile id="69">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBranchEndLeft.png"/>
+  </tile>
+  <tile id="70">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBranchEndRight.png"/>
+  </tile>
+  <tile id="71">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBranchLeftAlt.png"/>
+  </tile>
+  <tile id="72">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkBranchRightAlt.png"/>
+  </tile>
+  <tile id="73">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkSplitLeft.png"/>
+  </tile>
+  <tile id="74">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkSplitRight.png"/>
+  </tile>
+  <tile id="75">
+   <image width="70" height="70" source="data/textures/maptiles/ice/treeTrunkTop.png"/>
+  </tile>
+  <tile id="76">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundra.png"/>
+  </tile>
+  <tile id="77">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraCenter_rounded.png"/>
+  </tile>
+  <tile id="78">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraCenter.png"/>
+  </tile>
+  <tile id="79">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraCliffLeft.png"/>
+  </tile>
+  <tile id="80">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraCliffLeftAlt.png"/>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraCliffRight.png"/>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraCliffRightAlt.png"/>
+  </tile>
+  <tile id="83">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHalf.png"/>
+  </tile>
+  <tile id="84">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHalfLeft.png"/>
+  </tile>
+  <tile id="85">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHalfMid.png"/>
+  </tile>
+  <tile id="86">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHalfRight.png"/>
+  </tile>
+  <tile id="87">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHillLeft.png"/>
+  </tile>
+  <tile id="88">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHillLeft2.png"/>
+  </tile>
+  <tile id="89">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHillRight.png"/>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraHillRight2.png"/>
+  </tile>
+  <tile id="91">
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraLedgeLeft.png"/>
+  </tile>
+  <tile id="92">
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraLedgeRight.png"/>
+  </tile>
+  <tile id="93">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraLeft.png"/>
+  </tile>
+  <tile id="94">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraMid.png"/>
+  </tile>
+  <tile id="95">
+   <properties>
+    <property name="collider" value="    "/>
+   </properties>
+   <image width="70" height="70" source="data/textures/maptiles/ice/tundraRight.png"/>
+  </tile>
+ </tileset>
+ <layer name="base" width="40" height="20">
+  <data>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="173"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="232"/>
+   <tile gid="231"/>
+   <tile gid="231"/>
+   <tile gid="231"/>
+   <tile gid="231"/>
+   <tile gid="231"/>
+   <tile gid="230"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="222"/>
+   <tile gid="214"/>
+   <tile gid="215"/>
+   <tile gid="216"/>
+   <tile gid="224"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="220"/>
+   <tile gid="216"/>
+   <tile gid="214"/>
+   <tile gid="214"/>
+   <tile gid="221"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="220"/>
+   <tile gid="215"/>
+   <tile gid="214"/>
+   <tile gid="215"/>
+   <tile gid="221"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="220"/>
+   <tile gid="214"/>
+   <tile gid="215"/>
+   <tile gid="216"/>
+   <tile gid="221"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="217"/>
+   <tile gid="218"/>
+   <tile gid="218"/>
+   <tile gid="218"/>
+   <tile gid="219"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="292"/>
+   <tile gid="293"/>
+   <tile gid="293"/>
+   <tile gid="293"/>
+   <tile gid="293"/>
+   <tile gid="293"/>
+   <tile gid="293"/>
+   <tile gid="294"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="312"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="313"/>
+   <tile gid="314"/>
+   <tile gid="314"/>
+   <tile gid="314"/>
+   <tile gid="315"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="99"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="281"/>
+   <tile gid="281"/>
+   <tile gid="282"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="238"/>
+   <tile gid="237"/>
+   <tile gid="237"/>
+   <tile gid="237"/>
+   <tile gid="237"/>
+   <tile gid="236"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="459"/>
+   <tile gid="460"/>
+   <tile gid="461"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="200"/>
+   <tile gid="201"/>
+   <tile gid="201"/>
+   <tile gid="202"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="415"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="198"/>
+   <tile gid="193"/>
+   <tile gid="192"/>
+   <tile gid="199"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="76"/>
+   <tile gid="83"/>
+   <tile gid="95"/>
+   <tile gid="95"/>
+   <tile gid="95"/>
+   <tile gid="95"/>
+   <tile gid="95"/>
+   <tile gid="95"/>
+   <tile gid="386"/>
+   <tile gid="386"/>
+   <tile gid="460"/>
+   <tile gid="455"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="391"/>
+   <tile gid="387"/>
+   <tile gid="392"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="286"/>
+   <tile gid="293"/>
+   <tile gid="0"/>
+   <tile gid="198"/>
+   <tile gid="194"/>
+   <tile gid="192"/>
+   <tile gid="199"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="76"/>
+   <tile gid="77"/>
+   <tile gid="67"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="383"/>
+   <tile gid="383"/>
+   <tile gid="444"/>
+   <tile gid="456"/>
+   <tile gid="460"/>
+   <tile gid="455"/>
+   <tile gid="0"/>
+   <tile gid="387"/>
+   <tile gid="389"/>
+   <tile gid="387"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="286"/>
+   <tile gid="287"/>
+   <tile gid="273"/>
+   <tile gid="0"/>
+   <tile gid="195"/>
+   <tile gid="196"/>
+   <tile gid="196"/>
+   <tile gid="197"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="76"/>
+   <tile gid="77"/>
+   <tile gid="67"/>
+   <tile gid="67"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="383"/>
+   <tile gid="383"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="456"/>
+   <tile gid="460"/>
+   <tile gid="460"/>
+   <tile gid="460"/>
+   <tile gid="460"/>
+   <tile gid="460"/>
+   <tile gid="460"/>
+   <tile gid="92"/>
+   <tile gid="92"/>
+   <tile gid="293"/>
+   <tile gid="293"/>
+   <tile gid="287"/>
+   <tile gid="273"/>
+   <tile gid="273"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="83"/>
+   <tile gid="77"/>
+   <tile gid="67"/>
+   <tile gid="67"/>
+   <tile gid="67"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="94"/>
+   <tile gid="383"/>
+   <tile gid="383"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="444"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="273"/>
+   <tile gid="273"/>
+   <tile gid="273"/>
+   <tile gid="273"/>
+   <tile gid="273"/>
+  </data>
+ </layer>
+ <layer name="decoration" width="40" height="20">
+  <data>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="256"/>
+   <tile gid="0"/>
+   <tile gid="256"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="254"/>
+   <tile gid="0"/>
+   <tile gid="254"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="175"/>
+   <tile gid="175"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="356"/>
+   <tile gid="0"/>
+   <tile gid="185"/>
+   <tile gid="248"/>
+   <tile gid="266"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="344"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="352"/>
+   <tile gid="0"/>
+   <tile gid="184"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="343"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="358"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="342"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="353"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="353"/>
+   <tile gid="0"/>
+   <tile gid="300"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="346"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="340"/>
+   <tile gid="0"/>
+   <tile gid="345"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="179"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="256"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="225"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="298"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="254"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="398"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="331"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="170"/>
+   <tile gid="186"/>
+   <tile gid="0"/>
+   <tile gid="250"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="395"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="374"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="335"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="190"/>
+   <tile gid="191"/>
+   <tile gid="0"/>
+   <tile gid="182"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="126"/>
+   <tile gid="0"/>
+   <tile gid="87"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+  </data>
+ </layer>
+</map>

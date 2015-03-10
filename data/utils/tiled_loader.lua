@@ -58,8 +58,7 @@ end
 --
 
 function transform_tileset(ts)
-	for i = 1, #ts.tiles do
-		local tile = ts.tiles[i]
+	for _, tile in ipairs(ts.tiles) do
 		scene.load_prefab(ts.name .. '_' .. tostring(tile.id), transform_tile(tile))
 	end
 end

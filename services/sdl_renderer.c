@@ -76,7 +76,7 @@ void flip_tga_vertical(targa_file* tga)
 		curidx += memsize;
 	}
 	memcpy(new_buf, tga->image_data + data_len - memsize, memsize);
-	free(tga->image_data);
+	//free(tga->image_data);
 	tga->image_data = new_buf;
 }
 
@@ -87,6 +87,7 @@ SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 
 	targa_file* tga = tga_readfile(fd);
 	if (tga == NULL) fprintf(stderr, "%s\n", strerror(errno));
+	if (tga->head.depth != 32) fprintf(stderr, "%s is not 32 bit depth\n", filename);
 	flip_tga_vertical(tga);
 
 	SDL_Texture* tex = SDL_CreateTexture(r->rend, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, tga->head.width, tga->head.height);
@@ -99,7 +100,7 @@ SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 		sdl_error("Setting texture blend mode failed.");
 	}
 
-	free(tga->image_data);
+	//free(tga->image_data);
 	free(tga);
 	return tex;
 }

@@ -2,13 +2,13 @@
 # The name of the executable to be created
 BIN_NAME := geng
 # Compiler used
-CXX := clang
+CXX := gcc
 # Extension of source files used in the project
 SRC_EXT = c
 # Path to the source directory, relative to the makefile
 SRC_PATH = .
 # General compiler flags
-COMPILE_FLAGS = -std=c99 -Wall -Wextra -g -Weverything -Wno-padded
+COMPILE_FLAGS = -std=c99 -Wall -Wextra -g #-Weverything -Wno-padded
 # Additional release-specific flags
 RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
