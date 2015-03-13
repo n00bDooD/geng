@@ -80,6 +80,47 @@ void flip_tga_vertical(targa_file* tga)
 	tga->image_data = new_buf;
 }
 
+void convert_to_32bitdeph(targa_file* tga)
+{
+	// Well, our job is easy today
+	if (tga->head.depth == 32) return;
+	uint8_t* new_buf = malloc(tga->head.width * tga->head.height * 4);
+	switch(tga->head.depth) {
+		case 8:
+			for(size_t p = 0; p < (size_t)(tga->head.width * tga->head.height); ++p) {
+				size_t i = p;
+				size_t ni = p * 4;
+				new_buf[ni] = tga->image_data[i];
+				new_buf[ni+1] = tga->image_data[i];
+				new_buf[ni+2] = tga->image_data[i];
+				new_buf[ni+3] = 255;
+			}
+			break;
+		case 16:
+			for(size_t p = 0; p < (size_t)(tga->head.width * tga->head.height); ++p) {
+				size_t i = p * 2;
+				size_t ni = p * 4;
+				new_buf[ni] = (tga->image_data[i]<<0)*2;
+				new_buf[ni+1] = (tga->image_data[i]<<4)*2;
+				new_buf[ni+2] = (tga->image_data[i+1]<<0)*2;
+				new_buf[ni+3] = (tga->image_data[i+1]<<4)*2;
+			}
+			break;
+		case 24:
+			for(size_t p = 0; p < (size_t)(tga->head.width * tga->head.height); ++p) {
+				size_t i = p * 3;
+				size_t ni = p * 4;
+				new_buf[ni] = tga->image_data[i];
+				new_buf[ni+1] = tga->image_data[i+1];
+				new_buf[ni+2] = tga->image_data[i+2];
+				new_buf[ni+3] = 255;
+			}
+	}
+	//free(tga->image_data);
+	tga->image_data = new_buf;
+	tga->head.depth = 32;
+}
+
 SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 {
 	int fd = open(filename, O_RDONLY);
@@ -89,6 +130,7 @@ SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 	if (tga == NULL) fprintf(stderr, "%s\n", strerror(errno));
 	if (tga->head.depth != 32) fprintf(stderr, "%s is not 32 bit depth\n", filename);
 	flip_tga_vertical(tga);
+	convert_to_32bitdeph(tga);
 
 	SDL_Texture* tex = SDL_CreateTexture(r->rend, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, tga->head.width, tga->head.height);
 	if(tex == NULL) sdl_error("Texture creation failed.");
