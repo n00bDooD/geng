@@ -1,7 +1,10 @@
+#define _DEFAULT_SOURCE 1
 #include "lua_renderer.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
+
+#include "lua_box.h"
 
 #define TYPE_NAME "renderer"
 #define REGISTRY_KEY "geng.renderer"
@@ -123,6 +126,16 @@ static int lua_set_pos(lua_State* l)
 	return 0;
 }
 
+static int lua_get_viewport(lua_State* l)
+{
+	sdl_renderer* r = get_renderer_registry(l);
+	SDL_Rect v;
+	SDL_RenderGetViewport(r->rend, &v);
+	cpBB* n = luaG_pushbox(l);
+	*n = cpBBNew(v.x, v.y, v.x + v.w, v.y + v.h);
+	return 1;
+}
+
 static const luaL_Reg methods[] = {
 	{"add_texture", lua_add_texture},
 	{"add_sprite", lua_add_sprite},
@@ -130,6 +143,7 @@ static const luaL_Reg methods[] = {
 	{"set_blendmode", lua_set_texture_blendmode},
 	{"set_cam_scale", lua_set_scale},
 	{"set_cam_pos", lua_set_pos},
+	{"viewport", lua_get_viewport},
 	{NULL, NULL}
 };
 

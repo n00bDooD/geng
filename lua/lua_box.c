@@ -123,6 +123,20 @@ static int lua_box_new(lua_State* l)
 	return 1;
 }
 
+static int lua_box_width(lua_State* l)
+{
+	cpBB* b = luaG_checkbox(l, 1);
+	lua_pushnumber(l, b->r - b->l);
+	return 1;
+}
+
+static int lua_box_height(lua_State* l)
+{
+	cpBB* b = luaG_checkbox(l, 1);
+	lua_pushnumber(l, b->b - b->t);
+	return 1;
+}
+
 static const luaL_reg methods[] = {
 	{"new", lua_box_new},
 	{"intersects", lua_box_intersects},
@@ -135,6 +149,8 @@ static const luaL_reg methods[] = {
 	{"area", lua_box_area},
 	{"area_merged", lua_box_mergedarea},
 	{"segment_query", lua_box_segment_query},
+	{"width", lua_box_width},
+	{"height", lua_box_height},
 	{NULL, NULL}
 };
 
