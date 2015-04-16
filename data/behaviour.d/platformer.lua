@@ -9,8 +9,8 @@ local air_speed = 0.6
 local jump_strength = 600
 
 function is_grounded(obj)
-	return physics.segment_first(obj:pos() + vector.new(feet_offset_x, feet_offset - 0.1),
-		obj:pos() + vector.new(feet_offset_x, feet_offset - 8)) ~= nil
+	return physics.segment_first(obj:pos() + vector.new(feet_offset_x, feet_offset - 0.01),
+		obj:pos() + vector.new(feet_offset_x, feet_offset - 1)) ~= nil
 end
 
 local velocity = vector.zero()
@@ -88,6 +88,16 @@ function update(obj, s)
 			jumped = true
 			apply(0, jump_strength)
 		end
+
+
+		if horinp > 0.01 then
+			obj:send_message('animation', 'walk_right')
+		elseif horinp < -0.01 then
+			obj:send_message('animation', 'walk_left')
+		else
+			obj:send_message('animation', 'idle')
+		end
+
 	else
 		--io.write('grav ')
 		apply(physics.gravity())
