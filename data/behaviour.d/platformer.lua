@@ -20,7 +20,7 @@ local cur_tick = 0
 local accel = vector.zero()
 function apply(force, x)
 	if x == nil then
-		io.write(cur_tick .. ' Acceleration of: ' .. tostring(force) .. '\n')
+		--io.write(cur_tick .. ' Acceleration of: ' .. tostring(force) .. '\n')
 		--velocity = velocity + (force * step)
 		accel = accel + (force)
 	else
@@ -89,7 +89,7 @@ function update(obj, s)
 			apply(0, jump_strength)
 		end
 	else
-		io.write('grav ')
+		--io.write('grav ')
 		apply(physics.gravity())
 		apply(horinp * air_speed, 0)
 
@@ -141,7 +141,7 @@ function update(obj, s)
 			velocity:sety(-max_velocity:y())
 		end
 	end
-	io.write(tostring(velocity)..'\n')
+	--io.write(tostring(velocity)..'\n')
 	obj:set_pos(obj:pos() + (velocity))
 	last_vertical = vertinp
 end 
