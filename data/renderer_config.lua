@@ -6,7 +6,6 @@ function add_sprites(thandle, sprites)
 		end
 	end
 end
-
 local func = loadfile('data/textures/sheets/p1.lua'); func()
 local func = loadfile('data/textures/sheets/p2.lua'); func()
 local func = loadfile('data/textures/sheets/p3.lua'); func()

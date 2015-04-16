@@ -1,5 +1,5 @@
 physics.set_drag(0.9);
-physics.set_gravity(vector.new(0, -98.1 * 4));
+physics.set_gravity(vector.new(0, -9.81));
 
 loadfile('data/utils/tiled_loader.lua')()
 

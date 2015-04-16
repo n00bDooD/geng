@@ -1,6 +1,6 @@
 local o = scene.newobject()
 o:set_name('hero')
-o:enable_physics(0.1, 0);
+-- o:enable_physics(0.1, 0);
 local friction = 10
 local elasticity = 0
 local c = o:add_circle_collider(30, vector.new(15, 18))
