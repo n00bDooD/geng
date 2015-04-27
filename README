@@ -6,4 +6,4 @@ Uses lua 5.1.
 Because the current focus is actual development, the repository
 contains placeholder assets from http://www.kenney.nl/
 
-To get everything set up, download, check and run https://github.com/n00bDooD/geng/blob/master/setup_environment.sh (Arch linux only currently)
+To get everything set up, download, check and run https://github.com/n00bDooD/geng/blob/master/setup_environment.sh (Arch linux or OpenSUSE 13.2 only currently)
