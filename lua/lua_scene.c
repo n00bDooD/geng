@@ -1,4 +1,4 @@
-#define _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE 1
 #include "lua_scene.h"
 #include <lua.h>
 #include <lualib.h>
