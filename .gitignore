@@ -5,3 +5,4 @@ geng
 bin/*
 build/*
 .release_time
+.directory
