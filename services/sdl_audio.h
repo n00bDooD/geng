@@ -1,7 +1,7 @@
 #ifndef SDLAUDIO_H
 #define SDLAUDIO_H
 
-#include <SDL/SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
 
 typedef struct {
 	Mix_Chunk** chunks;
