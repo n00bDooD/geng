@@ -6,9 +6,18 @@ set -o pipefail
 dist=$(cat /etc/os-release | grep ^ID= | cut -d'=' -f2)
 
 if [[ "$dist" !=  "opensuse" && "$dist" != "arch" && "$dist" != "ubuntu" ]]; then
-	echo "Unknown distribution, try default (arch)?"
-	if [[ $(read) -ne "y" ]]; then
-		exit
+	if [[ "$CI" ]]; then
+		if [[ -z "$TRAVIS" ]]; then
+			dist="ubuntu"
+		else
+			# Probably a safe default
+			dist="ubuntu"
+		fi
+	else
+		echo "Unknown distribution, try default (arch)?"
+		if [[ $(read) -ne "y" ]]; then
+			exit
+		fi
 	fi
 fi
 

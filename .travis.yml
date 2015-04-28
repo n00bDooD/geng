@@ -4,3 +4,7 @@ language: c
 install: ./setup_environment.sh
 
 script: make
+
+notifications:
+        email:
+                - per.radeby.lundh@gmail.com
