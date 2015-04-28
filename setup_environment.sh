@@ -5,7 +5,7 @@ set -o pipefail
 
 dist=$(cat /etc/os-release | grep ^ID= | cut -d'=' -f2)
 
-if [[ "$dist" -ne "opensuse" || "$dist" -ne "arch" ]]; then
+if [[ "$dist" !=  "opensuse" && "$dist" != "arch" && "$dist" != "ubuntu" ]]; then
 	echo "Unknown distribution, try default (arch)?"
 	if [[ $(read) -ne "y" ]]; then
 		exit
@@ -13,11 +13,17 @@ if [[ "$dist" -ne "opensuse" || "$dist" -ne "arch" ]]; then
 fi
 
 function deps() {
-	if [[ "$dist" -eq "opensuse" ]]; then
+	if [[ "$dist" = "opensuse" ]]; then
 		if [ "$EUID" -ne 0 ]; then
 			sudo zypper install -n --no-recommends git make cmake gcc libSDL2-devel libSDL2_mixer-devel lua51-devel
 		else
 			zypper install -n --no-recommends git make cmake gcc libSDL2-devel libSDL2_mixer-devel lua51-devel
+		fi
+	elif [[ "$dist" = "ubuntu" ]]; then
+		if [ "$EUID" -ne 0 ]; then
+			sudo apt-get install libsdl2-dev libsdl2-mixer-dev libluajit-5.1-dev git wget cmake
+		else
+			apt-get install libsdl2-dev libsdl2-mixer-dev libluajit-5.1-dev git wget cmake
 		fi
 	else
 		if [ "$EUID" -ne 0 ]; then
@@ -29,7 +35,7 @@ function deps() {
 }
 
 function chipmunk(){
-	if [[ "$dist" -eq "opensuse" ]]; then
+	if [[ "$dist" = "opensuse" || "$dist" = "ubuntu" ]]; then
 		wget 'http://chipmunk-physics.net/release/Chipmunk-6.x/Chipmunk-6.2.2.tgz'
 		tar xzf Chipmunk-6.2.2.tgz
 
@@ -64,4 +70,6 @@ deps
 chipmunk
 
 git clone https://github.com/n00bDooD/geng.git
-
+if [[ "$dist" = "ubuntu" ]]; then
+		sed -i 's/-llua/-lluajit-5.1/g' geng/makefile
+fi
