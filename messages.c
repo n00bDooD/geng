@@ -37,8 +37,8 @@ typedef struct {
 } pending_broadcast;
 
 
-#define request_evaluated(r) (r.state & 1)
-#define request_returned(r) (r.state & 2)
+#define request_evaluated(r) ((r).state & 1)
+#define request_returned(r) ((r).state & 2)
 
 typedef struct {
 	messageid msgid;
@@ -59,10 +59,26 @@ struct msgq_state {
 	pending_request* pending_requests;
 };
 
+inline void clear_pending_request(pending_request r)
+{
+	r.msgid = 0;
+	r.response = NULL;
+	r.requester = NULL;
+	r.requestee = NULL;
+	r.arg = NULL;
+	r.result = NULL;
+	r.state = 0;
+}
+
 void fastforward_request(msgq_state* state, pending_request* r);
 void return_request(msgq_state* state, pending_request* r);
 void evaluate_request(msgq_state* state, pending_request* r);
+void dispatch_broadcast(msgq_state* state, pending_broadcast* b);
 
+void fastforward_all_pending(msgq_state* state);
+void return_all_pending(msgq_state* state);
+void evaluate_all_pending(msgq_state* state);
+void dispatch_all_pending(msgq_state* state);
 
 
 /* # Memory management
@@ -92,13 +108,7 @@ msgq_state* msgq_create(msgq_state* s,
 
 	s->pending_requests = malloc(sizeof(pending_request) * request_buffer_length);
 	for(size_t i = 0; i < request_buffer_length; ++i) {
-		s->pending_requests[i].msgid = 0;
-		s->pending_requests[i].response = NULL;
-		s->pending_requests[i].requester = NULL;
-		s->pending_requests[i].requestee = NULL;
-		s->pending_requests[i].arg = NULL;
-		s->pending_requests[i].result = NULL;
-		s->pending_requests[i].state = 0;
+		clear_pending_request(s->pending_requests[i]);
 	}
 	s->pending_requests[request_buffer_length-1].msgid = MSGID_GUARD;
 	return s;
@@ -155,46 +165,38 @@ void msgq_listen(msgq_state* state, void* me, const char* message, msgq_listener
 {
 	messageid msgid = broadcastid(message);
 
-	listener* l = malloc(sizeof(listener));
-	l->identity = me;
-	l->func = listener;
-
 	size_t i = 0;
-	while(state->listeners[msgid][i] != NULL) {
+	while(state->listeners[msgid][i].func != NULL) {
 		i++;
 	}
-	state->listeners = realloc(state->listeners, sizeof(listener) * (i+1));
-	state->listeners[msgid][i] = l;
-	state->listeners[msgid][i+1] = NULL;
+	state->listeners[msgid] = realloc(state->listeners, sizeof(listener) * (i+1));
+	state->listeners[msgid][i].identity = me;
+	state->listeners[msgid][i].func = listener;
+	state->listeners[msgid][i+1].identity = NULL;
+	state->listeners[msgid][i+1].func = NULL;
 }
 
 void msgq_request(msgq_state* state, void* me, const char* what, void* argument, msgq_listener callback)
 {
-	pending_request* r = malloc(sizeof(pending_request));
-	r->msgid = requestid(what);
-	r->requester = me;
-	r->arg = argument;
-	r->response = callback;
-	r->state = 0;
-
 	size_t i = 0;
-	while(state->pending_requests[i] != NULL) {
+	while(state->pending_requests[i].response != NULL) {
 		assert(state->pending_requests[i+1].msgid != MSGID_GUARD);
 		i++;
 	}
-	state->pending_requests[i] = r;
+	state->pending_requests[i].msgid = requestid(what);
+	state->pending_requests[i].requester = me;
+	state->pending_requests[i].arg = argument;
+	state->pending_requests[i].response = callback;
+	state->pending_requests[i].state = 0;
 }
 
 void msgq_serve(msgq_state* state, void* me, const char* what, msgq_handler handler)
 {
 	messageid msgid = requestid(what);
 
-	handler* l = malloc(sizeof(handler));
-	l->identity = me;
-	l->func = listener;
-
 	// TODO: Possible memory leak. Maybe not desirable to overwrite, especially considering hash-collisions..
-	state->handlers[msgid] = *l;
+	state->handlers[msgid].identity = me;
+	state->handlers[msgid].func = handler;
 }
 
 void msgq_dispatch_all(msgq_state* state)
@@ -210,57 +212,57 @@ void msgq_dispatch_all(msgq_state* state)
 
 void dispatch_all_pending(msgq_state* state)
 {
-	size_t i = 0;
 	for(size_t i = 0;;++i) {
 		if (state->pending_broadcasts[i].source == NULL) break;
 
-		dispatch_broadcast(state, b);
+		dispatch_broadcast(state, state->pending_broadcasts + i);
 	}
 	free(state->pending_broadcasts);
 	state->pending_broadcasts = NULL;
 }
 void evaluate_all_pending(msgq_state* state)
 {
-	pending_request* r;
 	size_t i = 0;
-	while((r = state->pending_requests[i]) != NULL) {
-		if (!request_evaluated(r)) {
-			evaluate_request(r);
+	while(state->pending_requests[i].response != NULL) {
+		if (!request_evaluated(state->pending_requests[i])) {
+			evaluate_request(state, state->pending_requests + i);
 		}
+		i++;
 	}
 }
 void return_all_pending(msgq_state* state)
 {
-	pending_request* r;
 	size_t i = 0;
-	while((r = state->pending_requests[i]) != NULL) {
-		if (request_evaluated(r) && !request_returned(r)) {
-			return_request(state, r);
+	while(state->pending_requests[i].response != NULL) {
+		if (request_evaluated(state->pending_requests[i])
+		 && !request_returned(state->pending_requests[i])) {
+			return_request(state, state->pending_requests + i);
 		}
+		i++;
 	}
 }
 void fastforward_all_pending(msgq_state* state)
 {
-	pending_request* r;
 	size_t i = 0;
-	while((r = state->pending_requests[i]) != NULL) {
-		fastforward_request(state, r);
+	while(state->pending_requests[i].response != NULL) {
+		fastforward_request(state, state->pending_requests + i);
+		clear_pending_request(state->pending_requests[i]);
+		i++;
 	}
-	free(state->pending_requests);
-	state->pending_requests = NULL;
 }
 
 
 /* # Dispatching/actual message-brokering
- r->evaluated) {* ########################
+ * ########################################
  */
 
 void dispatch_broadcast(msgq_state* state, pending_broadcast* b)
 {
-	listener* l;
 	size_t i = 0;
-	while((l = state->listeners[b->msgid][i]) != NULL) {
-		l->func(l->identity, source, data);
+	while(state->listeners[b->msgid][i].func != NULL) {
+		state->listeners[b->msgid][i].func(
+			state->listeners[b->msgid][i].identity,
+			b->source, b->data);
 		i++;
 	}
 }
@@ -273,10 +275,10 @@ void evaluate_request(msgq_state* state, pending_request* r)
 
 	handler h = state->handlers[r->msgid];
 	assert(h != NULL);
-	assert(h->func != NULL);
+	assert(h.func != NULL);
 
-	h->result = h->func(h->identity, r->requester, r->arg);
-	h->requestee = h->identity;
+	r->result = h.func(h.identity, r->requester, r->arg);
+	r->requestee = h.identity;
 	r->state |= 1;
 }
 
@@ -292,8 +294,8 @@ void return_request(msgq_state* state, pending_request* r)
 }
 
 void fastforward_request(msgq_state* state, pending_request* r) {
-	if (request_returned(r)) return;
-	if (!request_evaluated(r)) {
+	if (request_returned(*r)) return;
+	if (!request_evaluated(*r)) {
 		evaluate_request(state, r);
 	}
 	return_request(state, r);

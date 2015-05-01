@@ -10,6 +10,6 @@ void msgq_broadcast(msgq_state*, void* me, const char* what, void* data);
 void msgq_listen(msgq_state*, void* me, const char* what, msgq_listener listener);
 
 void msgq_request(msgq_state*, void* me, const char* what, void* argument, msgq_listener responder);
-void* msgq_serve(msgq_state*, void* me, const char* what, msgq_handler handler);
+void msgq_serve(msgq_state*, void* me, const char* what, msgq_handler handler);
 
 #endif /* MESSAGES_H */
