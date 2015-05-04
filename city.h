@@ -102,7 +102,7 @@ uint32 CityHash32(const char *buf, size_t len);
 
 // Hash 128 input bits down to 64 bits of output.
 // This is intended to be a reasonably good hash function.
-inline uint64_t Hash128to64(const uint128 x) {
+static inline uint64_t Hash128to64(const uint128 x) {
   // Murmur-inspired hashing.
   const uint64_t kMul = 0x9ddfea08eb382d69ULL;
   uint64_t a = (Uint128Low64(x) ^ Uint128High64(x)) * kMul;

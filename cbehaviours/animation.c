@@ -6,6 +6,8 @@
 #include "../global.h"
 #include <lauxlib.h>
 #include "../lua/globlua.h"
+#include "../lua/lua_messaging.h"
+#include "../messages.h"
 
 #define FLIPX 1
 #define FLIPY 2
@@ -36,10 +38,12 @@ typedef struct {
 void update_animation(object* o, double time_step, void* data);
 void delete_animation(object* o, void* data);
 void* create_animation(object* o, lua_State* l);
-void receive_animation(object* o, lua_State* l, void* data);
 
 int get_frame(lua_State* l, anim_frame*);
 int get_animation(lua_State* l, animation*, const char*);
+
+void animation_change(void* me, void* sender, void* data);
+
 
 void update_animation(object* o, double time_step, void* data)
 {
@@ -248,21 +252,27 @@ void* create_animation(object* o, lua_State* l)
 	a->current = current;
 	a->time = 0;
 
+	msgq_state* state = get_message_registry(l);
+	msgq_listen(state, a, "animation", &animation_change);
+
 	return a;
 }
 
-void receive_animation(object* o, lua_State* l, void* data)
+void animation_change(void* me, void* sender, void* data)
 {
-	UNUSED(o);
 	UNUSED(data);
-	const char* anim = luaL_optstring(l, 1, NULL);
-	if (anim == NULL) return;
+	lua_State* l = sender;
 
-	animation_state* a = data;
-	for(size_t i = 0; i < a->num_animations; ++i) {
-		if(strcmp(a->animations[i].name, anim) == 0) {
-			a->current = i;
-			break;
+	if(lua_type(l, -1) == LUA_TSTRING) {
+		const char* anim = luaL_optstring(l, -1, NULL);
+		if (anim == NULL) return;
+
+		animation_state* a = me;
+		for(size_t i = 0; i < a->num_animations; ++i) {
+			if(strcmp(a->animations[i].name, anim) == 0) {
+				a->current = i;
+				break;
+			}
 		}
 	}
 }
@@ -275,7 +285,6 @@ static int lua_load_animation(lua_State* l)
 	template->delete = &delete_animation;
 	template->create = &create_animation;
 
-	template->receive = &receive_animation;
 
 	template->coll_begin = NULL;
 	template->coll_presolve = NULL;

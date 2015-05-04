@@ -22,6 +22,7 @@
 #include "lua_input.h"
 #include "lua_audio.h"
 #include "lua_renderer.h"
+#include "lua_messaging.h"
 
 // lua tools
 #include "lua_copy.h"
@@ -92,7 +93,8 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 				get_scene_registry(l),
 				get_input_registry(l),
 				get_audio_registry(l),
-				get_renderer_registry(l)
+				get_renderer_registry(l),
+				get_message_registry(l)
 				);
 
 		luaG_getreg(l, "behaviours");
@@ -485,42 +487,6 @@ static int lua_object_get_flipv(lua_State* l)
 	return 1;
 }
 
-static int lua_object_send_message(lua_State* l)
-{
-	object_ref* o = luaG_checkobject(l, 1);
-	const char* name = luaL_checklstring(l, 2, NULL);
-	if (name == NULL) luaL_error(l, "Invalid name");
-	// Only one argument
-	lua_settop(l, 3);
-
-	behaviour* obj_threads = o->o->tag;
-	if (obj_threads == NULL) return 0;
-	size_t num_behaviours = 0;
-	while(obj_threads[num_behaviours].name != NULL) {
-		const char* behn = obj_threads[num_behaviours++].name;
-		if(strcmp(behn, name) == 0) {
-			if (obj_threads[num_behaviours-1].script_behaviour) {
-				lua_State* r = obj_threads[num_behaviours-1].content.thread;
-				lua_getglobal(r, "receive");
-				if (lua_isnil(r, -1)) {
-					lua_pop(r, 1);
-					return 0;
-				}
-				luaG_pushobject(r, o->o);
-				luaExt_copy(l, r);
-				int result = luaG_pcall(r, 2, 0);
-				plua_error(r, result, "receive");
-				return 0;
-			} else {
-				lua_remove(l, 1);
-				lua_remove(l, 1);
-				call_receive(obj_threads[num_behaviours-1].content.beh, o->o, l);
-			}
-		}
-	}
-	return 0;
-}
-
 static int lua_object_foreach_shape(lua_State* l)
 {
 	object_ref* o = luaG_checkobject(l, 1);
@@ -576,7 +542,6 @@ static const luaL_reg methods[] = {
 	{"delete", lua_object_delete},
 
 	{"add_behaviour", lua_add_behaviour},
-	{"send_message", lua_object_send_message},
 
 	{"add_circle_collider", lua_object_add_circlecoll},
 	{"add_box_collider", lua_object_add_boxcoll},

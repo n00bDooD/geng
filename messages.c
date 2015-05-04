@@ -1,9 +1,11 @@
 #include "messages.h"
+#include "global.h"
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <assert.h>
+#include <strings.h>
 
 #include "city.h"
 
@@ -15,8 +17,8 @@ typedef uint64_t messageid;
 
 #define MSGID_GUARD UINT64_MAX
 
-#define broadcastid(s) CityHash64(s, MAX_MESSAGETYPES)
-#define requestid(s) CityHash64(s, MAX_REQUESTTYPES)
+#define broadcastid(s) (CityHash64(s, strlen(s)) % MAX_MESSAGETYPES)
+#define requestid(s) (CityHash64(s, strlen(s)) % MAX_REQUESTTYPES)
 
 
 typedef struct {
@@ -52,22 +54,22 @@ typedef struct {
 
 
 struct msgq_state {
-	listener* listeners[MAX_MESSAGETYPES];
-	handler handlers[MAX_REQUESTTYPES];
+	listener** listeners;
+	handler* handlers;
 
 	pending_broadcast* pending_broadcasts;
 	pending_request* pending_requests;
 };
 
-inline void clear_pending_request(pending_request r)
+static inline void clear_pending_request(pending_request* r)
 {
-	r.msgid = 0;
-	r.response = NULL;
-	r.requester = NULL;
-	r.requestee = NULL;
-	r.arg = NULL;
-	r.result = NULL;
-	r.state = 0;
+	r->msgid = 0;
+	r->response = NULL;
+	r->requester = NULL;
+	r->requestee = NULL;
+	r->arg = NULL;
+	r->result = NULL;
+	r->state = 0;
 }
 
 void fastforward_request(msgq_state* state, pending_request* r);
@@ -92,9 +94,16 @@ msgq_state* msgq_create(msgq_state* s,
 	if (s == NULL) {
 		s = malloc(sizeof(msgq_state));
 	}
-	//s->listeners = malloc(sizeof(listener*) * MAX_MESSAGETYPES);
-	for(int i = 0; i < MAX_MESSAGETYPES; ++i) { s->listeners[i] = NULL; }
-	//s->handlers = malloc(sizeof(handler*) * MAX_REQUESTTYPES);
+	s->listeners = NULL;
+	s->handlers = NULL;
+	s->pending_broadcasts = NULL;
+	s->pending_requests = NULL;
+
+	s->listeners = malloc(sizeof(listener*) * MAX_MESSAGETYPES);
+	for(int i = 0; i < MAX_MESSAGETYPES; ++i) { 
+		s->listeners[i] = NULL;
+	}
+	s->handlers = malloc(sizeof(handler) * MAX_REQUESTTYPES);
 	for(int i = 0; i < MAX_REQUESTTYPES; ++i) { s->handlers[i].func = NULL;
 	                                            s->handlers[i].identity = NULL; }
 
@@ -108,7 +117,7 @@ msgq_state* msgq_create(msgq_state* s,
 
 	s->pending_requests = malloc(sizeof(pending_request) * request_buffer_length);
 	for(size_t i = 0; i < request_buffer_length; ++i) {
-		clear_pending_request(s->pending_requests[i]);
+		clear_pending_request(s->pending_requests + i);
 	}
 	s->pending_requests[request_buffer_length-1].msgid = MSGID_GUARD;
 	return s;
@@ -166,14 +175,17 @@ void msgq_listen(msgq_state* state, void* me, const char* message, msgq_listener
 	messageid msgid = broadcastid(message);
 
 	size_t i = 0;
-	while(state->listeners[msgid][i].func != NULL) {
-		i++;
+	if (state->listeners[msgid] == NULL) {
+		state->listeners[msgid] = malloc(sizeof(listener) * 2);
+		i = 1;
+	} else {
+		while(state->listeners[msgid][i++].func != NULL) { }
+		state->listeners[msgid] = realloc(state->listeners[msgid], sizeof(listener) * (i+1));
 	}
-	state->listeners[msgid] = realloc(state->listeners, sizeof(listener) * (i+1));
-	state->listeners[msgid][i].identity = me;
-	state->listeners[msgid][i].func = listener;
-	state->listeners[msgid][i+1].identity = NULL;
-	state->listeners[msgid][i+1].func = NULL;
+	state->listeners[msgid][i-1].func = listener;
+	state->listeners[msgid][i-1].identity = me;
+	state->listeners[msgid][i].func = NULL;
+	state->listeners[msgid][i].identity = NULL;
 }
 
 void msgq_request(msgq_state* state, void* me, const char* what, void* argument, msgq_listener callback)
@@ -199,12 +211,6 @@ void msgq_serve(msgq_state* state, void* me, const char* what, msgq_handler hand
 	state->handlers[msgid].func = handler;
 }
 
-void msgq_dispatch_all(msgq_state* state)
-{
-	dispatch_all_pending(state);
-	fastforward_all_pending(state);
-}
-
 
 /* # Dispatch loop stuff
  * ######################
@@ -216,9 +222,10 @@ void dispatch_all_pending(msgq_state* state)
 		if (state->pending_broadcasts[i].source == NULL) break;
 
 		dispatch_broadcast(state, state->pending_broadcasts + i);
+		state->pending_broadcasts[i].msgid = 0;
+		state->pending_broadcasts[i].source = NULL;
+		state->pending_broadcasts[i].data = NULL;
 	}
-	free(state->pending_broadcasts);
-	state->pending_broadcasts = NULL;
 }
 void evaluate_all_pending(msgq_state* state)
 {
@@ -246,9 +253,14 @@ void fastforward_all_pending(msgq_state* state)
 	size_t i = 0;
 	while(state->pending_requests[i].response != NULL) {
 		fastforward_request(state, state->pending_requests + i);
-		clear_pending_request(state->pending_requests[i]);
+		clear_pending_request(state->pending_requests + i);
 		i++;
 	}
+}
+void msgq_flush_all(msgq_state* state)
+{
+	dispatch_all_pending(state);
+	fastforward_all_pending(state);
 }
 
 
@@ -274,7 +286,6 @@ void evaluate_request(msgq_state* state, pending_request* r)
 	assert(r != NULL);
 
 	handler h = state->handlers[r->msgid];
-	assert(h != NULL);
 	assert(h.func != NULL);
 
 	r->result = h.func(h.identity, r->requester, r->arg);
@@ -284,10 +295,11 @@ void evaluate_request(msgq_state* state, pending_request* r)
 
 void return_request(msgq_state* state, pending_request* r)
 {
+	UNUSED(state);
 	assert(r != NULL);
 	assert(state != NULL);
 	assert(r->response != NULL);
-	assert(request_evaluated(r));
+	assert(request_evaluated(*r));
 
 	r->response(r->requester, r->requestee, r->result);
 	r->state |= 2;

@@ -14,7 +14,6 @@ typedef struct {
 	obj_update_func update;
 	obj_delete_func delete;
 	obj_create_func create;
-	obj_receive_func receive;
 
 	// Collision callbacks
 	obj_coll_func coll_begin;
@@ -26,7 +25,6 @@ typedef struct {
 void call_update(cbehaviour*, object*, double);
 void call_create(cbehaviour*, object*, lua_State*);
 void call_delete(cbehaviour*, object*);
-void call_receive(cbehaviour*, object*, lua_State*);
 
 cbehaviour* create_behaviour(cbehaviour* template);
 

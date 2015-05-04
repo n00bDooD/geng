@@ -7,7 +7,6 @@
 void update_call_logger(object* o, double time_step, void* data);
 void delete_call_logger(object* o, void* data);
 void* create_call_logger(object* o, lua_State* l);
-void receive_call_logger(object* o, lua_State* l, void* data);
 
 void coll_begin_call_logger(cpArbiter* arb, void* data);
 void coll_presolve_call_logger(cpArbiter* arb, void* data);
@@ -37,13 +36,6 @@ void* create_call_logger(object* o, lua_State* l)
 	//printf("Supplied value %i\n", val);
 	//printf("create_call_logger.\n");
 	return NULL;
-}
-
-void receive_call_logger(object* o, lua_State* l, void* data)
-{
-	UNUSED(o);
-	UNUSED(data);
-	dbg_printstack(l);
 }
 
 void coll_begin_call_logger(cpArbiter* arb, void* data)
@@ -82,8 +74,6 @@ static int lua_load_call_logger(lua_State* l)
 	template->update = &update_call_logger;
 	template->delete = &delete_call_logger;
 	template->create = &create_call_logger;
-
-	template->receive = &receive_call_logger;
 
 	template->coll_begin = &coll_begin_call_logger;
 	template->coll_presolve = &coll_presolve_call_logger;

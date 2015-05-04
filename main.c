@@ -12,6 +12,7 @@
 #include "global.h"
 #include "object.h"
 #include "services.h"
+#include "messages.h"
 #include "services/sdl_renderer.h"
 #include "services/inputaxis.h"
 #include "services/sdl_input_shim.h"
@@ -29,6 +30,7 @@
 #include "lua/lua_collision.h"
 #include "lua/lua_collisionpair.h"
 #include "lua/lua_physics.h"
+#include "lua/lua_messaging.h"
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -196,6 +198,11 @@ int main(int argc, char** argv)
 	cpEnableSegmentToSegmentCollisions();
 	cpSpace* spas = cpSpaceNew();
 
+
+	/* ## Set up messaging ## */
+	msgq_state* msgstate = msgq_create(NULL, 1024, 1024);
+
+
 	game* g = create_game();
 	if (g == NULL) return -1;
 	g->windows->p = w;
@@ -221,6 +228,7 @@ int main(int argc, char** argv)
 		register_audio(l3, sdlaud);
 		register_physics(l3);
 		register_renderer(l3, sdlrend);
+		register_messaging(l3, msgstate);
 		int res = luaL_dofile(l3, "data/init.lua");
 		plua_error(l3, res, "data/init.lua");
 		lua_close(l3);
@@ -273,6 +281,8 @@ int main(int argc, char** argv)
 			}
 			reset_axis_values(inpdat);
 			apply_keyboard_input(inpdat, control_map);
+
+			msgq_flush_all(msgstate);
 
 			main_scene_step(g);
 
