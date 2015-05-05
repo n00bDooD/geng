@@ -41,7 +41,7 @@ static int lua_broadcast_message(lua_State* l)
 	if (message == NULL)
 		luaL_error(l, "Valid message needed");
 	lua_pushvalue(l, 2);
-	msgq_broadcast(s, l, message, luaL_ref(l, LUA_REGISTRYINDEX));
+	msgq_broadcast(s, l, message, (void*)luaL_ref(l, LUA_REGISTRYINDEX));
 	return 0;
 }
 
