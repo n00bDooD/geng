@@ -200,7 +200,7 @@ int main(int argc, char** argv)
 
 
 	/* ## Set up messaging ## */
-	msgq_state* msgstate = msgq_create(NULL, 1024, 1024);
+	msgq_state* msgstate = msgq_create(NULL, 1024, 1024, 512, 512);
 
 
 	game* g = create_game();
