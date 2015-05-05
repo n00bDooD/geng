@@ -260,9 +260,10 @@ void* create_animation(object* o, lua_State* l)
 
 void animation_change(void* me, void* sender, void* data)
 {
-	UNUSED(data);
+	int refarg = (int)data;
 	lua_State* l = sender;
 
+	lua_rawgeti(l, LUA_REGISTRYINDEX, refarg);
 	if(lua_type(l, -1) == LUA_TSTRING) {
 		const char* anim = luaL_optstring(l, -1, NULL);
 		if (anim == NULL) return;
