@@ -267,6 +267,7 @@ void animation_change(void* me, void* sender, void* data)
 	if(lua_type(l, -1) == LUA_TSTRING) {
 		const char* anim = luaL_optstring(l, -1, NULL);
 		if (anim == NULL) return;
+		lua_pop(l, 1);
 
 		animation_state* a = me;
 		for(size_t i = 0; i < a->num_animations; ++i) {
