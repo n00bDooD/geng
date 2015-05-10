@@ -245,6 +245,13 @@ int tga_writefile ( targa_file* f, int fd )
 	return 0;
 }
 
+void tga_free( targa_file* f )
+{
+	if ( f->image_data != NULL ) free( f->image_data );
+	if ( f->image_identification_field != NULL ) free( f->image_identification_field );
+	if ( f->color_map_data != NULL ) free( f->color_map_data );
+}
+
 size_t tga_undo_rle( targa_file* from, uint8_t** output_buffer )
 {
 	size_t output_len = 0;

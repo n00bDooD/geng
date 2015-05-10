@@ -76,7 +76,7 @@ void flip_tga_vertical(targa_file* tga)
 		curidx += memsize;
 	}
 	memcpy(new_buf, tga->image_data + data_len - memsize, memsize);
-	//free(tga->image_data);
+	free(tga->image_data);
 	tga->image_data = new_buf;
 }
 
@@ -116,7 +116,7 @@ void convert_to_32bitdeph(targa_file* tga)
 				new_buf[ni+3] = 255;
 			}
 	}
-	//free(tga->image_data);
+	free(tga->image_data);
 	tga->image_data = new_buf;
 	tga->head.depth = 32;
 }
@@ -142,8 +142,7 @@ SDL_Texture* create_tex_from_file(sdl_renderer* r, const char* filename)
 		sdl_error("Setting texture blend mode failed.");
 	}
 
-	//free(tga->image_data);
-	free(tga);
+	tga_free(tga);
 	return tex;
 }
 

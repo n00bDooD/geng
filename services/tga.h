@@ -115,4 +115,6 @@ int tga_writefile ( targa_file*, int fd);
 
 size_t tga_get_image_buffer_length ( targa_file* );
 
+void tga_free ( targa_file* );
+
 #endif /* TGA_TARGA_H */
