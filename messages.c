@@ -9,17 +9,14 @@
 
 #include "city.h"
 
-#define MAX_MESSAGETYPES 512
-#define MAX_REQUESTTYPES 512
-
 
 typedef uint64_t messageid;
 
 #define MSGID_GUARD UINT64_MAX
 #define MSGID_UNUSED (UINT64_MAX-1)
 
-#define broadcastid(s) (CityHash64(s, strlen(s)) % MAX_MESSAGETYPES)
-#define requestid(s) (CityHash64(s, strlen(s)) % MAX_REQUESTTYPES)
+#define broadcastid(state, s) (CityHash64(s, strlen(s)) % state->messagebuckets)
+#define requestid(state, s) (CityHash64(s, strlen(s)) % state->requestbuckets)
 
 
 typedef struct {
@@ -57,6 +54,8 @@ typedef struct {
 struct msgq_state {
 	listener** listeners;
 	handler* handlers;
+	size_t messagebuckets;
+	size_t requestbuckets;
 
 	size_t broadcast_start;
 	size_t broadcast_length;
@@ -104,6 +103,8 @@ void return_requests(msgq_state* state, size_t reqc);
  */
 
 msgq_state* msgq_create(msgq_state* s, 
+		        size_t broadcast_hashmap_len,
+		        size_t request_hashmap_len,
 		        size_t broadcast_buffer_length,
 			size_t request_buffer_length)
 {
@@ -115,19 +116,22 @@ msgq_state* msgq_create(msgq_state* s,
 	s->pending_broadcasts = NULL;
 	s->pending_requests = NULL;
 
+	s->messagebuckets = broadcast_hashmap_len;
+	s->requestbuckets = request_hashmap_len;
+
 	s->broadcast_start = 0;
 	s->broadcast_length = 0;
 	s->request_start = 0;
 	s->request_length = 0;
 
-	s->listeners = malloc(sizeof(listener*) * MAX_MESSAGETYPES);
-	for(int i = 0; i < MAX_MESSAGETYPES; ++i) { 
+	s->listeners = malloc(sizeof(listener*) * s->messagebuckets);
+	for(size_t i = 0; i < s->messagebuckets; ++i) { 
 		s->listeners[i] = malloc(sizeof(listener));
 		s->listeners[i][0].func = NULL;
 		s->listeners[i][0].identity = NULL;
 	}
-	s->handlers = malloc(sizeof(handler) * MAX_REQUESTTYPES);
-	for(int i = 0; i < MAX_REQUESTTYPES; ++i) { s->handlers[i].func = NULL;
+	s->handlers = malloc(sizeof(handler) * s->requestbuckets);
+	for(size_t i = 0; i < s->requestbuckets; ++i) { s->handlers[i].func = NULL;
 	                                            s->handlers[i].identity = NULL; }
 
 	s->pending_broadcasts = malloc(sizeof(pending_broadcast) * broadcast_buffer_length);
@@ -146,13 +150,13 @@ msgq_state* msgq_create(msgq_state* s,
 
 void msgq_reset(msgq_state* s)
 {
-	for(int i = 0; i < MAX_MESSAGETYPES; ++i) { 
+	for(size_t i = 0; i < s->messagebuckets; ++i) { 
 		if (s->listeners[i] != NULL) {
 			free(s->listeners[i]);
 			s->listeners[i] = NULL;
 		}
 	}
-	for(int i = 0; i < MAX_REQUESTTYPES; ++i) { 
+	for(size_t i = 0; i < s->requestbuckets; ++i) { 
 		if (s->handlers[i].func != NULL) {
 			s->handlers[i].func = NULL;
 			s->handlers[i].identity = NULL;
@@ -182,7 +186,7 @@ void msgq_broadcast(msgq_state* state, void* source, const char* message, void* 
 			i = 0;
 		}
 		if (state->pending_broadcasts[i].msgid == MSGID_UNUSED) {
-			state->pending_broadcasts[i].msgid = broadcastid(message);
+			state->pending_broadcasts[i].msgid = broadcastid(state, message);
 			state->pending_broadcasts[i].source = source;
 			state->pending_broadcasts[i].data = data;
 			state->broadcast_length++;
@@ -198,7 +202,7 @@ void msgq_broadcast(msgq_state* state, void* source, const char* message, void* 
 
 void msgq_listen(msgq_state* state, void* me, const char* message, msgq_listener ln)
 {
-	messageid msgid = broadcastid(message);
+	messageid msgid = broadcastid(state, message);
 
 	size_t i = 0;
 	while (state->listeners[msgid][i].func != NULL) {
@@ -225,7 +229,7 @@ void msgq_request(msgq_state* state, void* me, const char* what, void* argument,
 		}
 		if (state->pending_requests[i].msgid == MSGID_UNUSED) {
 			// Do stuff
-			state->pending_requests[i].msgid = requestid(what);
+			state->pending_requests[i].msgid = requestid(state, what);
 			state->pending_requests[i].response = callback;
 			state->pending_requests[i].requester = me;
 			state->pending_requests[i].requestee = NULL;
@@ -245,7 +249,7 @@ void msgq_request(msgq_state* state, void* me, const char* what, void* argument,
 
 void msgq_serve(msgq_state* state, void* me, const char* what, msgq_handler handler)
 {
-	messageid msgid = requestid(what);
+	messageid msgid = requestid(state, what);
 
 	if (state->handlers[msgid].func == NULL) {
 		// ?

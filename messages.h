@@ -14,6 +14,8 @@ void msgq_request(msgq_state*, void* me, const char* what, void* argument, msgq_
 void msgq_serve(msgq_state*, void* me, const char* what, msgq_handler handler);
 
 msgq_state* msgq_create(msgq_state* s,
+  		        size_t broadcast_hashmap_len,
+  		        size_t request_hashmap_len,
   		        size_t broadcast_buffer_length,
 			size_t request_buffer_lenngth);
 
