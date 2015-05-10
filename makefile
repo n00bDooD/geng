@@ -14,9 +14,9 @@ RCOMPILE_FLAGS = -D NDEBUG -Ofast
 # Additional debug-specific flags
 DCOMPILE_FLAGS = -D DEBUG -g
 # Add additional include paths
-INCLUDES = -I $(SRC_PATH)/ -I/usr/include/luajit-2.0/
+INCLUDES = -I $(SRC_PATH)/ #-I/usr/include/luajit-2.0/
 # General linker settings
-LINK_FLAGS = -L/usr/local/lib -Wl,-rpath=/usr/local/lib -lm -ldl -lSDL2 -lSDL2_mixer -lchipmunk -llua#-lluajit-5.1
+LINK_FLAGS = -L/usr/local/lib -Wl,-rpath=/usr/local/lib -lm -ldl -lSDL2 -lSDL2_mixer -lchipmunk -llua5.1#-lluajit-5.1
 # Additional release-specific linker settings
 RLINK_FLAGS = 
 # Additional debug-specific linker settings
