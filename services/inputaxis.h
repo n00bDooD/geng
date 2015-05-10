@@ -1,8 +1,8 @@
 #ifndef INPUT_AXIS_H
 #define INPUT_AXIS_H
 
-#include "../services.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef struct {
 	/* Deadzone */
@@ -40,8 +40,5 @@ int delete_axis(inputaxis_data*, const char* name, axis_config**);
 
 axis_config* get_axis_settings(inputaxis_data*, const char* name);
 int set_axis_settings(inputaxis_data*, const char* name, axis_config* settings);
-
-input* create_inputaxis(inputaxis_data*);
-inputaxis_data* delete_inputaxis(input*);
 
 #endif /* INPUT_AXIS_H */

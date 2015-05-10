@@ -11,7 +11,6 @@
 
 #include "global.h"
 #include "object.h"
-#include "services.h"
 #include "messages.h"
 #include "services/sdl_renderer.h"
 #include "services/inputaxis.h"
@@ -156,7 +155,6 @@ int main(int argc, char** argv)
 
 	inputaxis_data* inpdat = input_config();
 	if (inpdat == NULL) return -1;
-	services_register_input(create_inputaxis(inpdat));
 
 	sdl_renderer* sdlrend = (sdl_renderer*)calloc(1, sizeof(sdl_renderer));
 	if (sdlrend == NULL) { error("Create sdl_renderer"); return -1; }
@@ -342,7 +340,6 @@ int main(int argc, char** argv)
 	free(g);
 
 	free(control_map);
-	inpdat = delete_inputaxis(services_register_input(NULL));
 	if(inpdat->axes != NULL) {
 		for(size_t i = 0; i < inpdat->num_inputaxes; ++i) {
 			free((char*)inpdat->axes[i].name);

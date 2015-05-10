@@ -85,22 +85,6 @@ int delete_axis(inputaxis_data* d, const char* name, axis_config** c)
 	return 0;
 }
 
-input* create_inputaxis(inputaxis_data* d)
-{
-	input* i = (input*)malloc(sizeof(input));
-	if(i == NULL) error("create_inputaxis");
-	i->input_data = d;
-	i->get_input = &get_input_for_axis;
-	return i;
-}
-
-inputaxis_data* delete_inputaxis(input* i)
-{
-	inputaxis_data* d = (inputaxis_data*)i->input_data;
-	free(i);
-	return d;
-}
-
 axis_config* get_axis_settings(inputaxis_data* d, const char* name) 
 {
 	inputaxis* a = find_axis(d, name);
