@@ -17,7 +17,6 @@
 #include "lua_input.h"
 #include "lua_audio.h"
 #include "lua_renderer.h"
-#include "lua_messaging.h"
 
 #include <stdbool.h>
 #include <string.h>
@@ -342,8 +341,7 @@ static int lua_set_scene(lua_State* l)
 	luaG_register_all(nl, news,
 			  get_input_registry(l),
 			  get_audio_registry(l),
-			  get_renderer_registry(l),
-			  get_message_registry(l)
+			  get_renderer_registry(l)
 			  );
 	register_call_logger(nl);
 	register_animation(nl);

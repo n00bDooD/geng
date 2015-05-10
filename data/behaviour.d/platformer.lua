@@ -91,11 +91,11 @@ function update(obj, s)
 
 
 		if horinp > 0.01 then
-			messaging.broadcast('animation', 'walk_right')
+			obj:broadcast('animation', 'walk_right')
 		elseif horinp < -0.01 then
-			messaging.broadcast('animation', 'walk_left')
+			obj:broadcast('animation', 'walk_left')
 		else
-			messaging.broadcast('animation', 'idle')
+			obj:broadcast('animation', 'idle')
 		end
 
 	else
@@ -116,11 +116,11 @@ function update(obj, s)
 
 		-- inform other parts about our state
 		if horinp > 0.01 then
-			messaging.broadcast('animation', 'jump_right')
+			obj:broadcast('animation', 'jump_right')
 		elseif horinp < -0.01 then
-			messaging.broadcast('animation', 'jump_left')
+			obj:broadcast('animation', 'jump_left')
 		else
-			messaging.broadcast('animation', 'jump')
+			obj:broadcast('animation', 'jump')
 		end
 
 	end

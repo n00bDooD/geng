@@ -27,6 +27,7 @@ object* create_object(scene* s)
 	o->physics = cpBodyNewStatic();
 	cpBodySetUserData(o->physics, o);
 	o->flags |= OBJ_ACTIVE;
+	o->messaging = msgq_create(NULL, 1024, 1024, 128, 128);
 	return o;
 }
 

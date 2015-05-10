@@ -10,12 +10,11 @@
 #include "lua_box.h"
 #include "lua_physics.h"
 #include "lua_copy.h"
-#include "lua_messaging.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <lualib.h>
 
-void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a, sdl_renderer* r, msgq_state* m)
+void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a, sdl_renderer* r)
 {
 	register_object(s);
 	lua_pop(s, 1);
@@ -35,7 +34,6 @@ void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a,
 	register_physics(s);
 	//lua_pop(s, 1);
 	register_audio(s, a);
-	register_messaging(s, m);
 	lua_pop(s, 1);
 }
 
@@ -158,7 +156,7 @@ void luaG_init_state(lua_State* l)
 	lua_newtable(l);
 	lua_rawset(l, LUA_REGISTRYINDEX);
 
-	luaG_register_all(l, NULL, NULL, NULL, NULL, NULL);
+	luaG_register_all(l, NULL, NULL, NULL, NULL);
 }
 
 lua_State* luaG_newstate(lua_State* l)

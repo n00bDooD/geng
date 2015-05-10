@@ -22,7 +22,6 @@
 #include "lua_input.h"
 #include "lua_audio.h"
 #include "lua_renderer.h"
-#include "lua_messaging.h"
 
 // lua tools
 #include "lua_copy.h"
@@ -93,8 +92,7 @@ void add_behaviour(lua_State* l, object* o, const char* name)
 				get_scene_registry(l),
 				get_input_registry(l),
 				get_audio_registry(l),
-				get_renderer_registry(l),
-				get_message_registry(l)
+				get_renderer_registry(l)
 				);
 
 		luaG_getreg(l, "behaviours");
@@ -507,6 +505,54 @@ static int lua_object_foreach_collisionpair(lua_State* l)
 	return 0;
 }
 
+
+static int lua_broadcast_message(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	msgq_state* s = o->o->messaging;
+	const char* message = luaL_checklstring(l, 2, 0);
+	if (message == NULL)
+		luaL_error(l, "Valid message needed");
+	lua_pushvalue(l, 3);
+	msgq_broadcast(s, l, message, (void*)luaL_ref(l, LUA_REGISTRYINDEX));
+	return 0;
+}
+
+struct listen_data {
+	lua_State* state;
+	int listen_method;
+};
+
+void lua_listener_handler(void* me, void* sender, void* data)
+{
+	UNUSED(data);
+	struct listen_data* l = me;
+	lua_State* other = sender;
+
+	lua_rawgeti(l->state, LUA_REGISTRYINDEX, l->listen_method);
+	luaExt_copy(l->state, other);
+	luaG_pcall(l->state, 1, 0);
+}
+
+static int lua_listen_message(lua_State* l)
+{
+	object_ref* o = luaG_checkobject(l, 1);
+	msgq_state* s = o->o->messaging;
+	const char* message = luaL_checklstring(l, 2, 0);
+	if (message == NULL)
+		luaL_error(l, "Valid message needed");
+
+	struct listen_data* d = malloc(sizeof(struct listen_data));
+	d->state = l;
+	lua_pushvalue(l, 3);
+	luaL_checktype(l, 3, LUA_TFUNCTION);
+	d->listen_method = luaL_ref(l, LUA_REGISTRYINDEX);
+
+	msgq_listen(s, d, message, &lua_listener_handler);
+	return 0;
+}
+
+
 static const luaL_reg methods[] = {
 	{"pos", lua_object_position},
 	{"set_pos", lua_object_setposition},
@@ -563,6 +609,9 @@ static const luaL_reg methods[] = {
 	{"foreach_collider", lua_object_foreach_shape},
 	{"foreach_collision", lua_object_foreach_collisionpair},
 
+	{"broadcast", lua_broadcast_message},
+	{"listen", lua_listen_message},
+
 	{NULL, NULL}
 };
 
@@ -618,6 +667,7 @@ void step_object(object* o, double time_step)
 			// Call C behaviour
 			call_update(bs[i-1].content.beh, o, time_step);
 		}
+		msgq_flush_all(o->messaging);
 	}
 }
 

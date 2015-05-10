@@ -6,7 +6,6 @@
 #include "../global.h"
 #include <lauxlib.h>
 #include "../lua/globlua.h"
-#include "../lua/lua_messaging.h"
 #include "../messages.h"
 
 #define FLIPX 1
@@ -252,8 +251,7 @@ void* create_animation(object* o, lua_State* l)
 	a->current = current;
 	a->time = 0;
 
-	msgq_state* state = get_message_registry(l);
-	msgq_listen(state, a, "animation", &animation_change);
+	msgq_listen(o->messaging, a, "animation", &animation_change);
 
 	return a;
 }

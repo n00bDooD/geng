@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <chipmunk/chipmunk.h>
 #include <lua.h>
+#include "messages.h"
 
 #define OBJ_ACTIVE 1
 #define OBJ_DELETED 2
@@ -15,6 +16,8 @@ typedef struct {
 	void* tag;
 	void* parent;
 	cpBody* physics;
+
+	msgq_state* messaging;
 
 	size_t sprite;
 
