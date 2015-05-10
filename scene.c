@@ -94,6 +94,9 @@ void delete_object(scene* s, object* o)
 		free(o->name);
 	}
 
+	msgq_free(o->messaging);
+	free(o->messaging);
+
 	bzero(o, sizeof(object));
 }
 

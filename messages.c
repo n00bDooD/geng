@@ -148,6 +148,14 @@ msgq_state* msgq_create(msgq_state* s,
 	return s;
 }
 
+void msgq_free(msgq_state* s)
+{
+	free(s->listeners);
+	free(s->handlers);
+	free(s->pending_broadcasts);
+	free(s->pending_requests);
+}
+
 void msgq_reset(msgq_state* s)
 {
 	for(size_t i = 0; i < s->messagebuckets; ++i) { 

@@ -19,6 +19,8 @@ msgq_state* msgq_create(msgq_state* s,
   		        size_t broadcast_buffer_length,
 			size_t request_buffer_lenngth);
 
+void msgq_free(msgq_state*);
+
 void msgq_flush_all(msgq_state* s);
 
 #endif /* MESSAGES_H */
