@@ -180,8 +180,6 @@ void read_command(int fd, lua_State* l)
 	ssize_t cmdlen = read_command_tobuf(fd, line, 2048);
 	do {
 		if (cmdlen > 0) {
-			line[cmdlen] = ')';
-			line[cmdlen+1] = '\0';
 			int strload = luaL_loadstring(l, line);
 			if (strload == 0) {
 				int res = lua_pcall(l, 0, LUA_MULTRET, 0);
