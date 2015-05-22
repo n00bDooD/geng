@@ -1,4 +1,4 @@
-#define _POSIX_SOURCE
+#define _DEFAULT_SOURCE
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -109,7 +109,17 @@ void write_debug(int fdesc, lua_Debug* d)
 
 	if (d->source != NULL) {
 		w(",\"source\":\"");
-		w(d->source);
+		if (d->source[0] == '@' && d->source[1] != '/') {
+			char wd[PATH_MAX+1] = {'\0'};
+			getcwd(wd, PATH_MAX+1);
+			wd[strlen(wd)] = '/';
+			strncat(wd, d->source + 1, PATH_MAX+1);
+
+			w("@");
+			w(wd);
+		} else {
+			w(d->source);
+		}
 		w("\"");
 	}
 
