@@ -7,6 +7,8 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
+#include "../global.h"
+
 char* jsonenc(const char* orig) {
 	size_t len = strlen(orig);
 
@@ -142,10 +144,71 @@ void write_debug(int fdesc, lua_Debug* d)
 }
 #undef w
 
+size_t read_command_tobuf(int fd, char* line, size_t len)
+{
+	size_t linelen = 0;
+
+	while(linelen < len) {
+		char c = 0;
+		switch(read(fd, &c, 1)) {
+		case 0:
+			// EOF or something. Assume eol
+			line[linelen] = '\0';
+			return linelen;
+		case 1:
+			if (c == '\n') {
+				// Done
+				line[linelen] = '\0';
+				return linelen;
+			} else {
+				line[linelen++] = c;
+			}
+			break;
+		default:
+			// Error
+			return 0;
+		}
+	}
+	return linelen;
+}
+
+void read_command(int fd, lua_State* l)
+{
+	char line[2048] = {'\0'};
+	line[0] = 'p';
+	line[1] = 'r';
+	line[2] = 'i';
+	line[3] = 'n';
+	line[4] = 't';
+	line[5] = '(';
+	size_t cmdlen = read_command_tobuf(fd, line + 6, 2048 - 6) + 6;
+	do {
+		if (cmdlen > 0) {
+			line[cmdlen] = ')';
+			line[cmdlen+1] = '\0';
+			int strload = luaL_loadstring(l, line);
+			if (strload == 0) {
+				int res = lua_pcall(l, 0, LUA_MULTRET, 0);
+				plua_error(l, res, "Input");
+			} else {
+				plua_error(l, strload, "Input");
+			}
+		}
+		line[0] = 'p';
+		line[1] = 'r';
+		line[2] = 'i';
+		line[3] = 'n';
+		line[4] = 't';
+		line[5] = '(';
+		cmdlen = read_command_tobuf(fd, line + 6, 2048 - 6) + 6;
+	} while(cmdlen > 0);
+}
+
 void lua_debughook(lua_State* l, lua_Debug* d)
 {
 	if (lua_getinfo(l, "nSlu", d) > 0) {
 		write_debug(1, d);
+		read_command(2, l);
 	}
 }
 
