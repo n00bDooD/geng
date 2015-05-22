@@ -3,6 +3,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -144,17 +147,15 @@ void write_debug(int fdesc, lua_Debug* d)
 }
 #undef w
 
-size_t read_command_tobuf(int fd, char* line, size_t len)
+ssize_t read_command_tobuf(int fd, char* line, size_t len)
 {
 	size_t linelen = 0;
 
 	while(linelen < len) {
 		char c = 0;
-		switch(read(fd, &c, 1)) {
+		switch(recv(fd, &c, 1, 0)) {
 		case 0:
-			// EOF or something. Assume eol
-			line[linelen] = '\0';
-			return linelen;
+			break;
 		case 1:
 			if (c == '\n') {
 				// Done
@@ -165,8 +166,9 @@ size_t read_command_tobuf(int fd, char* line, size_t len)
 			}
 			break;
 		default:
+			error("read_command_tobuf");
 			// Error
-			return 0;
+			return -1;
 		}
 	}
 	return linelen;
@@ -175,13 +177,7 @@ size_t read_command_tobuf(int fd, char* line, size_t len)
 void read_command(int fd, lua_State* l)
 {
 	char line[2048] = {'\0'};
-	line[0] = 'p';
-	line[1] = 'r';
-	line[2] = 'i';
-	line[3] = 'n';
-	line[4] = 't';
-	line[5] = '(';
-	size_t cmdlen = read_command_tobuf(fd, line + 6, 2048 - 6) + 6;
+	ssize_t cmdlen = read_command_tobuf(fd, line, 2048);
 	do {
 		if (cmdlen > 0) {
 			line[cmdlen] = ')';
@@ -194,26 +190,48 @@ void read_command(int fd, lua_State* l)
 				plua_error(l, strload, "Input");
 			}
 		}
-		line[0] = 'p';
-		line[1] = 'r';
-		line[2] = 'i';
-		line[3] = 'n';
-		line[4] = 't';
-		line[5] = '(';
-		cmdlen = read_command_tobuf(fd, line + 6, 2048 - 6) + 6;
+		cmdlen = read_command_tobuf(fd, line, 2048);
 	} while(cmdlen > 0);
 }
 
+static int debug_socket = -1;
+static int clientfd = -1;
+
 void lua_debughook(lua_State* l, lua_Debug* d)
 {
+	if (debug_socket <= 0) return;
 	if (lua_getinfo(l, "nSlu", d) > 0) {
-		write_debug(1, d);
-		read_command(2, l);
+		if (clientfd <= 0) {
+			struct sockaddr_in client;
+			size_t c = sizeof(struct sockaddr_in);
+			clientfd = accept(debug_socket, (struct sockaddr*)&client, (socklen_t*)&c);
+			if (clientfd < 0) {
+				error("accept()");
+			}
+		}
+
+		if (clientfd >= 0) write_debug(clientfd, d);
+		read_command(clientfd, l);
 	}
 }
 
 void setup_debug(lua_State* l)
 {
-	//lua_sethook(l, &lua_debughook, LUA_MASKCOUNT, 1);
+	if (debug_socket <= 0) {
+		debug_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+		struct sockaddr_in serv;
+		serv.sin_family = AF_INET;
+		serv.sin_addr.s_addr = INADDR_ANY;
+		serv.sin_port = htons(4321);
+
+		if (bind(debug_socket, (struct sockaddr*)&serv, sizeof(serv)) < 0) {
+			error("setup_debug");
+		}
+
+		listen(debug_socket, 3);
+	}
+
+	lua_sethook(l, &lua_debughook, LUA_MASKCOUNT, 1);
 }
 
