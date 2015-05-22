@@ -180,15 +180,40 @@ void read_command(int fd, lua_State* l)
 	ssize_t cmdlen = read_command_tobuf(fd, line, 2048);
 	do {
 		if (cmdlen > 0) {
-			int strload = luaL_loadstring(l, line);
-			if (strload == 0) {
-				int res = lua_pcall(l, 0, LUA_MULTRET, 0);
-				plua_error(l, res, "Input");
+			if (cmdlen >= 4 
+			    && line[0] == '-'
+			    && line[1] == '-'
+			    && line[2] == '!') {
+				switch(line[3]) {
+					case 'c':
+						write(fd, "continuing\n", 11);
+						cmdlen = -1;
+						break;
+					default:
+						write(fd, "unknown command\n", 16);
+				}
 			} else {
-				plua_error(l, strload, "Input");
+				int strload = luaL_loadstring(l, line);
+				if (strload == 0) {
+					int res = lua_pcall(l, 0, LUA_MULTRET, 0);
+					if (res == 0) {
+						// Command OK, no error info
+						write(fd, "\n", 1);
+					} else {
+						size_t errlen = 0;
+						const char* lua_error = lua_tolstring(l, -1, &errlen);
+						write(fd, lua_error, errlen);
+						write(fd, "\n", 1);
+					}
+				} else {
+					size_t errlen = 0;
+					const char* lua_error = lua_tolstring(l, -1, &errlen);
+					write(fd, lua_error, errlen);
+					write(fd, "\n", 1);
+				}
 			}
 		}
-		cmdlen = read_command_tobuf(fd, line, 2048);
+		cmdlen = cmdlen < 0 ? cmdlen : read_command_tobuf(fd, line, 2048);
 	} while(cmdlen > 0);
 }
 
