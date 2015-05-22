@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <lualib.h>
 
+#include "debuglua.h"
+
 void luaG_register_all(lua_State* s, scene* se, inputaxis_data* i, sdl_audio* a, sdl_renderer* r)
 {
 	register_object(s);
@@ -171,6 +173,7 @@ lua_State* luaG_newstate(lua_State* l)
 	} else {
 		luaG_copy_state(l, s);
 	}
+	setup_debug(s);
 	return s;
 }
 
