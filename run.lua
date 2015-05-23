@@ -2,12 +2,13 @@
 
 L = require('linenoise')
 socket = require('socket')
+json = require('json')
 
 L.historyload('~/.gengdbg_history')
 
--- os.execute('./geng 1>geng.stdout 2>geng.stderr &')
+os.execute('./geng 1>geng.stdout 2>geng.stderr &')
 
--- os.execute('sleep 0.5')
+os.execute('sleep 0.5')
 
 local client = socket.tcp()
 
@@ -28,13 +29,22 @@ while true do
 			io.write('Timed out while waiting for debuggee\n')
 		end
 	end
-	io.write(debuginfo .. '\n')
+	local dbg = json.decode(debuginfo);
+	if string.sub(dbg.source, 0, 1) == '@' then
+		io.write(string.sub(dbg.source, 2))
+	else
+		io.write('Unknown file')
+	end
+	if dbg.currentline ~= -1 then
+		io.write(' line ' .. dbg.currentline)
+	end
+	io.write('\n')
 
 	local resultresponse = ''
 	while resultresponse ~= 'continuing' do
 		local line = L.linenoise('gengdbg> ')
 
-		L.historyadd(line)
+		if line ~= nil then L.historyadd(line) end
 		L.historysave('~/.gengdbg_history')
 	
 		client:send(line .. '\n')

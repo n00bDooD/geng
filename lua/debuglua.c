@@ -93,10 +93,10 @@ void write_debug(int fdesc, lua_Debug* d)
 		return;
 	}
 
-	w(",\"event\":");
+	w("{\"event\":");
 	wint(d->event);
 
-	w("{\"name\":");
+	w(",\"name\":");
 	if (d->name != NULL) {
 		w("\"");
 		ws(d->name);
@@ -142,6 +142,12 @@ void write_debug(int fdesc, lua_Debug* d)
 	w(",\"namewhat\":\"");
 	ws(d->namewhat);
 	w("\"");
+
+	if (d->short_src != NULL) {
+		w(",\"short_src\":\"");
+		ws(d->short_src);
+		w("\"");
+	}
 
 	w("}\n");
 }
@@ -240,6 +246,7 @@ void lua_debughook(lua_State* l, lua_Debug* d)
 
 void setup_debug(lua_State* l)
 {
+	/*
 	if (debug_socket <= 0) {
 		debug_socket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -256,5 +263,6 @@ void setup_debug(lua_State* l)
 	}
 
 	lua_sethook(l, &lua_debughook, LUA_MASKCOUNT, 1);
+	*/
 }
 
