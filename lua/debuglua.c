@@ -16,7 +16,7 @@ char* jsonenc(const char* orig) {
 	size_t len = strlen(orig);
 
 	size_t i = 0;
-	for (size_t i = 0; i < len; ++i) {
+	for (i = 0; i < len; ++i) {
 		switch(orig[i]) {
 			case '"':
 			case '\\':
@@ -37,7 +37,7 @@ reencode: {
 	size_t newl = i;
 	size_t j = i;
 	for (j = i; j < len; ++j) {
-		switch(i) {
+		switch(orig[j]) {
 			case '"':
 				new[newl++] = '\\';
 				new[newl++] = '"';
@@ -71,6 +71,7 @@ reencode: {
 				break;
 		}
 	}
+	new[newl] = '\0';
 	return new;
 	}
 }
@@ -152,6 +153,7 @@ void write_debug(int fdesc, lua_Debug* d)
 	w("}\n");
 }
 #undef w
+#undef ws
 
 ssize_t read_command_tobuf(int fd, char* line, size_t len)
 {
@@ -200,23 +202,63 @@ void read_command(int fd, lua_State* l)
 				}
 			} else {
 				int strload = luaL_loadstring(l, line);
+
+				write(fd, "{\"result\":", 10);
 				if (strload == 0) {
+					int prevtop = lua_gettop(l) - 1;
 					int res = lua_pcall(l, 0, LUA_MULTRET, 0);
 					if (res == 0) {
-						// Command OK, no error info
-						write(fd, "\n", 1);
+						write(fd, "true,\"values\":", 14);
+						int num_results = lua_gettop(l) - prevtop;
+						write(fd, "[", 1);
+						if (num_results > 0) {
+							for (int i = 0; i < num_results; ++i) {
+								// Get the 'tostring' function
+								lua_getglobal(l, "tostring");
+								// Push a copy of the value to be
+								// printed at the top of the stack
+								lua_pushvalue(l, prevtop + i + 1);
+								// Call the tostring method
+								lua_call(l, 1, 1);
+								// Get the value in the form of a string
+								size_t stringlen = 0;
+								const char* str = lua_tolstring(l, -1, &stringlen);
+								// Write it to the consumer
+								char* res = jsonenc(str);
+								write(fd, "\"", 1);
+								write(fd, res == NULL ? str : res, res == NULL ? stringlen : strlen(res));
+								write(fd, "\"", 1);
+								if (res != NULL) free(res);
+	
+								// Pop the string value
+								lua_pop(l, 1);
+								if (i < num_results-1) {
+									write(fd, ",", 1);
+								}
+							}
+							// Restore stack
+							lua_settop(l, prevtop);
+						}
+						write(fd, "]", 1);
 					} else {
+						write(fd, "false,\"values\":\"", 16);
 						size_t errlen = 0;
 						const char* lua_error = lua_tolstring(l, -1, &errlen);
-						write(fd, lua_error, errlen);
-						write(fd, "\n", 1);
+						char* res = jsonenc(lua_error);
+						write(fd, res == NULL ? lua_error : res, res == NULL ? errlen : strlen(res));
+						if (res != NULL) free(res);
+						write(fd, "\"", 1);
 					}
 				} else {
+					write(fd, "false,\"values\":\"", 16);
 					size_t errlen = 0;
 					const char* lua_error = lua_tolstring(l, -1, &errlen);
-					write(fd, lua_error, errlen);
-					write(fd, "\n", 1);
+					char* res = jsonenc(lua_error);
+					write(fd, res == NULL ? lua_error : res, res == NULL ? errlen : strlen(res));
+					if (res != NULL) free(res);
+					write(fd, "\"", 1);
 				}
+				write(fd, "}\n", 2);
 			}
 		}
 		cmdlen = cmdlen < 0 ? cmdlen : read_command_tobuf(fd, line, 2048);
@@ -246,7 +288,7 @@ void lua_debughook(lua_State* l, lua_Debug* d)
 
 void setup_debug(lua_State* l)
 {
-	/*
+#ifdef DEBUG
 	if (debug_socket <= 0) {
 		debug_socket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -263,6 +305,6 @@ void setup_debug(lua_State* l)
 	}
 
 	lua_sethook(l, &lua_debughook, LUA_MASKCOUNT, 1);
-	*/
+#endif
 }
 
