@@ -51,7 +51,22 @@ while true do
 
 		resultresponse, err = client:receive()
 		if resultresponse ~= nil and resultresponse ~= "" then
-			io.write(resultresponse .. '\n')
+			if resultresponse == 'unknown command' or resultresponse == 'continuing' then
+				io.write(resultresponse .. '\n')
+			else
+				local resultobject = json.decode(resultresponse)
+				if resultobject == nil or resultobject.result == nil then
+					io.write('Unrecognized response\n')
+				else
+					if resultobject.result then
+						for idx, val in ipairs(resultobject.values) do
+							io.write('['..idx..']: ' .. val .. '\n')
+						end
+					else
+						io.write('[Error]: ' .. resultobject.values .. '\n');
+					end
+				end
+			end
 		end
 	end
 end
