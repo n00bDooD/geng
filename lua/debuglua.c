@@ -12,6 +12,8 @@
 
 #include "../global.h"
 
+void closserv();
+
 char* jsonenc(const char* orig) {
 	size_t len = strlen(orig);
 
@@ -182,6 +184,7 @@ ssize_t read_command_tobuf(int fd, char* line, size_t len)
 	return linelen;
 }
 
+
 void read_command(int fd, lua_State* l)
 {
 	char line[2048] = {'\0'};
@@ -197,6 +200,11 @@ void read_command(int fd, lua_State* l)
 						write(fd, "continuing\n", 11);
 						cmdlen = -1;
 						break;
+					case 'e':
+						// Exit, i.e. close and abort right now..
+						close(fd);
+						atexit(closserv);
+						exit(1);
 					default:
 						write(fd, "unknown command\n", 16);
 				}
@@ -267,6 +275,12 @@ void read_command(int fd, lua_State* l)
 
 static int debug_socket = -1;
 static int clientfd = -1;
+
+void closserv() {
+	if (debug_socket > 0) {
+		close(debug_socket);
+	}
+}
 
 void lua_debughook(lua_State* l, lua_Debug* d)
 {
